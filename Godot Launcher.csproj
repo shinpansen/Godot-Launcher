@@ -5,4 +5,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>GodotLauncher</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="scripts\ui_binding\controls\" />
+  </ItemGroup>
 </Project>

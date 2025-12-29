@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://4pb2jl707dw0"]
+[gd_scene load_steps=11 format=3 uid="uid://4pb2jl707dw0"]
 
 [ext_resource type="Script" uid="uid://ba33iuqgmq72y" path="res://scripts/scenes/engines_view/EngineItemView.cs" id="1_3cyeq"]
 [ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_4nc5q"]
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_3cyeq"]
 [ext_resource type="FontFile" uid="uid://cjd7hnh3v7iip" path="res://assets/fonts/Sans.ttf" id="4_15etc"]
 [ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="5_4nc5q"]
+[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/ui_binding/controls/LabelBinding.cs" id="5_15etc"]
 [ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="6_3cyeq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nloml"]
@@ -46,17 +47,24 @@ expand_mode = 5
 [node name="LabelVersion" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "4.4"
+text = "{Version}"
 label_settings = SubResource("LabelSettings_v87a3")
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("5_15etc")
+metadata/_custom_type_script = "uid://drd1aht24gsbf"
 
 [node name="LabelFileName" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "{FileName}"
 mouse_filter = 1
-text = "godot.exe"
+text = "{FileName}"
 label_settings = SubResource("LabelSettings_3cyeq")
+visible_characters = 25
+visible_ratio = 2.5
+script = ExtResource("5_15etc")
+metadata/_custom_type_script = "uid://drd1aht24gsbf"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

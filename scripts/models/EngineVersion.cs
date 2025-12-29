@@ -1,4 +1,4 @@
-using GodotLauncher.Scripts.UiBindings;
+using GodotLauncher.Scripts.UiBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace GodotLauncher.Scripts.Models;
 public class EngineVersion : UiModel
 {
     [JsonIgnore]
-    public string Name => System.IO.Path.GetFileName(Path);
+    public string FileName => System.IO.Path.GetFileName(Path);
 
     [JsonPropertyName("version")]
     public string Version { get; set; }

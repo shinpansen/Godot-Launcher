@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=3 uid="uid://4pb2jl707dw0"]
+
+[ext_resource type="Script" uid="uid://ba33iuqgmq72y" path="res://scripts/scenes/engines_view/EngineItemView.cs" id="1_3cyeq"]
+[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_4nc5q"]
+[ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_3cyeq"]
+[ext_resource type="FontFile" uid="uid://cjd7hnh3v7iip" path="res://assets/fonts/Sans.ttf" id="4_15etc"]
+[ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="5_4nc5q"]
+[ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="6_3cyeq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nloml"]
+shader = ExtResource("2_4nc5q")
+shader_parameter/background = false
+shader_parameter/gray_scale = false
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v87a3"]
+font = ExtResource("4_15etc")
+font_size = 26
+shadow_size = 0
+shadow_offset = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3cyeq"]
+font_size = 14
+font_color = Color(0.72464263, 0.7246426, 0.7246426, 1)
+
+[node name="EngineItem" type="PanelContainer"]
+script = ExtResource("1_3cyeq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_nloml")
+layout_mode = 2
+texture = ExtResource("3_3cyeq")
+expand_mode = 5
+
+[node name="LabelVersion" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "4.4"
+label_settings = SubResource("LabelSettings_v87a3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelFileName" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+text = "godot.exe"
+label_settings = SubResource("LabelSettings_3cyeq")
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonLaunch" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "!launch"
+
+[node name="ButtonFolder" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Open folder"
+mouse_default_cursor_shape = 2
+text = "
+"
+icon = ExtResource("5_4nc5q")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonEdit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "
+"
+icon = ExtResource("6_3cyeq")
+icon_alignment = 1
+expand_icon = true
+
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonLaunch" to="." method="OnButtonLaunchDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonFolder" to="." method="OnButtonFolderDown"]

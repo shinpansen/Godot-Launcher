@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtaan3vw2af7j"]
+
+[ext_resource type="Script" uid="uid://de0d6qifjfbqi" path="res://scripts/scenes/Main.cs" id="1_jyhfs"]
+[ext_resource type="ButtonGroup" uid="uid://bglyxvlwqd346" path="res://scenes/groups/sidebar_group.tres" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://cnf6lma4s33we" path="res://scenes/tabs/engines_view.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://vfh53vfthquh" path="res://scenes/tabs/projects_view.tscn" id="3_jyhfs"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_jyhfs")
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SideBar" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 256.0
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SideBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SideBar/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ButtonVersions" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_pressed = true
+button_group = ExtResource("1_o5qli")
+text = "!versions"
+
+[node name="ButtonProjects" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = ExtResource("1_o5qli")
+text = "!projects"
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonSettings" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = ExtResource("1_o5qli")
+text = "!settings"
+
+[node name="Content" type="TabContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 272.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+tabs_visible = false
+
+[node name="EnginesView" parent="CanvasLayer/Content" instance=ExtResource("2_sugp2")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ProjectsView" parent="CanvasLayer/Content" instance=ExtResource("3_jyhfs")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonVersions" to="." method="OnButtonVersionsDown"]
+[connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonProjects" to="." method="OnButtonProjectsDown"]
+[connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonSettings" to="." method="OnButtonSettingsDown"]

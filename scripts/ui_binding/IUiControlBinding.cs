@@ -8,5 +8,8 @@ namespace GodotLauncher.Scripts.UiBinding;
 
 public interface IUiControlBinding
 {
+    bool HasChanged(ulong controlId);
+    void RegisterControl(ulong controlId);
     object GetPropertyValue(string propertyName);
+    T GetPropertyValue<T>(string propertyName);
 }

@@ -14,14 +14,14 @@ public partial class EnginesView : Control
         var engines = UserDataScanner.ScanUserEngines(@"C:\Program Files (x86)\Godot");
         config.Versions = engines;
 
-        var grid = GetNode<HFlowContainer>("%EnginesContainer");
+        var flowContainer = GetNode<HFlowContainer>("%EnginesContainer");
         config.Versions.ForEach(e =>
         {
             PackedScene engineItemScene = GD.Load<PackedScene>("res://scenes/components/engine_item.tscn");
             var item = engineItemScene.Instantiate<EngineItemView>();
             //e.CustomIcon = new CustomIcon() { GrayScale = true, HexColor = "ff0000" };
             item.Init(e);
-            grid.AddChild(item);
+            flowContainer.AddChild(item);
         });
 
         //using var file = FileAccess.Open("user://engines.json", FileAccess.ModeFlags.Write);

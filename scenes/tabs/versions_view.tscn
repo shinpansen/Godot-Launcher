@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://cnf6lma4s33we"]
 
-[ext_resource type="Script" uid="uid://dd3ur1chrvyot" path="res://scripts/scenes/engines_view/EnginesView.cs" id="1_0ud1r"]
+[ext_resource type="Script" uid="uid://bnoer0yefc81x" path="res://scripts/scenes/versions_view/VersionsView.cs" id="1_pg44v"]
 [ext_resource type="ButtonGroup" uid="uid://b8x8s7dui74na" path="res://scenes/groups/sort_engines_group.tres" id="2_77r2c"]
 [ext_resource type="Texture2D" uid="uid://cdnru6tnjsyo6" path="res://assets/icons/sort-asc.svg" id="3_ifeji"]
 
-[node name="EnginesView" type="Control"]
+[node name="VersionsView" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_0ud1r")
+script = ExtResource("1_pg44v")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -28,7 +28,7 @@ theme_override_constants/separation = 16
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12
-alignment = 2
+alignment = 1
 
 [node name="LabelSortBy" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -37,8 +37,11 @@ text = "!sortby"
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="ButtonSortName" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ButtonSortByVersion" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 toggle_mode = true
 button_pressed = true
 button_group = ExtResource("2_77r2c")
@@ -46,8 +49,11 @@ text = "!version"
 icon = ExtResource("3_ifeji")
 icon_alignment = 2
 
-[node name="ButtonSortVersion" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ButtonSortByName" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 toggle_mode = true
 button_group = ExtResource("2_77r2c")
 text = "!name"
@@ -68,7 +74,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="EnginesContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VersionsHFlowContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -77,3 +83,6 @@ theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 alignment = 1
 last_wrap_alignment = 1
+
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByVersion" to="." method="OnButtonSortByVersionDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByName" to="." method="OnButtonSortByNameDown"]

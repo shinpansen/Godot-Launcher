@@ -7,9 +7,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace GodotLauncher.Scripts.Scenes.EnginesView;
+namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
-public partial class EngineItemView : UiControlBinding<EngineVersion>
+public partial class VersionItemView : UiControlBinding<EngineVersion>
 {
     private TextureRect _icon => GetNode<TextureRect>("%Icon");
 

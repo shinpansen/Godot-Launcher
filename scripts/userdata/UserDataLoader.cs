@@ -10,9 +10,14 @@ namespace GodotLauncher.Scripts.UserData;
 
 public static class UserDataLoader
 {
-    public static VersionsConfig LoadUserEngines(string configFileName) => LoadConfigFile<VersionsConfig>(configFileName);
+    public static VersionsConfig LoadUserVersions(string configFileName) => LoadConfigFile<VersionsConfig>(configFileName);
+    public static void SaveUserVersions(VersionsConfig config, string configFileName)
+    {
+        using var file = FileAccess.Open("user://" + configFileName, FileAccess.ModeFlags.Write);
+        file.StoreString(System.Text.Json.JsonSerializer.Serialize(config));
+    }
 
-    public static VersionsConfig MergeUserEnginesConfig(VersionsConfig config, List<Models.EngineVersion> enginesScanned)
+    public static VersionsConfig MergeUserVersionsConfig(VersionsConfig config, List<Models.EngineVersion> enginesScanned)
     {
         List<Models.EngineVersion> enginesUpdated = [];
         foreach (var engine in enginesScanned)

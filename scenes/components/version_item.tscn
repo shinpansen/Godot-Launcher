@@ -1,21 +1,21 @@
 [gd_scene load_steps=11 format=3 uid="uid://4pb2jl707dw0"]
 
-[ext_resource type="Script" uid="uid://ba33iuqgmq72y" path="res://scripts/scenes/engines_view/EngineItemView.cs" id="1_3cyeq"]
-[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_4nc5q"]
-[ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_3cyeq"]
-[ext_resource type="FontFile" uid="uid://cjd7hnh3v7iip" path="res://assets/fonts/Sans.ttf" id="4_15etc"]
-[ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="5_4nc5q"]
-[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/ui_binding/controls/LabelBinding.cs" id="5_15etc"]
-[ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="6_3cyeq"]
+[ext_resource type="Script" uid="uid://lwns8w4vi1l4" path="res://scripts/scenes/versions_view/VersionItemView.cs" id="1_nxlsj"]
+[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_fnoah"]
+[ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_5s58c"]
+[ext_resource type="FontFile" uid="uid://cjd7hnh3v7iip" path="res://assets/fonts/Sans.ttf" id="4_3qa1m"]
+[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/ui_binding/controls/LabelBinding.cs" id="5_0aosf"]
+[ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="6_pw1pe"]
+[ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="7_bg07e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nloml"]
-shader = ExtResource("2_4nc5q")
+shader = ExtResource("2_fnoah")
 shader_parameter/background = false
 shader_parameter/gray_scale = false
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_v87a3"]
-font = ExtResource("4_15etc")
+font = ExtResource("4_3qa1m")
 font_size = 26
 shadow_size = 0
 shadow_offset = Vector2(0, 0)
@@ -24,8 +24,8 @@ shadow_offset = Vector2(0, 0)
 font_size = 14
 font_color = Color(0.72464263, 0.7246426, 0.7246426, 1)
 
-[node name="EngineItem" type="PanelContainer"]
-script = ExtResource("1_3cyeq")
+[node name="VersionItem" type="PanelContainer"]
+script = ExtResource("1_nxlsj")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -41,7 +41,7 @@ layout_mode = 2
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_nloml")
 layout_mode = 2
-texture = ExtResource("3_3cyeq")
+texture = ExtResource("3_5s58c")
 expand_mode = 5
 
 [node name="LabelVersion" type="Label" parent="MarginContainer/VBoxContainer"]
@@ -51,7 +51,7 @@ text = "{Version}"
 label_settings = SubResource("LabelSettings_v87a3")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("5_15etc")
+script = ExtResource("5_0aosf")
 metadata/_custom_type_script = "uid://drd1aht24gsbf"
 
 [node name="LabelFileName" type="Label" parent="MarginContainer/VBoxContainer"]
@@ -63,7 +63,7 @@ text = "{FileName}"
 label_settings = SubResource("LabelSettings_3cyeq")
 visible_characters = 25
 visible_ratio = 2.5
-script = ExtResource("5_15etc")
+script = ExtResource("5_0aosf")
 metadata/_custom_type_script = "uid://drd1aht24gsbf"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
@@ -86,7 +86,7 @@ tooltip_text = "Open folder"
 mouse_default_cursor_shape = 2
 text = "
 "
-icon = ExtResource("5_4nc5q")
+icon = ExtResource("6_pw1pe")
 icon_alignment = 1
 expand_icon = true
 
@@ -96,7 +96,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "
 "
-icon = ExtResource("6_3cyeq")
+icon = ExtResource("7_bg07e")
 icon_alignment = 1
 expand_icon = true
 

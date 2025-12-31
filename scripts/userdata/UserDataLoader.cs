@@ -10,19 +10,24 @@ namespace GodotLauncher.Scripts.UserData;
 
 public static class UserDataLoader
 {
-    public static VersionsConfig LoadUserVersions(string configFileName) => LoadConfigFile<VersionsConfig>(configFileName);
-    public static void SaveUserVersions(VersionsConfig config, string configFileName)
-    {
-        using var file = FileAccess.Open("user://" + configFileName, FileAccess.ModeFlags.Write);
-        file.StoreString(System.Text.Json.JsonSerializer.Serialize(config));
-    }
+    public const string VersionsFileName = "versions.json";
+
+    public const string SettingsFileName = "settings.json";
+
+    public static VersionsConfig LoadUserVersions() => LoadConfigFile<VersionsConfig>(VersionsFileName);
+
+    public static Settings LoadUserSettings() => LoadConfigFile<Settings>(SettingsFileName);
+
+    public static void SaveUserVersions(VersionsConfig config) => SaveConfig(VersionsFileName, config);
+
+    public static void SaveUserSettings(Settings config) => SaveConfig(SettingsFileName, config);
 
     public static VersionsConfig MergeUserVersionsConfig(VersionsConfig config, List<Models.EngineVersion> enginesScanned)
     {
         List<Models.EngineVersion> enginesUpdated = [];
         foreach (var engine in enginesScanned)
         {
-            var matchedEngine = config.Versions.FirstOrDefault(e => e.Path == engine.Path && e.Version == engine.Version);
+            var matchedEngine = config.Versions.FirstOrDefault(e => e.FileName == engine.FileName && e.Version == engine.Version);
             if (matchedEngine is null) enginesUpdated.Add(engine);
             else enginesUpdated.Add(matchedEngine);
         }
@@ -37,12 +42,23 @@ public static class UserDataLoader
         if (file is null)
         {
             Error error = FileAccess.GetOpenError();
-            if (error == Error.FileNotFound) return new();
+            if (error == Error.FileNotFound)
+            {
+                T newConfig = new();
+                SaveConfig(configFileName, newConfig);
+                return newConfig;
+            }
             else throw new System.IO.FileLoadException(error.ToString());
         }
 
         string content = file.GetAsText();
         T config = System.Text.Json.JsonSerializer.Deserialize<T>(content);
         return config;
+    }
+
+    private static void SaveConfig<T>(string configFileName, T config)
+    {
+        using var file = FileAccess.Open("user://" + SettingsFileName, FileAccess.ModeFlags.Write);
+        file.StoreString(System.Text.Json.JsonSerializer.Serialize(config));
     }
 }

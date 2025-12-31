@@ -11,6 +11,8 @@ config_version=5
 [application]
 
 config/name="Godot Launcher"
+config/description="Godot launcher"
+config/version="1.0.0.0"
 run/main_scene="uid://dtaan3vw2af7j"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0.043137256, 0.05490196, 0.07058824, 1)

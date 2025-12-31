@@ -14,10 +14,16 @@ public static class UserDataScanner
 {
     public const string GodotEngineName = "godot engine";
 
-    public static List<Models.EngineVersion> ScanUserEngines(string directoryPath)
+    public static List<Models.EngineVersion> ScanUserEngines()
     {
+        var settings = UserDataLoader.LoadUserSettings();
         List<Models.EngineVersion> engines = [];
-        IEnumerable<string> files = Directory.EnumerateFiles(directoryPath, "*.exe", SearchOption.AllDirectories);
+        List<string> files = [];
+        settings.CustomInstallDirectories.ForEach(d =>
+        {
+            var scannedFiles = Directory.EnumerateFiles(d, "*.exe", SearchOption.AllDirectories);
+            files.AddRange(scannedFiles);
+        });
         
         foreach (string file in files)
         {

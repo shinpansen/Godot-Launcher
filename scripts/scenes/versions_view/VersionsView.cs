@@ -19,8 +19,8 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
 
     public override void _Ready()
     {
-        VersionsConfig config = UserDataLoader.LoadUserVersions("versions.json");
-        var versionsScanned = UserDataScanner.ScanUserEngines(@"C:\Program Files (x86)\Godot");
+        VersionsConfig config = UserDataLoader.LoadUserVersions();
+        var versionsScanned = UserDataScanner.ScanUserEngines();
         BindingContext = UserDataLoader.MergeUserVersionsConfig(config, versionsScanned);
 
         BindingContext.Versions.ForEach(e =>
@@ -31,8 +31,8 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
             _versionsHFlowContainer.AddChild(item);
         });
 
-        UpdateSortButtonState();
-        SortVersionsItems();
+        UpdateSortButtonStateUI();
+        UpdateVersionsItemsOrderUI();
 
         //using var file = FileAccess.Open("user://engines.json", FileAccess.ModeFlags.Write);
 
@@ -46,7 +46,11 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
         //file.StoreString(System.Text.Json.JsonSerializer.Serialize(items));
     }
 
-    private void UpdateSortButtonState()
+    private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);
+
+    private void OnButtonSortByVersionDown() => SortContext(Enums.EngineSortType.Version);
+
+    private void UpdateSortButtonStateUI()
     {
         _buttonSortByName.Icon = null;
         _buttonSortByVersion.Icon = null;
@@ -78,8 +82,7 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
         }
     }
 
-
-    private void SortVersionsItems()
+    private void UpdateVersionsItemsOrderUI()
     {
         IEnumerable<VersionItemView> children = _versionsHFlowContainer.GetChildren().OfType<VersionItemView>();
 
@@ -96,10 +99,6 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
             _versionsHFlowContainer.MoveChild(children.ElementAt(i), i);
     }
 
-    private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);
-
-    private void OnButtonSortByVersionDown() => SortContext(Enums.EngineSortType.Version);
-
     private void SortContext(Enums.EngineSortType sortType)
     {
         if (sortType == BindingContext.SortType)
@@ -111,13 +110,13 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
         }
         BindingContext.SortType = sortType;
 
-        UpdateSortButtonState();
-        SortVersionsItems();
+        UpdateSortButtonStateUI();
+        UpdateVersionsItemsOrderUI();
         SaveConfig();
     }
 
     private void SaveConfig()
     {
-        UserDataLoader.SaveUserVersions(BindingContext, "versions.json");
+        UserDataLoader.SaveUserVersions(BindingContext);
     }
 }

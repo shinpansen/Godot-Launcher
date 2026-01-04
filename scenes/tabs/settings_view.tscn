@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://vwf3ok6ugiyt"]
+
+[ext_resource type="Script" uid="uid://dxsaq3lc8j5qn" path="res://scripts/scenes/settings_view/SettingsView.cs" id="1_k8ihc"]
+[ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/ui_binding/controls/BoxContainerBinding.cs" id="1_ttcwv"]
+[ext_resource type="Script" uid="uid://bvk3fpqyt2tij" path="res://scripts/ui_binding/controls/CheckBoxBinding.cs" id="2_k2q7o"]
+[ext_resource type="PackedScene" uid="uid://bn7erxe4rg46k" path="res://scenes/components/path_item.tscn" id="2_k8ihc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x586d"]
+font_size = 24
+
+[node name="SettingsView" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_k8ihc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 48
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LabelTitle" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!settings"
+label_settings = SubResource("LabelSettings_x586d")
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckScanLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!scanlaunch"
+script = ExtResource("2_k2q7o")
+BindingPropertyName = "ScanVersionsWhenLauncherStart"
+metadata/_custom_type_script = "uid://bvk3fpqyt2tij"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("1_ttcwv")
+BindingListPropertyName = "CustomInstallDirectories"
+ItemScene = ExtResource("2_k8ihc")

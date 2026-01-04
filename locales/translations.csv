@@ -6,3 +6,9 @@ key,en,fr
 !versions,Versions,Versions
 !projects,Projects,Projets
 !settings,Settings,Paramètres
+!customdir,Custom installs locations,Emplacements personnalisés
+!defaultdir,Default installs location,Emplacement par défaut
+!excludedir,Excluded files,Emplacements exclus
+!scanlaunch,Always scan when application starts,Toujours scanner au démarrage de l'application
+!closelaunch,Close App When Launching Godot Version,Fermer l'application au lancement d'un version de Godot
+!theme,Theme,Thème

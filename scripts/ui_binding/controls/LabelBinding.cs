@@ -1,13 +1,20 @@
 using Godot;
+using GodotLauncher.Scripts.Tools;
 using GodotLauncher.Scripts.UiBinding;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+
+namespace GodotLauncher.Scripts.UiBinding.Controls;
 
 [GlobalClass]
 public partial class LabelBinding : Label
 {
-    private string _textExpresion;
-    private string _tooltipExpresion;
+    private const string BindingRegex = @"\{([^}]+)\}";
+    private string _textExpression;
+    private string _tooltipExpression;
     private IUiControlBinding _binding;
 
     public override void _Ready()
@@ -15,39 +22,35 @@ public partial class LabelBinding : Label
         if (GetOwner() is IUiControlBinding binding) _binding = binding;
         else return;
 
-        _binding.RegisterControl(GetInstanceId());
-        _textExpresion = Text;
-        _tooltipExpresion = TooltipText;
-        UpdateUi();
-    }
+        _textExpression = Text;
+        _tooltipExpression = TooltipText;
 
-    public override void _Process(double delta)
-    {
-        if (_binding is null) return;
-        else if (_binding.HasChanged(GetInstanceId())) UpdateUi();
+        RegexTools.ExtractMatchingValues(Text, BindingRegex)
+            .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateUi()));
+        RegexTools.ExtractMatchingValues(TooltipText, BindingRegex)
+            .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateUi()));
+
+        UpdateUi();
     }
 
     public void UpdateUi()
     {
-        if (BindTextValue(_textExpresion, out string textValue))
-        {
-            Text = VisibleCharacters > 3 && textValue.Length > VisibleCharacters ?
-                textValue.Substring(0, VisibleCharacters - 3) + "..." :
-                textValue;
-        }
-        if (BindTextValue(_tooltipExpresion, out string toolTipValue)) TooltipText = toolTipValue;
+        string textValue = BindTextValue(_textExpression);
+        Text = VisibleCharacters > 3 && textValue.Length > VisibleCharacters ?
+            textValue.Substring(0, VisibleCharacters - 3) + "..." :
+            textValue;
+
+        TooltipText = BindTextValue(_tooltipExpression);
     }
 
-    private bool BindTextValue(string expression, out string propertyValue)
+    private string BindTextValue(string expression)
     {
-        propertyValue = string.Empty;
-        var matchBinding = Regex.Match(expression, @"^\{([^}]+)\}$");
-        if (matchBinding.Success)
-        {
-            string propertyName = matchBinding.Groups[1].Value;
-            propertyValue = _binding.GetPropertyValue<string>(propertyName);
-            return true;
-        }
-        return false;
+        return RegexTools.ReplaceMatchingValues(expression, BindingRegex,
+            (name) =>
+            {
+                return _binding.HasProperty(name) ?
+                    _binding.GetPropertyValue<string>(name) :
+                    "{" + name + "}";
+            });
     }
 }

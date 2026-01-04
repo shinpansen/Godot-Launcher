@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
-public partial class VersionsView : UiControlBinding<VersionsConfig>
+public partial class VersionsView : UiControlDataSource<VersionsConfig>
 {
     private HFlowContainer _versionsHFlowContainer => GetNode<HFlowContainer>("%VersionsHFlowContainer");
     private Button _buttonSortByVersion => GetNode<Button>("%ButtonSortByVersion");
@@ -19,10 +19,6 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
 
     public override void _Ready()
     {
-        VersionsConfig config = UserDataLoader.LoadUserVersions();
-        var versionsScanned = UserDataScanner.ScanUserEngines();
-        BindingContext = UserDataLoader.MergeUserVersionsConfig(config, versionsScanned);
-
         BindingContext.Versions.ForEach(e =>
         {
             PackedScene engineItemScene = GD.Load<PackedScene>("res://scenes/components/version_item.tscn");
@@ -44,6 +40,13 @@ public partial class VersionsView : UiControlBinding<VersionsConfig>
         //};
 
         //file.StoreString(System.Text.Json.JsonSerializer.Serialize(items));
+    }
+
+    protected override VersionsConfig LoadBindingContext()
+    {
+        VersionsConfig config = UserDataLoader.LoadUserVersions();
+        var versionsScanned = UserDataScanner.ScanUserEngines();
+        return UserDataLoader.MergeUserVersionsConfig(config, versionsScanned);
     }
 
     private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);

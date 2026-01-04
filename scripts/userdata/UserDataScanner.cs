@@ -19,11 +19,11 @@ public static class UserDataScanner
         var settings = UserDataLoader.LoadUserSettings();
         List<Models.EngineVersion> engines = [];
         List<string> files = [];
-        settings.CustomInstallDirectories.ForEach(d =>
+        foreach(var d in settings.CustomInstallDirectories.Select(d => d.FullName))
         {
             var scannedFiles = Directory.EnumerateFiles(d, "*.exe", SearchOption.AllDirectories);
             files.AddRange(scannedFiles);
-        });
+        }
         
         foreach (string file in files)
         {

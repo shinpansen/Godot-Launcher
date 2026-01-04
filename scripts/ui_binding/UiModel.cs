@@ -9,17 +9,15 @@ namespace GodotLauncher.Scripts.UiBinding;
 
 public class UiModel
 {
+    public bool HasProperty(string propertyName)
+    {
+        PropertyInfo prop = GetPropertyInfo(propertyName);
+        return prop is not null;
+    }
+
     public object GetPropertyValue(string propertyName)
     {
-        var type = this.GetType();
-
-        var prop = type.GetProperty(
-            propertyName,
-            BindingFlags.Instance |
-            BindingFlags.Public |
-            BindingFlags.NonPublic
-        );
-
+        PropertyInfo prop = GetPropertyInfo(propertyName);
         if (prop == null)
             throw new ArgumentException($"Property '{propertyName}' not found.");
 
@@ -28,17 +26,7 @@ public class UiModel
 
     public T GetPropertyValue<T>(string propertyName)
     {
-        var prop = GetType().GetProperty(
-            propertyName,
-            BindingFlags.Instance |
-            BindingFlags.Public |
-            BindingFlags.NonPublic
-        );
-
-        if (prop == null)
-            throw new ArgumentException($"Property '{propertyName}' not found.");
-
-        return (T)prop.GetValue(this);
+        return (T)GetPropertyValue(propertyName);
     }
 
     public void SetPropertyValue(string propertyName, object propertyValue)
@@ -59,5 +47,18 @@ public class UiModel
             throw new InvalidOperationException($"Property '{propertyName}' has no setter.");
 
         prop.SetValue(this, propertyValue);
+    }
+
+    private PropertyInfo GetPropertyInfo(string propertyName)
+    {
+        Type type = this.GetType();
+
+        PropertyInfo prop = type.GetProperty(
+            propertyName,
+            BindingFlags.Instance |
+            BindingFlags.Public |
+            BindingFlags.NonPublic
+        );
+        return prop;
     }
 }

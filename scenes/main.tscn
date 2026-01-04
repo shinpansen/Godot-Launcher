@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dtaan3vw2af7j"]
+[gd_scene load_steps=6 format=3 uid="uid://dtaan3vw2af7j"]
 
 [ext_resource type="Script" uid="uid://de0d6qifjfbqi" path="res://scripts/scenes/Main.cs" id="1_jyhfs"]
 [ext_resource type="ButtonGroup" uid="uid://bglyxvlwqd346" path="res://scenes/groups/sidebar_group.tres" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://cnf6lma4s33we" path="res://scenes/tabs/versions_view.tscn" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://vfh53vfthquh" path="res://scenes/tabs/projects_view.tscn" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://vwf3ok6ugiyt" path="res://scenes/tabs/settings_view.tscn" id="5_tbgi4"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -76,6 +77,11 @@ metadata/_tab_index = 0
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
+
+[node name="SettingsView" parent="CanvasLayer/Content" instance=ExtResource("5_tbgi4")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
 
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonVersions" to="." method="OnButtonVersionsDown"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonProjects" to="." method="OnButtonProjectsDown"]

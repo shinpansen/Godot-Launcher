@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
-public partial class VersionItemView : UiControlBinding<EngineVersion>
+public partial class VersionItemView : UiControlItem<EngineVersion>
 {
     private TextureRect _icon => GetNode<TextureRect>("%Icon");
 

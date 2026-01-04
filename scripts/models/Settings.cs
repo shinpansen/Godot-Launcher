@@ -13,13 +13,13 @@ namespace GodotLauncher.Scripts.Models;
 public class Settings : UiModel
 {
     [JsonPropertyName("customInstallDirectories")]
-    public List<string> CustomInstallDirectories { get; set; } = [];
+    public List<FileSystemPath> CustomInstallDirectories { get; set; } = [];
 
     [JsonPropertyName("defaultInstallDirectory")]
     public string DefaultInstallDirectory { get; set; } = ProjectSettings.GlobalizePath("user://");
 
     [JsonPropertyName("excludedFiles")]
-    public List<string> ExcludedFiles { get; set; } = [];
+    public List<FileSystemPath> ExcludedFiles { get; set; } = [];
 
     [JsonPropertyName("closeLauncherWhenStartingGodot")]
     public bool CloseLauncherWhenStartingGodot { get; set; } = true;
@@ -35,7 +35,7 @@ public class Settings : UiModel
         //TODO : Handle linux and mac os
         if (CustomInstallDirectories.Count == 0)
         {
-            CustomInstallDirectories.Add(@"C:\Program Files (x86)\Godot");
+            CustomInstallDirectories.Add(new FileSystemPath(@"C:\Program Files (x86)\Godot"));
         }
     }
 }

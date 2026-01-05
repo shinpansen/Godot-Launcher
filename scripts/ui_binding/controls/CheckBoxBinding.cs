@@ -36,15 +36,15 @@ public partial class CheckBoxBinding : CheckBox
 
         if (_binding.HasProperty(BindingPropertyName))
         {
-            _binding.RegisterPropertyChangedEvent(BindingPropertyName, value => UpdateValue((bool)value));
+            _binding.RegisterPropertyChangedEvent(BindingPropertyName, value => UpdateCheckState((bool)value));
             this.Toggled += value => _binding.SetPropertyValue(BindingPropertyName, value);
 
             bool checkedValue = _binding.GetPropertyValue<bool>(BindingPropertyName);
-            UpdateValue(checkedValue);
+            UpdateCheckState(checkedValue);
         }
     }
 
-    public void UpdateValue(bool value)
+    public void UpdateCheckState(bool value)
     {
         ButtonPressed = value;
     }

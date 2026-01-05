@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.UiBinding;
 
-public abstract partial class UiControlDataSource<T> : UiControlBinding<T> where T : class
+public abstract partial class UiControlDataSource<T> : UiControlBinding<T>, IUiControlDataSource where T : class
 {
     public override T BindingContext
     {
@@ -20,6 +20,8 @@ public abstract partial class UiControlDataSource<T> : UiControlBinding<T> where
             return _bindingContext;
         }
     }
+
+    private T _bindingContext;
 
     public override void SetPropertyValue(string propertyName, object propertyValue)
     {
@@ -33,7 +35,10 @@ public abstract partial class UiControlDataSource<T> : UiControlBinding<T> where
         SaveDataSource();
     }
 
-    private T _bindingContext;
+    public virtual void NotifyItemChanged()
+    {
+        SaveDataSource();
+    }
 
     protected abstract T LoadDataSource();
     protected abstract void SaveDataSource();

@@ -11,7 +11,7 @@ namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
 public partial class VersionsView : UiControlDataSource<VersionsConfig>
 {
-    private HFlowContainer _versionsHFlowContainer => GetNode<HFlowContainer>("%VersionsHFlowContainer");
+    private Node _versionsHFlowContainer => GetNode("%VersionsHFlowContainer");
     private Button _buttonSortByVersion => GetNode<Button>("%ButtonSortByVersion");
     private Button _buttonSortByName => GetNode<Button>("%ButtonSortByName");
     private Texture2D _sortAscTexture = GD.Load<Texture2D>("res://assets/icons/sort-asc.svg");
@@ -19,13 +19,13 @@ public partial class VersionsView : UiControlDataSource<VersionsConfig>
 
     public override void _Ready()
     {
-        BindingContext.Versions.ForEach(e =>
-        {
-            PackedScene engineItemScene = GD.Load<PackedScene>("res://scenes/components/version_item.tscn");
-            var item = engineItemScene.Instantiate<VersionItemView>();
-            item.Init(e);
-            _versionsHFlowContainer.AddChild(item);
-        });
+        //BindingContext.Versions.ForEach(e =>
+        //{
+        //    PackedScene engineItemScene = GD.Load<PackedScene>("res://scenes/components/version_item.tscn");
+        //    var item = engineItemScene.Instantiate<VersionItemView>();
+        //    item.Init(e, this);
+        //    _versionsHFlowContainer.AddChild(item);
+        //});
 
         UpdateSortButtonStateUI();
         UpdateVersionsItemsOrderUI();
@@ -42,11 +42,17 @@ public partial class VersionsView : UiControlDataSource<VersionsConfig>
         //file.StoreString(System.Text.Json.JsonSerializer.Serialize(items));
     }
 
+    public void Refresh()
+    {
+        VersionsConfig config = LoadVersionConfig(true);
+        SetPropertyValue(vc => vc.Versions, config.Versions);
+        UpdateVersionsItemsOrderUI();
+    }
+
     protected override VersionsConfig LoadDataSource()
     {
-        VersionsConfig config = UserDataLoader.LoadUserVersions();
-        var versionsScanned = UserDataScanner.ScanUserEngines();
-        return UserDataLoader.MergeUserVersionsConfig(config, versionsScanned);
+        Settings settings = UserDataLoader.LoadUserSettings();
+        return LoadVersionConfig(settings.ScanVersionsWhenLauncherStart);
     }
 
     protected override void SaveDataSource() => UserDataLoader.SaveUserVersions(BindingContext);
@@ -54,6 +60,18 @@ public partial class VersionsView : UiControlDataSource<VersionsConfig>
     private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);
 
     private void OnButtonSortByVersionDown() => SortContext(Enums.EngineSortType.Version);
+
+    private VersionsConfig LoadVersionConfig(bool forceScan)
+    {
+        Settings settings = UserDataLoader.LoadUserSettings();
+        VersionsConfig config = UserDataLoader.LoadUserVersions();
+        if (forceScan)
+        {
+            var versionsScanned = UserDataScanner.ScanUserEngines();
+            config = UserDataLoader.MergeUserVersionsConfig(config, versionsScanned);
+        }
+        return config;
+    }
 
     private void UpdateSortButtonStateUI()
     {

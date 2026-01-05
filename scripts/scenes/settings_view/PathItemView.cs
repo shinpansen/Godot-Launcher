@@ -12,7 +12,20 @@ namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
 public partial class PathItemView : UiControlItem<FileSystemPath>
 {
-    private void Delete()
+    private FileDialog _fileDialogChangePath => GetNode<FileDialog>("%FileDialogChangePath");
+
+    private void OnButtonEditDown()
+    {
+        _fileDialogChangePath.RootSubfolder = BindingContext.FullName;
+        _fileDialogChangePath.Show();
+    }
+
+    private void OnDirSelected(string dirPath)
+    {
+        SetPropertyValue(s => s.FullName, dirPath);
+    }
+
+    private void OnButtonDeleteDown()
     {
         var parent = GetParent<BoxContainerBinding>();
         parent?.EmitSignal(

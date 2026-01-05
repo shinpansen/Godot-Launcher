@@ -6,9 +6,15 @@ key,en,fr
 !versions,Versions,Versions
 !projects,Projects,Projets
 !settings,Settings,Paramètres
-!customdir,Custom installs locations,Emplacements personnalisés
+!customdir,Custom Godot installs locations,Emplacements personnalisés des installations de Godot
+!projectsdir,Godot Projects Locations,Emplacements des projets Godot
+!adddir,Add Directory,Ajouter emplacement
+!choosedir,Choose a Directory,Choisir un emplacement
 !defaultdir,Default installs location,Emplacement par défaut
+!editdir,Change path,Modifier l'emplacement
+!deletedir,Delete Directory,Supprimer l'emplacement
 !excludedir,Excluded files,Emplacements exclus
 !scanlaunch,Always scan when application starts,Toujours scanner au démarrage de l'application
+!scannow,Scan Now,Scanner
 !closelaunch,Close App When Launching Godot Version,Fermer l'application au lancement d'un version de Godot
 !theme,Theme,Thème

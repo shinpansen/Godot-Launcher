@@ -8,28 +8,78 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Godot;
+using GodotLauncher.Scripts.Scenes.VersionsView;
 
 namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
 public partial class SettingsView : UiControlDataSource<Settings>
 {
+    [Export]
+    public VersionsView.VersionsView VersionsView { get; set; }
+
     protected override Settings LoadDataSource() => UserDataLoader.LoadUserSettings();
     protected override void SaveDataSource() => UserDataLoader.SaveUserSettings(BindingContext);
 
-    private void Test()
+    private FileDialog _fileDialogCustomPaths => GetNode<FileDialog>("%FileDialogCustomPaths");
+    private FileDialog _fileDialogProjects => GetNode<FileDialog>("%FileDialogProjects");
+
+    private void OnButtonScanEnginesDown()
     {
-        var paths = BindingContext.CustomInstallDirectories;
-        paths.Add(new FileSystemPath("gloubi"));
-        SetPropertyValue(s => s.CustomInstallDirectories, paths);
+        VersionsView?.Refresh();
     }
 
-    private void DeleteItem(Node node)
+    private void OnButtonScanProjectsDown()
+    {
+        //Todo
+    }
+
+    private void OpenDirSelectionForCustomPaths()
+    {
+        _fileDialogCustomPaths.Show();
+    }
+
+    private void OpenDirSelectionForProjects()
+    {
+        _fileDialogProjects.Show();
+    }
+
+    private void OnInstallDirSelected(string dirPath)
+    {
+        var paths = BindingContext.CustomInstallsDirectories;
+        paths.Add(new FileSystemPath(dirPath));
+        SetPropertyValue(s => s.CustomInstallsDirectories, paths);
+    }
+
+    private void OnProjectDirSelected(string dirPath)
+    {
+        var paths = BindingContext.ProjectsDirectories;
+        paths.Add(new FileSystemPath(dirPath));
+        SetPropertyValue(s => s.ProjectsDirectories, paths);
+    }
+
+    private void DeleteInstallDirectory(Node node)
     {
         if (node is UiControlItem<FileSystemPath> item)
         {
-            var paths = BindingContext.CustomInstallDirectories;
-            paths.Remove(item.BindingContext);
-            SetPropertyValue(s => s.CustomInstallDirectories, paths);
+            if (BindingContext.CustomInstallsDirectories.Contains(item.BindingContext))
+            {
+                var paths = BindingContext.CustomInstallsDirectories;
+                paths.Remove(item.BindingContext);
+                SetPropertyValue(s => s.CustomInstallsDirectories, paths);
+            }
+        }
+    }
+
+    private void DeleteProjectDirectory(Node node)
+    {
+        if (node is UiControlItem<FileSystemPath> item)
+        {
+            if (BindingContext.ProjectsDirectories.Contains(item.BindingContext))
+            {
+                var paths = BindingContext.ProjectsDirectories;
+                paths.Remove(item.BindingContext);
+                SetPropertyValue(s => s.ProjectsDirectories, paths);
+            }
         }
     }
 }

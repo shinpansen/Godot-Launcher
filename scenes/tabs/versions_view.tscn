@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnf6lma4s33we"]
+[gd_scene load_steps=6 format=3 uid="uid://cnf6lma4s33we"]
 
 [ext_resource type="Script" uid="uid://bnoer0yefc81x" path="res://scripts/scenes/versions_view/VersionsView.cs" id="1_pg44v"]
 [ext_resource type="ButtonGroup" uid="uid://b8x8s7dui74na" path="res://scenes/groups/sort_engines_group.tres" id="2_77r2c"]
 [ext_resource type="Texture2D" uid="uid://cdnru6tnjsyo6" path="res://assets/icons/sort-desc.svg" id="3_ifeji"]
+[ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/ui_binding/controls/BoxContainerBinding.cs" id="4_ngter"]
+[ext_resource type="PackedScene" uid="uid://4pb2jl707dw0" path="res://scenes/components/version_item.tscn" id="5_mkm24"]
 
 [node name="VersionsView" type="Control"]
 layout_mode = 3
@@ -83,6 +85,9 @@ theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 alignment = 1
 last_wrap_alignment = 1
+script = ExtResource("4_ngter")
+BindingListPropertyName = "Versions"
+ItemScene = ExtResource("5_mkm24")
 
 [connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByVersion" to="." method="OnButtonSortByVersionDown"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByName" to="." method="OnButtonSortByNameDown"]

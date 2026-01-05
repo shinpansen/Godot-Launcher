@@ -12,8 +12,11 @@ namespace GodotLauncher.Scripts.Models;
 
 public class Settings
 {
-    [JsonPropertyName("customInstallDirectories")]
-    public List<FileSystemPath> CustomInstallDirectories { get; set; } = [];
+    [JsonPropertyName("customInstallsDirectories")]
+    public List<FileSystemPath> CustomInstallsDirectories { get; set; } = [];
+
+    [JsonPropertyName("projectsDirectories")]
+    public List<FileSystemPath> ProjectsDirectories { get; set; } = [];
 
     [JsonPropertyName("defaultInstallDirectory")]
     public string DefaultInstallDirectory { get; set; } = ProjectSettings.GlobalizePath("user://");
@@ -33,9 +36,9 @@ public class Settings
     public Settings()
     {
         //TODO : Handle linux and mac os
-        if (CustomInstallDirectories.Count == 0)
+        if (CustomInstallsDirectories.Count == 0)
         {
-            CustomInstallDirectories.Add(new FileSystemPath(@"C:\Program Files (x86)\Godot"));
+            CustomInstallsDirectories.Add(new FileSystemPath(@"C:\Program Files (x86)\Godot"));
         }
     }
 }

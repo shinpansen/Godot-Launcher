@@ -2,6 +2,7 @@ using Godot;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Tools;
 using GodotLauncher.Scripts.UiBinding;
+using GodotLauncher.Scripts.UserData;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -27,9 +28,9 @@ public partial class VersionItemView : UiControlItem<EngineVersion>
 
     private void OnButtonLaunchDown()
     {
-        SetPropertyValue(v => v.Version, "666");
-        //SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
-        //GetTree().Quit();
+        SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
+        Settings settings = UserDataLoader.LoadUserSettings();
+        if(settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
     }
 
     private void OnButtonFolderDown()

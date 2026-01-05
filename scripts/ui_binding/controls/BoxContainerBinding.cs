@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GodotLauncher.Scripts.UiBinding.Controls;
 
-public partial class BoxContainerBinding : BoxContainer
+public partial class BoxContainerBinding : Container
 {
     [Signal]
     public delegate void DeleteItemEventHandler(Node node);
@@ -32,13 +32,14 @@ public partial class BoxContainerBinding : BoxContainer
     {
         GetChildren().ToList().ForEach(RemoveChild);
 
+        var dataSource = _binding is IUiControlDataSource d ? d : null;
         if (items is IEnumerable enumerable)
         {
             foreach (var model in enumerable)
             {
                 var instance = ItemScene.Instantiate();
                 if (instance is IUiControlItem controlItem)
-                    controlItem.Init(model);
+                    controlItem.Init(model, dataSource);
 
                 AddChild(instance);
             }

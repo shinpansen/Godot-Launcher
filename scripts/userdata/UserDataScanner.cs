@@ -18,12 +18,12 @@ public static class UserDataScanner
     {
         var settings = UserDataLoader.LoadUserSettings();
         List<Models.EngineVersion> engines = [];
-        List<string> files = [];
-        foreach(var d in settings.CustomInstallDirectories.Select(d => d.FullName))
+        HashSet<string> files = [];
+        foreach(var d in settings.CustomInstallsDirectories.Select(d => d.FullName))
         {
             if (!System.IO.Directory.Exists(d)) continue;
             var scannedFiles = Directory.EnumerateFiles(d, "*.exe", SearchOption.AllDirectories);
-            files.AddRange(scannedFiles);
+            foreach(var f in scannedFiles) files.Add(f);
         }
         
         foreach (string file in files)
@@ -32,9 +32,9 @@ public static class UserDataScanner
             if (string.IsNullOrEmpty(info.ProductName) || 
                 !info.ProductName.ToLower().Equals(GodotEngineName)) continue;
 
-            engines.Add(new Models.EngineVersion(info.FileVersion, file));
+            if(!engines.Any(e => new FileInfo(e.Path).FullName == new FileInfo(file).FullName))
+                engines.Add(new Models.EngineVersion(info.FileVersion, file));
         }
-
         return engines;
     }
 }

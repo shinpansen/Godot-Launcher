@@ -70,17 +70,21 @@ current_tab = 0
 tabs_visible = false
 
 [node name="VersionsView" parent="CanvasLayer/Content" instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
 layout_mode = 2
 metadata/_tab_index = 0
 
 [node name="ProjectsView" parent="CanvasLayer/Content" instance=ExtResource("3_jyhfs")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="SettingsView" parent="CanvasLayer/Content" instance=ExtResource("5_tbgi4")]
+[node name="SettingsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("VersionsView") instance=ExtResource("5_tbgi4")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
+VersionsView = NodePath("../VersionsView")
 metadata/_tab_index = 2
 
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonVersions" to="." method="OnButtonVersionsDown"]

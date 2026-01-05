@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://vwf3ok6ugiyt"]
+[gd_scene load_steps=7 format=3 uid="uid://vwf3ok6ugiyt"]
 
 [ext_resource type="Script" uid="uid://dxsaq3lc8j5qn" path="res://scripts/scenes/settings_view/SettingsView.cs" id="1_k8ihc"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/ui_binding/controls/BoxContainerBinding.cs" id="1_ttcwv"]
@@ -8,10 +8,29 @@
 [sub_resource type="LabelSettings" id="LabelSettings_x586d"]
 font_size = 24
 
+[sub_resource type="LabelSettings" id="LabelSettings_k2q7o"]
+font_size = 18
+
 [node name="SettingsView" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_k8ihc")
+
+[node name="FileDialogCustomPaths" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "!choosedir"
+initial_position = 1
+size = Vector2i(900, 500)
+file_mode = 2
+access = 2
+
+[node name="FileDialogProjects" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(900, 500)
+file_mode = 2
+access = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -27,6 +46,7 @@ theme_override_constants/margin_bottom = 48
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="LabelTitle" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -43,15 +63,68 @@ script = ExtResource("2_k2q7o")
 BindingPropertyName = "ScanVersionsWhenLauncherStart"
 metadata/_custom_type_script = "uid://bvk3fpqyt2tij"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="CheckCloseLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!closelaunch"
+script = ExtResource("2_k2q7o")
+BindingPropertyName = "CloseLauncherWhenStartingGodot"
+metadata/_custom_type_script = "uid://bvk3fpqyt2tij"
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LabelCustomInstalls" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!customdir"
+label_settings = SubResource("LabelSettings_k2q7o")
+
+[node name="VBoxContainerCustomInstalls" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("1_ttcwv")
-BindingListPropertyName = "CustomInstallDirectories"
+BindingListPropertyName = "CustomInstallsDirectories"
 ItemScene = ExtResource("2_k8ihc")
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainerCustomInstalls" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "test"
 
-[connection signal="DeleteItem" from="MarginContainer/VBoxContainer/VBoxContainer" to="." method="DeleteItem"]
-[connection signal="button_down" from="MarginContainer/VBoxContainer/Button" to="." method="Test"]
+[node name="ButtonAddPath" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainerCustomInstalls"]
+layout_mode = 2
+text = "!adddir"
+
+[node name="ButtonScanEngines" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!scannow"
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LabelProjectsLocations" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!projectsdir"
+label_settings = SubResource("LabelSettings_k2q7o")
+
+[node name="VBoxContainerProjectsLocations" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("1_ttcwv")
+BindingListPropertyName = "ProjectsDirectories"
+ItemScene = ExtResource("2_k8ihc")
+
+[node name="HBoxContainerProjectsLocations" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonAddPath" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainerProjectsLocations"]
+layout_mode = 2
+text = "!adddir"
+
+[node name="ButtonScanProjects" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!scannow"
+
+[connection signal="dir_selected" from="FileDialogCustomPaths" to="." method="OnInstallDirSelected"]
+[connection signal="dir_selected" from="FileDialogProjects" to="." method="OnProjectDirSelected"]
+[connection signal="DeleteItem" from="MarginContainer/VBoxContainer/VBoxContainerCustomInstalls" to="." method="DeleteInstallDirectory"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainerCustomInstalls/ButtonAddPath" to="." method="OpenDirSelectionForCustomPaths"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/ButtonScanEngines" to="." method="OnButtonScanEnginesDown"]
+[connection signal="DeleteItem" from="MarginContainer/VBoxContainer/VBoxContainerProjectsLocations" to="." method="DeleteProjectDirectory"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainerProjectsLocations/ButtonAddPath" to="." method="OpenDirSelectionForProjects"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/ButtonScanProjects" to="." method="OnButtonScanProjectsDown"]

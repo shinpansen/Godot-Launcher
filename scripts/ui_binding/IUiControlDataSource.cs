@@ -1,4 +1,3 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.UiBinding;
 
-public interface IUiControlItem
+public interface IUiControlDataSource
 {
-    void Init(object model);
-    void Init(object model, IUiControlDataSource dataSource);
+    void NotifyItemChanged();
 }

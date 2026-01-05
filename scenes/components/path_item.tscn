@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bn7erxe4rg46k"]
+[gd_scene load_steps=5 format=3 uid="uid://bn7erxe4rg46k"]
 
 [ext_resource type="Script" uid="uid://bpfit5n1x2t3b" path="res://scripts/scenes/settings_view/PathItemView.cs" id="1_0md1h"]
 [ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/ui_binding/controls/LabelBinding.cs" id="2_fcdkv"]
+[ext_resource type="Texture2D" uid="uid://dkcf2ta8ie6yr" path="res://assets/icons/delete.svg" id="3_5mggv"]
+[ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="3_aqn2m"]
 
 [node name="PathItem" type="PanelContainer"]
 anchors_preset = 15
@@ -10,6 +12,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0md1h")
+
+[node name="FileDialogChangePath" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(900, 500)
+file_mode = 2
+access = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -29,8 +39,16 @@ text = "{FullName}"
 script = ExtResource("2_fcdkv")
 metadata/_custom_type_script = "uid://drd1aht24gsbf"
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="ButtonEdit" type="Button" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "delete"
+tooltip_text = "!editdir"
+icon = ExtResource("3_aqn2m")
 
-[connection signal="button_down" from="MarginContainer/HBoxContainer/Button" to="." method="Delete"]
+[node name="ButtonDelete" type="Button" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "!deletedir"
+icon = ExtResource("3_5mggv")
+
+[connection signal="dir_selected" from="FileDialogChangePath" to="." method="OnDirSelected"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/ButtonEdit" to="." method="OnButtonEditDown"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/ButtonDelete" to="." method="OnButtonDeleteDown"]

@@ -27,7 +27,10 @@ public static class UserDataLoader
         List<Models.EngineVersion> enginesUpdated = [];
         foreach (var engine in enginesScanned)
         {
-            var matchedEngine = config.Versions.FirstOrDefault(e => e.FileName == engine.FileName && e.Version == engine.Version);
+            var engineFullPath = new System.IO.FileInfo(engine.FileName).FullName;
+            var matchedEngine = config.Versions.FirstOrDefault(
+                e => new System.IO.FileInfo(e.FileName).FullName == engineFullPath &&
+                e.Version == engine.Version);
             if (matchedEngine is null) enginesUpdated.Add(engine);
             else enginesUpdated.Add(matchedEngine);
         }

@@ -1,5 +1,6 @@
 using Godot;
 using GodotLauncher.Scripts.Scenes.VersionsView;
+using GodotLauncher.Scripts.Scenes.SettingsView;
 using System;
 
 namespace GodotLauncher.Scripts.Scenes;

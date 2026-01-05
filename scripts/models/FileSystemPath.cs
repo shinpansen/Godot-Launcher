@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Models;
 
-public class FileSystemPath : UiModel
+public class FileSystemPath
 {
     [JsonPropertyName("fullName")]
     public string FullName { get; set; }

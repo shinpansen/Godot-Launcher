@@ -32,3 +32,5 @@ metadata/_custom_type_script = "uid://drd1aht24gsbf"
 [node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "delete"
+
+[connection signal="button_down" from="MarginContainer/HBoxContainer/Button" to="." method="Delete"]

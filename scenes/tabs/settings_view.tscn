@@ -48,3 +48,10 @@ layout_mode = 2
 script = ExtResource("1_ttcwv")
 BindingListPropertyName = "CustomInstallDirectories"
 ItemScene = ExtResource("2_k8ihc")
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "test"
+
+[connection signal="DeleteItem" from="MarginContainer/VBoxContainer/VBoxContainer" to="." method="DeleteItem"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/Button" to="." method="Test"]

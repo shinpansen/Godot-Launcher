@@ -42,12 +42,14 @@ public partial class VersionsView : UiControlDataSource<VersionsConfig>
         //file.StoreString(System.Text.Json.JsonSerializer.Serialize(items));
     }
 
-    protected override VersionsConfig LoadBindingContext()
+    protected override VersionsConfig LoadDataSource()
     {
         VersionsConfig config = UserDataLoader.LoadUserVersions();
         var versionsScanned = UserDataScanner.ScanUserEngines();
         return UserDataLoader.MergeUserVersionsConfig(config, versionsScanned);
     }
+
+    protected override void SaveDataSource() => UserDataLoader.SaveUserVersions(BindingContext);
 
     private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);
 
@@ -115,11 +117,6 @@ public partial class VersionsView : UiControlDataSource<VersionsConfig>
 
         UpdateSortButtonStateUI();
         UpdateVersionsItemsOrderUI();
-        SaveConfig();
-    }
-
-    private void SaveConfig()
-    {
-        UserDataLoader.SaveUserVersions(BindingContext);
+        SaveDataSource();
     }
 }

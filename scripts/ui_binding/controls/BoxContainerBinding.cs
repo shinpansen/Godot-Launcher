@@ -1,11 +1,15 @@
 using Godot;
 using System;
 using System.Collections;
+using System.Linq;
 
 namespace GodotLauncher.Scripts.UiBinding.Controls;
 
 public partial class BoxContainerBinding : BoxContainer
 {
+    [Signal]
+    public delegate void DeleteItemEventHandler(Node node);
+
     [Export]
     public string BindingListPropertyName { get; set; }
 
@@ -26,21 +30,17 @@ public partial class BoxContainerBinding : BoxContainer
 
     private void UpdateItems(object items)
     {
+        GetChildren().ToList().ForEach(RemoveChild);
+
         if (items is IEnumerable enumerable)
         {
-            GD.Print("items is IEnumerable");
-            foreach (var item in enumerable)
+            foreach (var model in enumerable)
             {
-                if (item is UiModel model)
-                {
-                    GD.Print("item is UiModel");
-                    var instance = ItemScene.Instantiate();
-                    if (instance is IUiControlItem controlItem)
-                    {
-                        controlItem.Init(model);
-                        AddChild(instance);
-                    }
-                }
+                var instance = ItemScene.Instantiate();
+                if (instance is IUiControlItem controlItem)
+                    controlItem.Init(model);
+
+                AddChild(instance);
             }
         }
     }

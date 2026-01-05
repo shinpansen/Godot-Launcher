@@ -12,7 +12,6 @@ namespace GodotLauncher.Scripts.UiBinding.Controls;
 [GlobalClass]
 public partial class LabelBinding : Label
 {
-    private const string BindingRegex = @"\{([^}]+)\}";
     private string _textExpression;
     private string _tooltipExpression;
     private IUiControlBinding _binding;
@@ -25,32 +24,21 @@ public partial class LabelBinding : Label
         _textExpression = Text;
         _tooltipExpression = TooltipText;
 
-        RegexTools.ExtractMatchingValues(Text, BindingRegex)
-            .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateUi()));
-        RegexTools.ExtractMatchingValues(TooltipText, BindingRegex)
-            .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateUi()));
+        RegexTools.ExtractMatchingValues(Text, BindingTools.BindingRegex)
+            .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateTextAndToolTip()));
+        RegexTools.ExtractMatchingValues(TooltipText, BindingTools.BindingRegex)
+            .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateTextAndToolTip()));
 
-        UpdateUi();
+        UpdateTextAndToolTip();
     }
 
-    public void UpdateUi()
+    public void UpdateTextAndToolTip()
     {
-        string textValue = BindTextValue(_textExpression);
+        string textValue = BindingTools.BindReplacedMatchingValues(_textExpression, _binding);
         Text = VisibleCharacters > 3 && textValue.Length > VisibleCharacters ?
             textValue.Substring(0, VisibleCharacters - 3) + "..." :
             textValue;
 
-        TooltipText = BindTextValue(_tooltipExpression);
-    }
-
-    private string BindTextValue(string expression)
-    {
-        return RegexTools.ReplaceMatchingValues(expression, BindingRegex,
-            (name) =>
-            {
-                return _binding.HasProperty(name) ?
-                    _binding.GetPropertyValue<string>(name) :
-                    "{" + name + "}";
-            });
+        TooltipText = BindingTools.BindReplacedMatchingValues(_tooltipExpression, _binding);
     }
 }

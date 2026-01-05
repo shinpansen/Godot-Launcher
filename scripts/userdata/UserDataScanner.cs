@@ -21,6 +21,7 @@ public static class UserDataScanner
         List<string> files = [];
         foreach(var d in settings.CustomInstallDirectories.Select(d => d.FullName))
         {
+            if (!System.IO.Directory.Exists(d)) continue;
             var scannedFiles = Directory.EnumerateFiles(d, "*.exe", SearchOption.AllDirectories);
             files.AddRange(scannedFiles);
         }

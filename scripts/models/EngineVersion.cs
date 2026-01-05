@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Models;
 
-public class EngineVersion : UiModel
+public class EngineVersion
 {
     [JsonIgnore]
     public string FileName => System.IO.Path.GetFileName(Path);

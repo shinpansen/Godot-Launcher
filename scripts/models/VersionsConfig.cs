@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Models;
 
-public class VersionsConfig : UiModel
+public class VersionsConfig
 {
     [JsonPropertyName("versions")]
     public List<EngineVersion> Versions { get; set; } = [];

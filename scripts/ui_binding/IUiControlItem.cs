@@ -9,5 +9,5 @@ namespace GodotLauncher.Scripts.UiBinding;
 
 public interface IUiControlItem
 {
-    void Init(UiModel model);
+    void Init(object model);
 }

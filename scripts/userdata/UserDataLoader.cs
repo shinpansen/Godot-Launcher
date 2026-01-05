@@ -58,7 +58,7 @@ public static class UserDataLoader
 
     private static void SaveConfig<T>(string configFileName, T config)
     {
-        using var file = FileAccess.Open("user://" + SettingsFileName, FileAccess.ModeFlags.Write);
+        using var file = FileAccess.Open("user://" + configFileName, FileAccess.ModeFlags.Write);
         file.StoreString(System.Text.Json.JsonSerializer.Serialize(config));
     }
 }

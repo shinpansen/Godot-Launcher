@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Models;
 
-public class Settings : UiModel
+public class Settings
 {
     [JsonPropertyName("customInstallDirectories")]
     public List<FileSystemPath> CustomInstallDirectories { get; set; } = [];

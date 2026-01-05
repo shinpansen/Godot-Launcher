@@ -27,8 +27,9 @@ public partial class VersionItemView : UiControlItem<EngineVersion>
 
     private void OnButtonLaunchDown()
     {
-        SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
-        GetTree().Quit();
+        SetPropertyValue(v => v.Version, "666");
+        //SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
+        //GetTree().Quit();
     }
 
     private void OnButtonFolderDown()

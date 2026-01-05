@@ -7,27 +7,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Godot;
 
 namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
 public partial class SettingsView : UiControlDataSource<Settings>
 {
-    protected override Settings LoadBindingContext() => UserDataLoader.LoadUserSettings();
+    protected override Settings LoadDataSource() => UserDataLoader.LoadUserSettings();
+    protected override void SaveDataSource() => UserDataLoader.SaveUserSettings(BindingContext);
 
-    public override void SetPropertyValue(string propertyName, object propertyValue)
+    private void Test()
     {
-        base.SetPropertyValue(propertyName, propertyValue);
-        SaveConfig();
+        var paths = BindingContext.CustomInstallDirectories;
+        paths.Add(new FileSystemPath("gloubi"));
+        SetPropertyValue(s => s.CustomInstallDirectories, paths);
     }
 
-    protected override void SetPropertyValue<TValue>(Expression<Func<Settings, TValue>> member, object propertyValue)
+    private void DeleteItem(Node node)
     {
-        base.SetPropertyValue(member, propertyValue);
-        SaveConfig();
-    }
-
-    private void SaveConfig()
-    {
-        UserDataLoader.SaveUserSettings(BindingContext);
+        if (node is UiControlItem<FileSystemPath> item)
+        {
+            var paths = BindingContext.CustomInstallDirectories;
+            paths.Remove(item.BindingContext);
+            SetPropertyValue(s => s.CustomInstallDirectories, paths);
+        }
     }
 }

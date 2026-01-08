@@ -24,8 +24,8 @@ public partial class SettingsView : DataSourceBinding<Settings>
 
     private void OnButtonScanEnginesDown()
     {
-        SetPropertyValue(s => s.ScanVersionsWhenLauncherStart, true);
-        //VersionsView?.Refresh();
+        //SetPropertyValue(s => s.ScanVersionsWhenLauncherStart, true);
+        VersionsView?.Refresh();
     }
 
     private void OnButtonScanProjectsDown()

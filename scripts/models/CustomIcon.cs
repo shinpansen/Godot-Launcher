@@ -1,3 +1,4 @@
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,4 +18,7 @@ public class CustomIcon
 
     [JsonPropertyName("hexColor")]
     public string HexColor { get; set; } = "ffffff";
+
+    [JsonIgnore]
+    public Color Color => Color.FromString($"#{HexColor}", Colors.White);
 }

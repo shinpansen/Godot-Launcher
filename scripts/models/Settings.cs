@@ -33,9 +33,6 @@ public class Settings
     [JsonPropertyName("appTheme")]
     public AppTheme AppTheme { get; set; }
 
-    [JsonPropertyName("test")]
-    public string Test { get; set; } = "gloubi";
-
     public Settings()
     {
         //TODO : Handle linux and mac os

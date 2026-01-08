@@ -1,18 +1,39 @@
-[gd_scene load_steps=11 format=3 uid="uid://4pb2jl707dw0"]
+[gd_scene load_steps=16 format=3 uid="uid://4pb2jl707dw0"]
 
 [ext_resource type="Script" uid="uid://lwns8w4vi1l4" path="res://scripts/scenes/versions_view/VersionItemView.cs" id="1_nxlsj"]
 [ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_fnoah"]
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_5s58c"]
 [ext_resource type="FontFile" uid="uid://cjd7hnh3v7iip" path="res://assets/fonts/Sans.ttf" id="4_3qa1m"]
+[ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="4_5s58c"]
 [ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/binding/controls/LabelBinding.cs" id="5_0aosf"]
+[ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="5_3qa1m"]
 [ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="6_pw1pe"]
 [ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="7_bg07e"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nloml"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nxlsj"]
+resource_local_to_scene = true
 shader = ExtResource("2_fnoah")
 shader_parameter/background = false
 shader_parameter/gray_scale = false
 shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_5s58c"]
+script = ExtResource("5_3qa1m")
+PropertyPath = &"shader_parameter/gray_scale"
+Binding = "CustomIcon.GrayScale"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_3qa1m"]
+script = ExtResource("5_3qa1m")
+PropertyPath = &"shader_parameter/background"
+Binding = "CustomIcon.Background"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_0aosf"]
+script = ExtResource("5_3qa1m")
+PropertyPath = &"shader_parameter/tint_color"
+Binding = "CustomIcon.Color"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="LabelSettings" id="LabelSettings_v87a3"]
 font = ExtResource("4_3qa1m")
@@ -39,10 +60,12 @@ layout_mode = 2
 
 [node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_nloml")
+material = SubResource("ShaderMaterial_nxlsj")
 layout_mode = 2
 texture = ExtResource("3_5s58c")
 expand_mode = 5
+script = ExtResource("4_5s58c")
+PropertiesBindings = Array[Object]([SubResource("Resource_5s58c"), SubResource("Resource_3qa1m"), SubResource("Resource_0aosf")])
 
 [node name="LabelVersion" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

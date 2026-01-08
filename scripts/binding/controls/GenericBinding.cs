@@ -58,10 +58,24 @@ public partial class GenericBinding : Control
         else
         {
             object propValue = _binding.GetPropertyValue(prop.Binding);
-            this.Set(prop.PropertyPath, VariantTools.FromCSharpObject(propValue));
+            SetNodePropertyValue(prop.PropertyPath, propValue);
+            //this.Set(prop.PropertyPath, VariantTools.FromCSharpObject(propValue));
             _binding.RegisterPropertyChangedEvent(prop.Binding, 
-                (v) => this.Set(prop.PropertyPath, VariantTools.FromCSharpObject(v)));
+                (v) => SetNodePropertyValue(prop.PropertyPath, propValue));
         }
+    }
+
+    private void SetNodePropertyValue(string propertyPath, object propValue)
+    {
+        if(propertyPath.StartsWith("shader_parameter/"))
+        {
+            string shaderPathValue = propertyPath.Split('/')[1];
+            var mat = (ShaderMaterial)this.Material;
+            if (mat is not null)
+                mat.SetShaderParameter(shaderPathValue, VariantTools.FromCSharpObject(propValue));
+        }
+        else
+            this.Set(propertyPath, VariantTools.FromCSharpObject(propValue));
     }
 
     private void AttachSignals()

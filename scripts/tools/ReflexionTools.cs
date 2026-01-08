@@ -10,31 +10,19 @@ namespace GodotLauncher.Scripts.Tools;
 
 public class ReflexionTools
 {
-    public static bool HasProperty<T>(T instance, string propertyName) where T : class
+    public static bool HasProperty(object instance, string propertyName)
     {
-        PropertyInfo prop = GetPropertyInfo(instance, propertyName);
-        return prop is not null;
+        PropertyInfo propInfo = GetPropertyInfo(ref instance, propertyName);
+        return propInfo is not null;
     }
 
-    public static PropertyInfo GetPropertyInfo<T>(T instance, string propertyName)
+    public static object GetPropertyValue(object instance, string propertyName)
     {
-        Type type = instance.GetType();
-        PropertyInfo prop = type.GetProperty(
-            propertyName,
-            BindingFlags.Instance |
-            BindingFlags.Public |
-            BindingFlags.NonPublic
-        );
-        return prop;
-    }
-
-    public static object GetPropertyValue<T>(T instance, string propertyName)
-    {
-        PropertyInfo prop = GetPropertyInfo(instance, propertyName);
-        if (prop == null)
+        PropertyInfo propInfo = GetPropertyInfo(ref instance, propertyName);
+        if (propInfo == null)
             throw new ArgumentException($"Property '{propertyName}' not found in type {instance.GetType().FullName}.");
 
-        return prop.GetValue(instance);
+        return propInfo.GetValue(instance);
     }
 
     public static V GetPropertyValue<V, T>(T instance, string propertyName)
@@ -42,16 +30,56 @@ public class ReflexionTools
         return (V)GetPropertyValue(instance, propertyName);
     }
 
-    public static void SetPropertyValue<T>(T instance, string propertyName, T propertyValue)
+    public static void SetPropertyValue(object instance, string propertyName, object propertyValue)
     {
-        var prop = GetPropertyInfo(instance, propertyName);
+        var propInfo = GetPropertyInfo(ref instance, propertyName);
 
-        if (prop == null)
+        if (propInfo == null)
             throw new ArgumentException($"Property '{propertyName}' not found.");
 
-        if (!prop.CanWrite)
+        if (!propInfo.CanWrite)
             throw new InvalidOperationException($"Property '{propertyName}' has no setter.");
 
-        prop.SetValue(instance, propertyValue);
+        propInfo.SetValue(instance, propertyValue);
+    }
+
+    public static PropertyInfo GetPropertyInfo(ref object instance, string propertyName)
+    {
+        var type = instance.GetType();
+        if(propertyName.Contains('.'))
+        {
+            List<string> properties = propertyName.Split('.').ToList();
+            PropertyInfo propInfo = null;
+            while (properties.Count > 0)
+            {
+                string prop = properties[0];
+                propInfo = GetPropertyInfo(type, prop);
+                if (propInfo is not null)
+                {
+                    properties.RemoveAt(0);
+                    if (properties.Count > 0)
+                    {
+                        type = propInfo.PropertyType;
+                        instance = propInfo.GetValue(instance);
+                    }
+                }
+                else 
+                    return propInfo;
+            }
+            return propInfo;
+        }
+        else
+            return GetPropertyInfo(type, propertyName);
+    }
+
+    private static PropertyInfo GetPropertyInfo(Type type, string propertyName)
+    {
+        PropertyInfo prop = type.GetProperty(
+            propertyName,
+            BindingFlags.Instance |
+            BindingFlags.Public |
+            BindingFlags.NonPublic
+        );
+        return prop;
     }
 }

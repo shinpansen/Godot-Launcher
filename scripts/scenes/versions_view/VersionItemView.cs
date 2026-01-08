@@ -14,24 +14,12 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
 {
     private TextureRect _icon => GetNode<TextureRect>("%Icon");
 
-    public override void _Ready()
-    {
-        if(BindingContext.CustomIcon is not null)
-        {
-            var mat = (ShaderMaterial)_icon.Material;
-            mat.SetShaderParameter("background", BindingContext.CustomIcon.Background);
-            mat.SetShaderParameter("gray_scale", BindingContext.CustomIcon.GrayScale);
-            Color color = Color.FromString($"#{BindingContext.CustomIcon.HexColor}", Colors.White);
-            mat.SetShaderParameter("tint_color", color);
-        }
-    }
-
     private void OnButtonLaunchDown()
     {
-        SetPropertyValue(e => e.Version, "666");
-        //SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
-        //Settings settings = UserDataLoader.LoadUserSettings();
-        //if(settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
+        //SetPropertyValue(e => e.Version, "666");
+        SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
+        Settings settings = UserDataLoader.LoadUserSettings();
+        if (settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
     }
 
     private void OnButtonFolderDown()

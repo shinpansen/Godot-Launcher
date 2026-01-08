@@ -32,6 +32,6 @@ public class EngineVersion
     {
         Version = version;
         Path = path;
-        CustomIcon = customIcon;
+        CustomIcon = customIcon ?? new();
     }
 }

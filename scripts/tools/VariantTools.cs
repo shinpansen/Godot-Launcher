@@ -12,6 +12,9 @@ public static class VariantTools
 {
     public static Variant FromCSharpObject(object value)
     {
+        if (value is null)
+            return default;
+
         if (value is Variant v)
             return v;
 

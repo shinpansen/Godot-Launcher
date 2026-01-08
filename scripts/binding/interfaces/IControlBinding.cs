@@ -5,13 +5,13 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GodotLauncher.Scripts.UiBinding;
+namespace GodotLauncher.Scripts.Binding.Interfaces;
 
-public interface IUiControlBinding
+public interface IControlBinding
 {
     void RegisterPropertyChangedEvent(string propertyName, Action<object> action);
     bool HasProperty(string propertyName);
     object GetPropertyValue(string propertyName);
     T GetPropertyValue<T>(string propertyName);
-    void SetPropertyValue(string propertyName, object propertyValue);
+    void SetPropertyValue(string propertyName, object propertyValue, bool disablePropertyChangedEvents = false);
 }

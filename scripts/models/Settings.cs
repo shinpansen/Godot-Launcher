@@ -1,6 +1,6 @@
 using Godot;
 using GodotLauncher.Scripts.Enums;
-using GodotLauncher.Scripts.UiBinding;
+using GodotLauncher.Scripts.Binding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +32,9 @@ public class Settings
 
     [JsonPropertyName("appTheme")]
     public AppTheme AppTheme { get; set; }
+
+    [JsonPropertyName("test")]
+    public string Test { get; set; } = "gloubi";
 
     public Settings()
     {

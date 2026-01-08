@@ -1,7 +1,7 @@
 using Godot;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Scenes;
-using GodotLauncher.Scripts.UiBinding;
+using GodotLauncher.Scripts.Binding;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
-public partial class VersionsView : UiControlDataSource<VersionsConfig>
+public partial class VersionsView : DataSourceBinding<VersionsConfig>
 {
     private Node _versionsHFlowContainer => GetNode("%VersionsHFlowContainer");
     private Button _buttonSortByVersion => GetNode<Button>("%ButtonSortByVersion");
@@ -54,8 +54,6 @@ public partial class VersionsView : UiControlDataSource<VersionsConfig>
         Settings settings = UserDataLoader.LoadUserSettings();
         return LoadVersionConfig(settings.ScanVersionsWhenLauncherStart);
     }
-
-    protected override void SaveDataSource() => UserDataLoader.SaveUserVersions(BindingContext);
 
     private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);
 

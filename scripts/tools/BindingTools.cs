@@ -1,5 +1,4 @@
-using GodotLauncher.Scripts.UiBinding;
-using System;
+using GodotLauncher.Scripts.Binding.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +10,7 @@ public static class BindingTools
 {
     public const string BindingRegex = @"\{([^}]+)\}";
 
-    public static string BindReplacedMatchingValues(string expression, IUiControlBinding binding)
+    public static string BindReplacedMatchingValues(string expression, IControlBinding binding)
     {
         return RegexTools.ReplaceMatchingValues(expression, BindingRegex,
             (name) =>

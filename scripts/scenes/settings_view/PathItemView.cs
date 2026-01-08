@@ -1,7 +1,7 @@
 using Godot;
 using GodotLauncher.Scripts.Models;
-using GodotLauncher.Scripts.UiBinding;
-using GodotLauncher.Scripts.UiBinding.Controls;
+using GodotLauncher.Scripts.Binding;
+using GodotLauncher.Scripts.Binding.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
-public partial class PathItemView : UiControlItem<FileSystemPath>
+public partial class PathItemView : ItemBinding<FileSystemPath>
 {
     private FileDialog _fileDialogChangePath => GetNode<FileDialog>("%FileDialogChangePath");
 

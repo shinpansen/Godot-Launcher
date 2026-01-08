@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_fnoah"]
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_5s58c"]
 [ext_resource type="FontFile" uid="uid://cjd7hnh3v7iip" path="res://assets/fonts/Sans.ttf" id="4_3qa1m"]
-[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/ui_binding/controls/LabelBinding.cs" id="5_0aosf"]
+[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/binding/controls/LabelBinding.cs" id="5_0aosf"]
 [ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="6_pw1pe"]
 [ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="7_bg07e"]
 

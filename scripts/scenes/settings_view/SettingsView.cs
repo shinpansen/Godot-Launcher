@@ -1,5 +1,5 @@
 using GodotLauncher.Scripts.Models;
-using GodotLauncher.Scripts.UiBinding;
+using GodotLauncher.Scripts.Binding;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Collections.Generic;
@@ -12,20 +12,20 @@ using GodotLauncher.Scripts.Scenes.VersionsView;
 
 namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
-public partial class SettingsView : UiControlDataSource<Settings>
+public partial class SettingsView : DataSourceBinding<Settings>
 {
     [Export]
     public VersionsView.VersionsView VersionsView { get; set; }
 
     protected override Settings LoadDataSource() => UserDataLoader.LoadUserSettings();
-    protected override void SaveDataSource() => UserDataLoader.SaveUserSettings(BindingContext);
 
     private FileDialog _fileDialogCustomPaths => GetNode<FileDialog>("%FileDialogCustomPaths");
     private FileDialog _fileDialogProjects => GetNode<FileDialog>("%FileDialogProjects");
 
     private void OnButtonScanEnginesDown()
     {
-        VersionsView?.Refresh();
+        SetPropertyValue(s => s.ScanVersionsWhenLauncherStart, true);
+        //VersionsView?.Refresh();
     }
 
     private void OnButtonScanProjectsDown()
@@ -59,7 +59,7 @@ public partial class SettingsView : UiControlDataSource<Settings>
 
     private void DeleteInstallDirectory(Node node)
     {
-        if (node is UiControlItem<FileSystemPath> item)
+        if (node is ItemBinding<FileSystemPath> item)
         {
             if (BindingContext.CustomInstallsDirectories.Contains(item.BindingContext))
             {
@@ -72,7 +72,7 @@ public partial class SettingsView : UiControlDataSource<Settings>
 
     private void DeleteProjectDirectory(Node node)
     {
-        if (node is UiControlItem<FileSystemPath> item)
+        if (node is ItemBinding<FileSystemPath> item)
         {
             if (BindingContext.ProjectsDirectories.Contains(item.BindingContext))
             {

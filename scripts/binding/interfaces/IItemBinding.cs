@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GodotLauncher.Scripts.UiBinding;
+namespace GodotLauncher.Scripts.Binding.Interfaces;
 
-public interface IUiControlItem
+public interface IItemBinding
 {
     void Init(object model);
-    void Init(object model, IUiControlDataSource dataSource);
+    void Init(object model, IDataSourceBinding dataSource);
 }

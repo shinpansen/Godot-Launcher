@@ -39,6 +39,12 @@ public static class UserDataLoader
         return config;
     }
 
+    public static void SaveConfig<T>(string configFileName, T config)
+    {
+        using var file = FileAccess.Open("user://" + configFileName, FileAccess.ModeFlags.Write);
+        file.StoreString(System.Text.Json.JsonSerializer.Serialize(config));
+    }
+
     private static T LoadConfigFile<T>(string configFileName) where T : new()
     {
         using var file = FileAccess.Open("user://" + configFileName, FileAccess.ModeFlags.Read);
@@ -57,11 +63,5 @@ public static class UserDataLoader
         string content = file.GetAsText();
         T config = System.Text.Json.JsonSerializer.Deserialize<T>(content);
         return config;
-    }
-
-    private static void SaveConfig<T>(string configFileName, T config)
-    {
-        using var file = FileAccess.Open("user://" + configFileName, FileAccess.ModeFlags.Write);
-        file.StoreString(System.Text.Json.JsonSerializer.Serialize(config));
     }
 }

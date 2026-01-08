@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bn7erxe4rg46k"]
 
 [ext_resource type="Script" uid="uid://bpfit5n1x2t3b" path="res://scripts/scenes/settings_view/PathItemView.cs" id="1_0md1h"]
-[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/ui_binding/controls/LabelBinding.cs" id="2_fcdkv"]
+[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/binding/controls/LabelBinding.cs" id="2_fcdkv"]
 [ext_resource type="Texture2D" uid="uid://dkcf2ta8ie6yr" path="res://assets/icons/delete.svg" id="3_5mggv"]
 [ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="3_aqn2m"]
 

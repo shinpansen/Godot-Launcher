@@ -1,4 +1,4 @@
-using GodotLauncher.Scripts.UiBinding;
+using GodotLauncher.Scripts.Binding;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using static Godot.BaseButton;
 
 namespace GodotLauncher.Scripts.Models;
 

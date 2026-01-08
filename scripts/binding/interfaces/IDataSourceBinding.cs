@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GodotLauncher.Scripts.UiBinding;
+namespace GodotLauncher.Scripts.Binding.Interfaces;
 
-public interface IUiControlDataSource
+public interface IDataSourceBinding
 {
     void NotifyItemChanged();
 }

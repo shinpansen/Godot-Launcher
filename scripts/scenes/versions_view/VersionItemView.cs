@@ -1,7 +1,7 @@
 using Godot;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Tools;
-using GodotLauncher.Scripts.UiBinding;
+using GodotLauncher.Scripts.Binding;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
-public partial class VersionItemView : UiControlItem<EngineVersion>
+public partial class VersionItemView : ItemBinding<EngineVersion>
 {
     private TextureRect _icon => GetNode<TextureRect>("%Icon");
 
@@ -28,9 +28,10 @@ public partial class VersionItemView : UiControlItem<EngineVersion>
 
     private void OnButtonLaunchDown()
     {
-        SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
-        Settings settings = UserDataLoader.LoadUserSettings();
-        if(settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
+        SetPropertyValue(e => e.Version, "666");
+        //SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
+        //Settings settings = UserDataLoader.LoadUserSettings();
+        //if(settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
     }
 
     private void OnButtonFolderDown()

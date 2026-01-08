@@ -1,5 +1,5 @@
 using GodotLauncher.Scripts.Enums;
-using GodotLauncher.Scripts.UiBinding;
+using GodotLauncher.Scripts.Binding;
 using System;
 using System.Collections.Generic;
 using System.Linq;

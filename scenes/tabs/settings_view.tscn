@@ -1,12 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://vwf3ok6ugiyt"]
+[gd_scene load_steps=10 format=3 uid="uid://vwf3ok6ugiyt"]
 
 [ext_resource type="Script" uid="uid://dxsaq3lc8j5qn" path="res://scripts/scenes/settings_view/SettingsView.cs" id="1_k8ihc"]
-[ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/ui_binding/controls/BoxContainerBinding.cs" id="1_ttcwv"]
-[ext_resource type="Script" uid="uid://bvk3fpqyt2tij" path="res://scripts/ui_binding/controls/CheckBoxBinding.cs" id="2_k2q7o"]
+[ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="1_ttcwv"]
+[ext_resource type="Script" uid="uid://bvk3fpqyt2tij" path="res://scripts/binding/controls/CheckBoxBinding.cs" id="2_k2q7o"]
 [ext_resource type="PackedScene" uid="uid://bn7erxe4rg46k" path="res://scenes/components/path_item.tscn" id="2_k8ihc"]
+[ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_tnvtb"]
+[ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_e4qki"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_x586d"]
 font_size = 24
+
+[sub_resource type="Resource" id="Resource_o0fbl"]
+script = ExtResource("3_e4qki")
+PropertyPath = &"button_pressed"
+Binding = "ScanVersionsWhenLauncherStart"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2q7o"]
 font_size = 18
@@ -18,7 +26,7 @@ script = ExtResource("1_k8ihc")
 
 [node name="FileDialogCustomPaths" type="FileDialog" parent="."]
 unique_name_in_owner = true
-title = "!choosedir"
+title = "Open a Directory"
 initial_position = 1
 size = Vector2i(900, 500)
 file_mode = 2
@@ -39,6 +47,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
@@ -46,6 +56,8 @@ theme_override_constants/margin_bottom = 48
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 16
 
 [node name="LabelTitle" type="Label" parent="MarginContainer/VBoxContainer"]
@@ -59,9 +71,8 @@ layout_mode = 2
 [node name="CheckScanLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "!scanlaunch"
-script = ExtResource("2_k2q7o")
-BindingPropertyName = "ScanVersionsWhenLauncherStart"
-metadata/_custom_type_script = "uid://bvk3fpqyt2tij"
+script = ExtResource("2_tnvtb")
+PropertiesBindings = Array[Object]([SubResource("Resource_o0fbl")])
 
 [node name="CheckCloseLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

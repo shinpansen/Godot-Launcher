@@ -15,7 +15,7 @@ public abstract partial class ControlBinding<T> : Control, IControlBinding where
 {
     public abstract T BindingContext { get; }
 
-    private HashSet<PropertyChangedEvent> PropertyChangedEvents = [];
+    private List<PropertyChangedEvent> PropertyChangedEvents = [];
 
     public void RegisterPropertyChangedEvent(string propertyName, Action<object> action)
     {

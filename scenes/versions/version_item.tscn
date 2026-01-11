@@ -1,0 +1,164 @@
+[gd_scene load_steps=18 format=3 uid="uid://4pb2jl707dw0"]
+
+[ext_resource type="Script" uid="uid://lwns8w4vi1l4" path="res://scripts/scenes/versions_view/VersionItemView.cs" id="1_aknwd"]
+[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_id7im"]
+[ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_8e7uy"]
+[ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="4_0wlhf"]
+[ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="5_ixad1"]
+[ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="8_bn7am"]
+[ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="9_gg61t"]
+[ext_resource type="PackedScene" uid="uid://4i7icrxsmsje" path="res://scenes/versions/icon_customization.tscn" id="10_id7im"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nxlsj"]
+resource_local_to_scene = true
+shader = ExtResource("2_id7im")
+shader_parameter/background = false
+shader_parameter/gray_scale = false
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_5s58c"]
+script = ExtResource("5_ixad1")
+PropertyPath = &"shader_parameter/gray_scale"
+Binding = "CustomIcon.GrayScale"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_3qa1m"]
+script = ExtResource("5_ixad1")
+PropertyPath = &"shader_parameter/background"
+Binding = "CustomIcon.Background"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_0aosf"]
+script = ExtResource("5_ixad1")
+PropertyPath = &"shader_parameter/tint_color"
+Binding = "CustomIcon.Color"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5s58c"]
+
+[sub_resource type="Resource" id="Resource_0wlhf"]
+script = ExtResource("5_ixad1")
+PropertyPath = &"text"
+Binding = "[font_size=32][b]{Version}[/b][/font_size] [font_size=20]{Type}[/font_size]"
+UseRegularExpression = true
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="LabelSettings" id="LabelSettings_3cyeq"]
+font_color = Color(0.72464263, 0.7246426, 0.7246426, 1)
+
+[sub_resource type="Resource" id="Resource_aknwd"]
+script = ExtResource("5_ixad1")
+PropertyPath = &"text"
+Binding = "FileNameTrim"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_8e7uy"]
+script = ExtResource("5_ixad1")
+PropertyPath = &"tooltip_text"
+Binding = "FileName"
+UseRegularExpression = true
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[node name="VersionItem" type="PanelContainer"]
+script = ExtResource("1_aknwd")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_nxlsj")
+layout_mode = 2
+texture = ExtResource("3_8e7uy")
+expand_mode = 5
+script = ExtResource("4_0wlhf")
+PropertiesBindings = Array[Object]([SubResource("Resource_5s58c"), SubResource("Resource_3qa1m"), SubResource("Resource_0aosf")])
+
+[node name="Spacing" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+theme_override_styles/separator = SubResource("StyleBoxEmpty_5s58c")
+
+[node name="LabelVersion" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "{FileName}"
+mouse_filter = 1
+bbcode_enabled = true
+text = "Version
+"
+fit_content = true
+horizontal_alignment = 1
+script = ExtResource("4_0wlhf")
+PropertiesBindings = Array[Object]([SubResource("Resource_0wlhf")])
+
+[node name="LabelFileName" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "FileName"
+mouse_filter = 1
+text = "FileName"
+label_settings = SubResource("LabelSettings_3cyeq")
+script = ExtResource("4_0wlhf")
+PropertiesBindings = Array[Object]([SubResource("Resource_aknwd"), SubResource("Resource_8e7uy")])
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonLaunch" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "!launch"
+
+[node name="ButtonFolder" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Open folder"
+mouse_default_cursor_shape = 2
+text = "
+"
+icon = ExtResource("8_bn7am")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ButtonEdit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "
+"
+icon = ExtResource("9_gg61t")
+icon_alignment = 1
+expand_icon = true
+
+[node name="WindowEdit" type="Window" parent="."]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "!editicon"
+initial_position = 1
+size = Vector2i(380, 200)
+visible = false
+exclusive = true
+minimize_disabled = true
+maximize_disabled = true
+min_size = Vector2i(380, 200)
+
+[node name="IconCustomization" parent="WindowEdit" instance=ExtResource("10_id7im")]
+unique_name_in_owner = true
+
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonLaunch" to="." method="OnButtonLaunchDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonFolder" to="." method="OnButtonFolderDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonEdit" to="." method="OnButtonEditDown"]
+[connection signal="close_requested" from="WindowEdit" to="." method="HideWindowEdit"]
+[connection signal="Cancel" from="WindowEdit/IconCustomization" to="." method="HideWindowEdit"]
+[connection signal="Save" from="WindowEdit/IconCustomization" to="." method="SaveCustomIcon"]

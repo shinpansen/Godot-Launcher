@@ -1,0 +1,176 @@
+[gd_scene load_steps=15 format=3 uid="uid://4i7icrxsmsje"]
+
+[ext_resource type="Script" uid="uid://idlt6jg58sqc" path="res://scripts/scenes/versions_view/IconCustomization.cs" id="1_jguti"]
+[ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="1_vlwfg"]
+[ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="3_r05an"]
+[ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="4_65y54"]
+[ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="5_65y54"]
+
+[sub_resource type="Shader" id="Shader_vlwfg"]
+code = "shader_type canvas_item;
+
+uniform bool background = true;
+uniform bool gray_scale = false;
+uniform vec4 tint_color : source_color = vec4(1.0);
+
+void fragment() {
+	vec4 input_color = texture(TEXTURE, UV);
+	vec4 output_color = input_color;
+	
+	if (!background && input_color.b < 0.45) {
+		output_color.a = 0.0;
+	}
+	
+	if (gray_scale) {
+		float color_average = (output_color.r + output_color.g + output_color.b) / 3.0;
+		output_color = vec4(color_average, color_average, color_average, output_color.a);
+	}
+	
+	output_color = vec4(output_color.r * tint_color.r,
+		output_color.g * tint_color.g,
+		output_color.b * tint_color.b,
+		output_color.a);
+	
+	COLOR = output_color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jguti"]
+resource_local_to_scene = true
+shader = SubResource("Shader_vlwfg")
+shader_parameter/background = true
+shader_parameter/gray_scale = false
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_65y54"]
+script = ExtResource("4_65y54")
+PropertyPath = &"shader_parameter/background"
+Binding = "Background"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_8ituh"]
+script = ExtResource("4_65y54")
+PropertyPath = &"shader_parameter/gray_scale"
+Binding = "GrayScale"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_8gfip"]
+script = ExtResource("4_65y54")
+PropertyPath = &"shader_parameter/tint_color"
+Binding = "Color"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_nens4"]
+script = ExtResource("4_65y54")
+PropertyPath = &"button_pressed"
+Binding = "Background"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_r05an"]
+script = ExtResource("4_65y54")
+PropertyPath = &"button_pressed"
+Binding = "GrayScale"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_1imnr"]
+script = ExtResource("4_65y54")
+PropertyPath = &"color"
+Binding = "Color"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_15s6o"]
+script = ExtResource("5_65y54")
+SignalPath = "color_changed"
+PropertyPath = &"color"
+HasArgs = true
+
+[node name="IconCustomization" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jguti")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainerMain" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="IconPreview" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainerMain"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_jguti")
+layout_mode = 2
+texture = ExtResource("1_vlwfg")
+script = ExtResource("3_r05an")
+PropertiesBindings = Array[Object]([SubResource("Resource_65y54"), SubResource("Resource_8ituh"), SubResource("Resource_8gfip")])
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainerMain"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CheckBoxBackground" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainerMain/VBoxContainer"]
+layout_mode = 2
+text = "!background"
+script = ExtResource("3_r05an")
+PropertiesBindings = Array[Object]([SubResource("Resource_nens4")])
+
+[node name="CheckBoxGrayscale" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainerMain/VBoxContainer"]
+layout_mode = 2
+text = "!grayscale"
+script = ExtResource("3_r05an")
+PropertiesBindings = Array[Object]([SubResource("Resource_r05an")])
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainerMain/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainerMain/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "!color"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/HBoxContainerMain/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "!color"
+color = Color(1, 1, 1, 1)
+script = ExtResource("3_r05an")
+PropertiesBindings = Array[Object]([SubResource("Resource_1imnr")])
+SignalsBindings = Array[ExtResource("5_65y54")]([SubResource("Resource_15s6o")])
+
+[node name="HBoxContainerButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="ButtonReset" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainerButtons"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "!reset"
+
+[node name="ButtonSave" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainerButtons"]
+layout_mode = 2
+text = "!save"
+
+[node name="ButtonCancel" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainerButtons"]
+layout_mode = 2
+text = "!cancel"
+
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainerButtons/ButtonReset" to="." method="OnButtonResetDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainerButtons/ButtonSave" to="." method="OnButtonSaveDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainerButtons/ButtonCancel" to="." method="OnButtonCancelDown"]

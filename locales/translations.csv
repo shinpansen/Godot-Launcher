@@ -6,8 +6,8 @@ key,en,fr
 !versions,Versions,Versions
 !projects,Projects,Projets
 !settings,Settings,Paramètres
-!customdir,Custom Godot installs locations,Emplacements personnalisés des installations de Godot
 !projectsdir,Godot Projects Locations,Emplacements des projets Godot
+!customdir,Custom Godot installs locations,Emplacements personnalisés des installations de Godot
 !adddir,Add Directory,Ajouter emplacement
 !choosedir,Choose a Directory,Choisir un emplacement
 !defaultdir,Default installs location,Emplacement par défaut
@@ -18,3 +18,10 @@ key,en,fr
 !scannow,Scan Now,Scanner
 !closelaunch,Close App When Launching Godot Version,Fermer l'application au lancement d'un version de Godot
 !theme,Theme,Thème
+!editicon,Edit Icon,Modifier l'icône
+!background,Show Background,Afficher l’arrière-plan
+!grayscale,Gray Scale,Noir et blanc
+!color,Color,Couleur
+!save,Save,Enregistrer
+!cancel,Cancel,Annuler
+!reset,Reset,Restaurer

@@ -20,5 +20,12 @@ public class CustomIcon
     public string HexColor { get; set; } = "ffffff";
 
     [JsonIgnore]
-    public Color Color => Color.FromString($"#{HexColor}", Colors.White);
+    public Color Color
+    {
+        get => Color.FromString($"#{HexColor}", Colors.White);
+        set
+        {
+            HexColor = value.ToHtml();
+        }
+    }
 }

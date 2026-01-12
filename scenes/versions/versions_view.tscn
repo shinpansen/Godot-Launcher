@@ -4,7 +4,7 @@
 [ext_resource type="ButtonGroup" uid="uid://b8x8s7dui74na" path="res://assets/groups/sort_engines_group.tres" id="2_77r2c"]
 [ext_resource type="Texture2D" uid="uid://cdnru6tnjsyo6" path="res://assets/icons/sort-desc.svg" id="3_ifeji"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="4_ngter"]
-[ext_resource type="PackedScene" uid="uid://cpvwa6g4lpnvv" path="res://scenes/versions/version_item_test.tscn" id="5_84s4x"]
+[ext_resource type="PackedScene" uid="uid://cpvwa6g4lpnvv" path="res://scenes/versions/version_item.tscn" id="5_84s4x"]
 
 [node name="VersionsView" type="Control"]
 layout_mode = 3
@@ -82,7 +82,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 48
-theme_override_constants/v_separation = 16
+theme_override_constants/v_separation = 20
 alignment = 1
 last_wrap_alignment = 1
 script = ExtResource("4_ngter")

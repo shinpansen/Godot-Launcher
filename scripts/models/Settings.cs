@@ -27,8 +27,8 @@ public class Settings
     [JsonPropertyName("closeLauncherWhenStartingGodot")]
     public bool CloseLauncherWhenStartingGodot { get; set; } = true;
 
-    [JsonPropertyName("scanVersionsWhenLauncherStart")]
-    public bool ScanVersionsWhenLauncherStart { get; set; }
+    [JsonPropertyName("scanWhenLauncherStart")]
+    public bool ScanWhenLauncherStart { get; set; }
 
     [JsonPropertyName("appTheme")]
     public AppTheme AppTheme { get; set; }

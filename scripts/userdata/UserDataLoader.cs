@@ -13,23 +13,22 @@ public static class UserDataLoader
     public const string VersionsFileName = "versions.json";
 
     public const string SettingsFileName = "settings.json";
+    public const string ProjectsFileName = "projects.json";
 
     public static VersionsConfig LoadUserVersions() => LoadConfigFile<VersionsConfig>(VersionsFileName);
 
+    public static ProjectsConfig LoadUserProjects() => LoadConfigFile<ProjectsConfig>(ProjectsFileName);
+
     public static Settings LoadUserSettings() => LoadConfigFile<Settings>(SettingsFileName);
-
-    public static void SaveUserVersions(VersionsConfig config) => SaveConfig(VersionsFileName, config);
-
-    public static void SaveUserSettings(Settings config) => SaveConfig(SettingsFileName, config);
 
     public static VersionsConfig MergeUserVersionsConfig(VersionsConfig config, List<Models.EngineVersion> enginesScanned)
     {
         List<Models.EngineVersion> enginesUpdated = [];
         foreach (var engine in enginesScanned)
         {
-            var engineFullPath = new System.IO.FileInfo(engine.FileName).FullName;
+            var engineName = new System.IO.FileInfo(engine.FileName).Name;
             var matchedEngine = config.Versions.FirstOrDefault(
-                e => new System.IO.FileInfo(e.FileName).FullName == engineFullPath &&
+                e => new System.IO.FileInfo(e.FileName).Name == engineName &&
                 e.Version == engine.Version);
             if (matchedEngine is null) enginesUpdated.Add(engine);
             else enginesUpdated.Add(matchedEngine);

@@ -81,11 +81,12 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="SettingsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("VersionsView") instance=ExtResource("5_tbgi4")]
+[node name="SettingsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("VersionsView", "ProjectsView") instance=ExtResource("5_tbgi4")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 VersionsView = NodePath("../VersionsView")
+ProjectsView = NodePath("../ProjectsView")
 ConfigFileName = "settings.json"
 metadata/_tab_index = 2
 

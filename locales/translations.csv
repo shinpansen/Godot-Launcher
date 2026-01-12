@@ -16,7 +16,7 @@ key,en,fr
 !excludedir,Excluded files,Emplacements exclus
 !scanlaunch,Always scan when application starts,Toujours scanner au démarrage de l'application
 !scannow,Scan Now,Scanner
-!closelaunch,Close App When Launching Godot Version,Fermer l'application au lancement d'un version de Godot
+!closelaunch,Close App When Launching Godot Version,Fermer l'application au lancement d'une version de Godot
 !theme,Theme,Thème
 !editicon,Edit Icon,Modifier l'icône
 !background,Show Background,Afficher l’arrière-plan

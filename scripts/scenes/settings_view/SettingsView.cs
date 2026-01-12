@@ -17,6 +17,9 @@ public partial class SettingsView : DataSourceBinding<Settings>
     [Export]
     public VersionsView.VersionsView VersionsView { get; set; }
 
+    [Export]
+    public ProjectsView.ProjectsView ProjectsView { get; set; }
+
     protected override Settings LoadDataSource() => UserDataLoader.LoadUserSettings();
 
     private FileDialog _fileDialogCustomPaths => GetNode<FileDialog>("%FileDialogCustomPaths");
@@ -24,13 +27,14 @@ public partial class SettingsView : DataSourceBinding<Settings>
 
     private void OnButtonScanEnginesDown()
     {
-        //SetPropertyValue(s => s.ScanVersionsWhenLauncherStart, true);
+        //Todo - thread
         VersionsView?.Refresh();
     }
 
     private void OnButtonScanProjectsDown()
     {
-        //Todo
+        //Todo - thread
+        ProjectsView?.Refresh();
     }
 
     private void OpenDirSelectionForCustomPaths()

@@ -19,40 +19,22 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
 
     public override void _Ready()
     {
-        //BindingContext.Versions.ForEach(e =>
-        //{
-        //    PackedScene engineItemScene = GD.Load<PackedScene>("res://scenes/components/version_item.tscn");
-        //    var item = engineItemScene.Instantiate<VersionItemView>();
-        //    item.Init(e, this);
-        //    _versionsHFlowContainer.AddChild(item);
-        //});
-
         UpdateSortButtonStateUI();
         UpdateVersionsItemsOrderUI();
-
-        //using var file = FileAccess.Open("user://engines.json", FileAccess.ModeFlags.Write);
-
-        //var item = new EngineItem("4.2.1", @"C:\Program Files (x86)\Godot\Godot_v4.2.1-stable_mono_win64\Godot_v4.2.1-stable_mono_win64.exe");
-        //var item2 = new EngineItem("4.4.1", @"C:\Program Files (x86)\Godot\Godot_v4.4.1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64.exe");
-        //var items = new EnginesList()
-        //{
-        //    Engines = new System.Collections.Generic.List<EngineItem> { item, item2 },
-        //};
-
-        //file.StoreString(System.Text.Json.JsonSerializer.Serialize(items));
     }
 
-    public void Refresh()
+    public int Refresh()
     {
         VersionsConfig config = LoadVersionConfig(true);
         SetPropertyValue(vc => vc.Versions, config.Versions);
         UpdateVersionsItemsOrderUI();
+        return config.Versions.Count;
     }
 
     protected override VersionsConfig LoadDataSource()
     {
         Settings settings = UserDataLoader.LoadUserSettings();
-        return LoadVersionConfig(settings.ScanVersionsWhenLauncherStart);
+        return LoadVersionConfig(settings.ScanWhenLauncherStart);
     }
 
     private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);

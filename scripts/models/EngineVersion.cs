@@ -65,9 +65,10 @@ public class EngineVersion
             
             if (string.IsNullOrEmpty(Type))
                 Type = StringTools.FirstLetterUpper(typeSplit[0]);
-            
-            if (Mono is null && typeSplit.Length > 1) 
+
+            if (Mono is null && typeSplit.Length > 1)
                 Mono = typeSplit[1].ToLower() == "mono";
         }
+        Mono ??= false;
     }
 }

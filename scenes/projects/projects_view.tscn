@@ -1,20 +1,55 @@
-[gd_scene format=3 uid="uid://vfh53vfthquh"]
+[gd_scene load_steps=5 format=3 uid="uid://vfh53vfthquh"]
+
+[ext_resource type="Script" uid="uid://ch7cmi8kx017h" path="res://scripts/scenes/projects_view/ProjectsView.cs" id="1_54ill"]
+[ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="2_7bwcs"]
+[ext_resource type="PackedScene" uid="uid://cmqq4hhbcd5ul" path="res://scenes/projects/project_item.tscn" id="3_qwe1h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sjaho"]
+font_size = 24
 
 [node name="ProjectsView" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -52.0
-offset_top = -11.5
-offset_right = 52.0
-offset_bottom = 11.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Nothing yet..."
+script = ExtResource("1_54ill")
+ConfigFileName = "projects.json"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelTitle" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!projects"
+label_settings = SubResource("LabelSettings_sjaho")
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainerProjects" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+script = ExtResource("2_7bwcs")
+BindingListPropertyName = "Projects"
+ItemScene = ExtResource("3_qwe1h")

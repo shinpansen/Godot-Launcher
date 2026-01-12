@@ -108,7 +108,7 @@ public partial class GenericBinding : Control
             }
 
             Variant currentValue = this.Get(propertyPath);
-            if(!propValue.Equals(currentValue.Obj))
+            if(!propValue?.Equals(currentValue.Obj) ?? true)
                 this.Set(propertyPath, VariantTools.FromCSharpObject(propValue));
         }
     }

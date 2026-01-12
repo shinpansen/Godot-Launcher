@@ -9,16 +9,16 @@
 [sub_resource type="LabelSettings" id="LabelSettings_x586d"]
 font_size = 24
 
-[sub_resource type="Resource" id="Resource_o0fbl"]
-script = ExtResource("3_e4qki")
-PropertyPath = &"button_pressed"
-Binding = "ScanVersionsWhenLauncherStart"
-metadata/_custom_type_script = "uid://bah30u8bgkskc"
-
 [sub_resource type="Resource" id="Resource_0h3rk"]
 script = ExtResource("3_e4qki")
 PropertyPath = &"button_pressed"
 Binding = "CloseLauncherWhenStartingGodot"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_o0fbl"]
+script = ExtResource("3_e4qki")
+PropertyPath = &"button_pressed"
+Binding = "ScanWhenLauncherStart"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2q7o"]
@@ -54,10 +54,10 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 48
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 32
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -73,17 +73,17 @@ label_settings = SubResource("LabelSettings_x586d")
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckScanLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "!scanlaunch"
-script = ExtResource("2_tnvtb")
-PropertiesBindings = Array[Object]([SubResource("Resource_o0fbl")])
-
 [node name="CheckCloseLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "!closelaunch"
 script = ExtResource("2_tnvtb")
 PropertiesBindings = Array[Object]([SubResource("Resource_0h3rk")])
+
+[node name="CheckScanLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!scanlaunch"
+script = ExtResource("2_tnvtb")
+PropertiesBindings = Array[Object]([SubResource("Resource_o0fbl")])
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

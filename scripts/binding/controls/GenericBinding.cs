@@ -71,7 +71,7 @@ public partial class GenericBinding : Control
         if (prop.UseRegularExpression)
         {
             SetRegexPropertyValue(prop);
-            RegexTools.ExtractMatchingValues(prop.Binding, BindingTools.BindingRegex)
+            BindingTools.ExtractBindingValues(prop.Binding)
                 .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) =>
                 {
                     _preventCallbackLoop = MustPreventCallbackLoop(prop.PropertyPath);

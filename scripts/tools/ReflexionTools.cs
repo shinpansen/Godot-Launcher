@@ -16,6 +16,15 @@ public class ReflexionTools
         return propInfo is not null;
     }
 
+    public static Type GetPropertyType(object instance, string propertyName)
+    {
+        PropertyInfo propInfo = GetPropertyInfo(ref instance, propertyName);
+        if (propInfo == null)
+            throw new ArgumentException($"Property '{propertyName}' not found in type {instance.GetType().FullName}.");
+        
+        return propInfo.PropertyType;
+    }
+
     public static object GetPropertyValue(object instance, string propertyName)
     {
         PropertyInfo propInfo = GetPropertyInfo(ref instance, propertyName);

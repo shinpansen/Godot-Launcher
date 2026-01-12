@@ -24,6 +24,12 @@ public class Project
     [JsonPropertyName("cSharp")]
     public bool CSharp { get; set; }
 
+    [JsonPropertyName("launchArguments")]
+    public string LaunchArguments { get; set; } = string.Empty;
+
+    [JsonPropertyName("defaultLaunchVersion")]
+    public EngineVersion DefaultLaunchVersion { get; set; }
+
     [JsonIgnore]
     public string VersionMono => Version + (CSharp ? " Mono" : "");
 

@@ -27,9 +27,9 @@ public partial class CheckBoxBinding : CheckBox
         _textExpression = Text;
         _tooltipExpression = TooltipText;
 
-        RegexTools.ExtractMatchingValues(Text, BindingTools.BindingRegex)
+        BindingTools.ExtractBindingValues(Text)
             .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateTextAndToolTip()));
-        RegexTools.ExtractMatchingValues(TooltipText, BindingTools.BindingRegex)
+        BindingTools.ExtractBindingValues(TooltipText)
             .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) => UpdateTextAndToolTip()));
 
         UpdateTextAndToolTip();

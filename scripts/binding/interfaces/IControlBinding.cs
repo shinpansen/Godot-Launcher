@@ -12,6 +12,7 @@ public interface IControlBinding
     void RegisterPropertyChangedEvent(string propertyName, Action<object> action);
     bool HasProperty(string propertyName);
     object GetPropertyValue(string propertyName);
+    Type GetPropertyType(string propertyName);
     T GetPropertyValue<T>(string propertyName);
     void SetPropertyValue(string propertyName, object propertyValue, bool disablePropertyChangedEvents = false);
 }

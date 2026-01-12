@@ -28,6 +28,11 @@ public abstract partial class ControlBinding<T> : Control, IControlBinding where
         return ReflexionTools.HasProperty(BindingContext, propertyName);
     }
 
+    public Type GetPropertyType(string propertyName)
+    {
+        return ReflexionTools.GetPropertyType(BindingContext, propertyName);
+    }
+
     public object GetPropertyValue(string propertyName)
     {
         return ReflexionTools.GetPropertyValue(BindingContext, propertyName);

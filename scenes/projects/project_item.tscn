@@ -32,7 +32,8 @@ outline_size = 1
 [sub_resource type="Resource" id="Resource_k34h6"]
 script = ExtResource("3_cmbsl")
 PropertyPath = &"text"
-Binding = "VersionMono"
+Binding = "{Version} {CSharp ? \"Mono\" : \"\"}"
+UseRegularExpression = true
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [node name="ProjectItem" type="PanelContainer"]

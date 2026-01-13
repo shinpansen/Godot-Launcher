@@ -17,19 +17,19 @@ public static class BindingTools
 
     public static List<string> ExtractBindingValues(string expression)
     {
-        List<string> bindingValues = [];
+        HashSet<string> bindingValues = [];
         List<string> expressions = RegexTools.ExtractMatchingValues(expression, BindingRegex);
         foreach(var expr in expressions)
         {
-            if(IsTernaryExpression(expr, out Match match))
+            if(IsTernaryExpression(expr))
             {
-                string condition = match.Groups["condition"].Value.Trim();
-                bindingValues.Add(condition);
+                var properties = RoslynTools.ExtractExpressionProperties(expr);
+                foreach (var prop in properties) bindingValues.Add(prop);
             }
             else
                 bindingValues.Add(expr);
         }
-        return bindingValues;
+        return bindingValues.ToList();
     }
 
     public static string BindReplacedMatchingValues(string expression, IControlBinding binding)
@@ -37,7 +37,7 @@ public static class BindingTools
         return RegexTools.ReplaceMatchingValues(expression, BindingRegex,
             (match) =>
             {
-                if (IsTernaryExpression(match, out _))
+                if (IsTernaryExpression(match))
                     return ReplaceTernaryExpression(match, binding);
                 else if (binding.HasProperty(match))
                     return binding.GetPropertyValue<string>(match);
@@ -46,14 +46,26 @@ public static class BindingTools
             });
     }
 
-    public static bool IsTernaryExpression(string expression, out Match match)
+    public static bool IsTernaryExpression(string expression)
     {
-        var regex = new Regex(TernaryOpRegex);
-        match = regex.Match(expression);
-        return match.Success;
+        return expression.Contains('?') && expression.Contains(':');
+        //var regex = new Regex(TernaryOpRegex);
+        //match = regex.Match(expression);
+        //return match.Success;
     }
 
     public static string ReplaceTernaryExpression(string expression, IControlBinding binding)
+    {
+        var properties = RoslynTools.ExtractExpressionProperties(expression);
+        Dictionary<string, object> values = [];
+        foreach (var prop in properties) values.Add(prop, binding.GetPropertyValue(prop));
+        expression = RoslynTools.RewriteExpression(expression, values);
+
+        var result = RoslynTools.EvaluateExpression(expression);
+        return result.ToString();
+    }
+
+    /*public static string ReplaceTernaryExpression(string expression, IControlBinding binding)
     {
         if (IsTernaryExpression(expression, out Match match))
         {
@@ -80,5 +92,5 @@ public static class BindingTools
         }
         else
             return expression;
-    }
+    }*/
 }

@@ -1,27 +1,28 @@
-[gd_scene load_steps=11 format=3 uid="uid://cmqq4hhbcd5ul"]
+[gd_scene load_steps=12 format=3 uid="uid://cmqq4hhbcd5ul"]
 
 [ext_resource type="Script" uid="uid://beg75atsbfi4l" path="res://scripts/scenes/projects_view/ProjectItem.cs" id="1_cmbsl"]
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="1_gvlhy"]
 [ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_q286n"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_cmbsl"]
+[ext_resource type="Script" uid="uid://h50fa3emqr3x" path="res://scripts/binding/ExpressionBinding.cs" id="5_oeljp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_q286n"]
 font_size = 24
 
-[sub_resource type="Resource" id="Resource_oeljp"]
+[sub_resource type="Resource" id="Resource_cmbsl"]
 script = ExtResource("3_cmbsl")
+BindingName = "Name"
 PropertyPath = &"text"
-Binding = "Name"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="LabelSettings" id="LabelSettings_cmbsl"]
 font_size = 14
 font_color = Color(0.7666196, 0.76661956, 0.76661956, 1)
 
-[sub_resource type="Resource" id="Resource_ev8mq"]
+[sub_resource type="Resource" id="Resource_oeljp"]
 script = ExtResource("3_cmbsl")
+BindingName = "Path"
 PropertyPath = &"text"
-Binding = "Path"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="LabelSettings" id="LabelSettings_oeljp"]
@@ -29,12 +30,11 @@ font_size = 18
 font_color = Color(0.7919991, 0.79199916, 0.7919991, 1)
 outline_size = 1
 
-[sub_resource type="Resource" id="Resource_k34h6"]
-script = ExtResource("3_cmbsl")
+[sub_resource type="Resource" id="Resource_ev8mq"]
+script = ExtResource("5_oeljp")
+Expression = "{Version} {CSharp ? \"Mono\" : \"\"}"
 PropertyPath = &"text"
-Binding = "{Version} {CSharp ? \"Mono\" : \"\"}"
-UseRegularExpression = true
-metadata/_custom_type_script = "uid://bah30u8bgkskc"
+metadata/_custom_type_script = "uid://h50fa3emqr3x"
 
 [node name="ProjectItem" type="PanelContainer"]
 offset_right = 986.0
@@ -71,7 +71,7 @@ layout_mode = 2
 text = "Name"
 label_settings = SubResource("LabelSettings_q286n")
 script = ExtResource("2_q286n")
-PropertiesBindings = Array[Object]([SubResource("Resource_oeljp")])
+ResourcesBindings = Array[Object]([SubResource("Resource_cmbsl")])
 
 [node name="LabelProjectPath" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -79,11 +79,11 @@ text = "Path"
 label_settings = SubResource("LabelSettings_cmbsl")
 clip_text = true
 script = ExtResource("2_q286n")
-PropertiesBindings = Array[Object]([SubResource("Resource_ev8mq")])
+ResourcesBindings = Array[Object]([SubResource("Resource_oeljp")])
 
 [node name="LabelProjectVersion" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Version"
 label_settings = SubResource("LabelSettings_oeljp")
 script = ExtResource("2_q286n")
-PropertiesBindings = Array[Object]([SubResource("Resource_k34h6")])
+ResourcesBindings = Array[Object]([SubResource("Resource_ev8mq")])

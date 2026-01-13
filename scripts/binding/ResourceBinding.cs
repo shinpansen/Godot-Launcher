@@ -1,3 +1,5 @@
+
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -8,8 +10,8 @@ using System.Threading.Tasks;
 namespace GodotLauncher.Scripts.Binding;
 
 [GlobalClass]
-public partial class PropertyBinding : ResourceBinding
+public abstract partial class ResourceBinding : Resource
 {
     [Export]
-    public string BindingName { get; set; }
+    public StringName PropertyPath { get; set; }
 }

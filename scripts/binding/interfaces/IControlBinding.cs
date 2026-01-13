@@ -9,6 +9,7 @@ namespace GodotLauncher.Scripts.Binding.Interfaces;
 
 public interface IControlBinding
 {
+    object GetBindingContext();
     void RegisterPropertyChangedEvent(string propertyName, Action<object> action);
     bool HasProperty(string propertyName);
     object GetPropertyValue(string propertyName);

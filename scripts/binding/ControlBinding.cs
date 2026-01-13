@@ -17,6 +17,11 @@ public abstract partial class ControlBinding<T> : Control, IControlBinding where
 
     private List<PropertyChangedEvent> PropertyChangedEvents = [];
 
+    public object GetBindingContext()
+    {
+        return BindingContext;
+    }
+
     public void RegisterPropertyChangedEvent(string propertyName, Action<object> action)
     {
         if (!HasProperty(propertyName)) throw new Exception($"Can't register unknown property '{propertyName}'");

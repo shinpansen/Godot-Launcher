@@ -44,38 +44,38 @@ shader_parameter/tint_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Resource" id="Resource_65y54"]
 script = ExtResource("4_65y54")
+BindingName = "Background"
 PropertyPath = &"shader_parameter/background"
-Binding = "Background"
-metadata/_custom_type_script = "uid://bah30u8bgkskc"
-
-[sub_resource type="Resource" id="Resource_8ituh"]
-script = ExtResource("4_65y54")
-PropertyPath = &"shader_parameter/gray_scale"
-Binding = "GrayScale"
-metadata/_custom_type_script = "uid://bah30u8bgkskc"
-
-[sub_resource type="Resource" id="Resource_8gfip"]
-script = ExtResource("4_65y54")
-PropertyPath = &"shader_parameter/tint_color"
-Binding = "Color"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="Resource" id="Resource_nens4"]
 script = ExtResource("4_65y54")
-PropertyPath = &"button_pressed"
-Binding = "Background"
+BindingName = "GrayScale"
+PropertyPath = &"shader_parameter/gray_scale"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
-[sub_resource type="Resource" id="Resource_r05an"]
+[sub_resource type="Resource" id="Resource_8gfip"]
 script = ExtResource("4_65y54")
+BindingName = "Color"
+PropertyPath = &"shader_parameter/tint_color"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_8ituh"]
+script = ExtResource("4_65y54")
+BindingName = "Background"
 PropertyPath = &"button_pressed"
-Binding = "GrayScale"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="Resource" id="Resource_1imnr"]
 script = ExtResource("4_65y54")
+BindingName = "GrayScale"
+PropertyPath = &"button_pressed"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_7em8d"]
+script = ExtResource("4_65y54")
+BindingName = "Color"
 PropertyPath = &"color"
-Binding = "Color"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="Resource" id="Resource_15s6o"]
@@ -119,7 +119,7 @@ material = SubResource("ShaderMaterial_jguti")
 layout_mode = 2
 texture = ExtResource("1_vlwfg")
 script = ExtResource("3_r05an")
-PropertiesBindings = Array[Object]([SubResource("Resource_65y54"), SubResource("Resource_8ituh"), SubResource("Resource_8gfip")])
+ResourcesBindings = Array[Object]([SubResource("Resource_65y54"), SubResource("Resource_nens4"), SubResource("Resource_8gfip")])
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainerMain"]
 layout_mode = 2
@@ -129,13 +129,13 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "!background"
 script = ExtResource("3_r05an")
-PropertiesBindings = Array[Object]([SubResource("Resource_nens4")])
+ResourcesBindings = Array[Object]([SubResource("Resource_8ituh")])
 
 [node name="CheckBoxGrayscale" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainerMain/VBoxContainer"]
 layout_mode = 2
 text = "!grayscale"
 script = ExtResource("3_r05an")
-PropertiesBindings = Array[Object]([SubResource("Resource_r05an")])
+ResourcesBindings = Array[Object]([SubResource("Resource_1imnr")])
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainerMain/VBoxContainer"]
 layout_mode = 2
@@ -149,7 +149,7 @@ layout_mode = 2
 text = "!color"
 color = Color(1, 1, 1, 1)
 script = ExtResource("3_r05an")
-PropertiesBindings = Array[Object]([SubResource("Resource_1imnr")])
+ResourcesBindings = Array[Object]([SubResource("Resource_7em8d")])
 SignalsBindings = Array[ExtResource("5_65y54")]([SubResource("Resource_15s6o")])
 
 [node name="HBoxContainerButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]

@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://bn7erxe4rg46k"]
+[gd_scene load_steps=7 format=3 uid="uid://bn7erxe4rg46k"]
 
 [ext_resource type="Script" uid="uid://bpfit5n1x2t3b" path="res://scripts/scenes/settings_view/PathItemView.cs" id="1_0md1h"]
-[ext_resource type="Script" uid="uid://drd1aht24gsbf" path="res://scripts/binding/controls/LabelBinding.cs" id="2_fcdkv"]
+[ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_a0fhy"]
 [ext_resource type="Texture2D" uid="uid://dkcf2ta8ie6yr" path="res://assets/icons/delete.svg" id="3_5mggv"]
 [ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="3_aqn2m"]
+[ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_trext"]
+
+[sub_resource type="Resource" id="Resource_0dsfn"]
+script = ExtResource("3_trext")
+BindingName = "FullName"
+PropertyPath = &"text"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [node name="PathItem" type="PanelContainer"]
 anchors_preset = 15
@@ -35,9 +42,9 @@ theme_override_constants/separation = 8
 [node name="LabelFullName" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "{FullName}"
-script = ExtResource("2_fcdkv")
-metadata/_custom_type_script = "uid://drd1aht24gsbf"
+text = "FullName"
+script = ExtResource("2_a0fhy")
+ResourcesBindings = Array[Object]([SubResource("Resource_0dsfn")])
 
 [node name="ButtonEdit" type="Button" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

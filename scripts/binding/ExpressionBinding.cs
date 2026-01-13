@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace GodotLauncher.Scripts.Binding;
 
 [GlobalClass]
-public partial class PropertyBinding : ResourceBinding
+public partial class ExpressionBinding : ResourceBinding
 {
-    [Export]
-    public string BindingName { get; set; }
+    [Export(PropertyHint.MultilineText)]
+    public string Expression { get; set; }
 }

@@ -16,7 +16,7 @@ public partial class GenericBinding : Control
 {
     [Export]
     [ExportGroup("Binding Override")]
-    public Array<PropertyBinding> PropertiesBindings { get; set; }
+    public Array<ResourceBinding> ResourcesBindings { get; set; }
 
     [Export]
     public Array<SignalBinding> SignalsBindings =
@@ -26,15 +26,14 @@ public partial class GenericBinding : Control
     ];
 
     private IControlBinding _binding;
-    private bool _preventCallbackLoop;
 
     public override void _Ready()
     {
         if (GetOwner() is IControlBinding binding) _binding = binding;
         else return;
 
-        if (PropertiesBindings is null || PropertiesBindings.Count == 0) return;
-        foreach (var prop in PropertiesBindings)
+        if (ResourcesBindings is null || ResourcesBindings.Count == 0) return;
+        foreach (var prop in ResourcesBindings)
         {
             try
             {
@@ -50,42 +49,39 @@ public partial class GenericBinding : Control
 
     public void Refresh()
     {
-        if (PropertiesBindings is null || PropertiesBindings.Count == 0) return;
-        foreach (var prop in PropertiesBindings)
+        if (ResourcesBindings is null || ResourcesBindings.Count == 0) return;
+        foreach (var res in ResourcesBindings)
         {
-            _preventCallbackLoop = MustPreventCallbackLoop(prop.PropertyPath);
-            if (prop.UseRegularExpression)
+            if (res is ExpressionBinding exprBinding)
             {
-                SetRegexPropertyValue(prop);
+                SetRegexPropertyValue(exprBinding);
             }
-            else
+            else if (res is PropertyBinding propBinding)
             {
-                object propValue = _binding.GetPropertyValue(prop.Binding);
-                SetNodePropertyValue(prop.PropertyPath, propValue);
+                object propValue = _binding.GetPropertyValue(propBinding.BindingName);
+                SetNodePropertyValue(res.PropertyPath, propValue);
             }
         }
     }
 
-    private void BindPropertyValue(PropertyBinding prop)
+    private void BindPropertyValue(ResourceBinding resourceBinding)
     {
-        if (prop.UseRegularExpression)
+        if (resourceBinding is ExpressionBinding exprBinding)
         {
-            SetRegexPropertyValue(prop);
-            BindingTools.ExtractBindingValues(prop.Binding)
+            SetRegexPropertyValue(exprBinding);
+            BindingTools.ExtractBindingValues(exprBinding.Expression)
                 .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) =>
                 {
-                    _preventCallbackLoop = MustPreventCallbackLoop(prop.PropertyPath);
-                    SetRegexPropertyValue(prop);
+                    SetRegexPropertyValue(exprBinding);
                 }));
         }
-        else
+        else if (resourceBinding is PropertyBinding propBinding)
         {
-            object propValue = _binding.GetPropertyValue(prop.Binding);
-            SetNodePropertyValue(prop.PropertyPath, propValue);
-            _binding.RegisterPropertyChangedEvent(prop.Binding, (v) =>
+            object propValue = _binding.GetPropertyValue(propBinding.BindingName);
+            SetNodePropertyValue(propBinding.PropertyPath, propValue);
+            _binding.RegisterPropertyChangedEvent(propBinding.BindingName, (v) =>
             {
-                _preventCallbackLoop = MustPreventCallbackLoop(prop.PropertyPath);
-                SetNodePropertyValue(prop.PropertyPath, v); 
+                SetNodePropertyValue(propBinding.PropertyPath, v); 
             });
         }
     }
@@ -113,10 +109,10 @@ public partial class GenericBinding : Control
         }
     }
 
-    private void SetRegexPropertyValue(PropertyBinding prop)
+    private void SetRegexPropertyValue(ExpressionBinding exprBinding)
     {
-        var propValue = BindingTools.BindReplacedMatchingValues(prop.Binding, _binding);
-        this.Set(prop.PropertyPath, VariantTools.FromCSharpObject(propValue));
+        var propValue = BindingTools.BindReplacedMatchingValues(exprBinding.Expression, _binding);
+        this.Set(exprBinding.PropertyPath, VariantTools.FromCSharpObject(propValue));
     }
 
     private void AttachSignals()
@@ -125,8 +121,8 @@ public partial class GenericBinding : Control
         {
             if (!HasSignal(pi.SignalPath)) continue;
 
-            var boundProp = PropertiesBindings.FirstOrDefault(p => p.PropertyPath == pi.PropertyPath);
-            if (boundProp is null) continue;
+            var boundProp = ResourcesBindings.FirstOrDefault(p => p.PropertyPath == pi.PropertyPath);
+            if (boundProp is null || boundProp is not PropertyBinding propBinding) continue;
 
             var propValue = Get(pi.PropertyPath).Obj;
             if (propValue is null) continue;
@@ -135,28 +131,16 @@ public partial class GenericBinding : Control
             {
                 Connect(pi.SignalPath, Callable.From((Variant v) =>
                 {
-                    if(true)//!_preventCallbackLoop)
-                        _binding.SetPropertyValue(boundProp.Binding, Get(pi.PropertyPath).Obj, false);
-                    _preventCallbackLoop = false;
+                    _binding.SetPropertyValue(propBinding.BindingName, Get(pi.PropertyPath).Obj, false);
                 }));
             }
             else
             {
                 Connect(pi.SignalPath, Callable.From(() =>
                 {
-                    if (true)//!_preventCallbackLoop)
-                        _binding.SetPropertyValue(boundProp.Binding, Get(pi.PropertyPath).Obj, false);
-                    _preventCallbackLoop = false;
+                    _binding.SetPropertyValue(propBinding.BindingName, Get(pi.PropertyPath).Obj, false);
                 }));
             }
         }
-    }
-
-    private bool MustPreventCallbackLoop(StringName propertyPath)
-    {
-        var signal = SignalsBindings.FirstOrDefault(s => s.PropertyPath == propertyPath);
-        if (signal is not null && HasSignal(signal.SignalPath))
-            return true;
-        return false;
     }
 }

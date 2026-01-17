@@ -52,28 +52,75 @@ public static class UserDataScanner
 
             string name = config.GetValue("application", "config/name").AsString();
             string path = System.IO.Path.GetDirectoryName(file);
+            DateTime? lastEdit = new FileInfo(file).LastWriteTime;
 
             bool cSharp = false;
             string version = string.Empty;
             var icon = config.GetValue("application", "config/icon", string.Empty).AsString();
             var features4X = config.GetValue("application", "config/features", string.Empty);
-            var config3X = config.GetValue("", "config_version", 0);
+            var config3X2X = config.GetValue("", "config_version", 0);
+            var mono3X2X = config.GetValue("mono", "project/assembly_name", "");
             if (!string.IsNullOrEmpty(features4X.AsString()))
             {
                 cSharp = features4X.AsString().ToLower().Contains("c#");
                 version = features4X.AsStringArray().FirstOrDefault();
             }
-            else if (config3X.AsInt32() > 0)
+            else if (config3X2X.AsInt32() > 0)
             {
-                version = config3X.AsInt32() >= 4 ? "3.x" : "2.x";
-                //cSharp = TODO;
+                version = config3X2X.AsInt32() >= 4 ? "3.X" : "2.X";
+                cSharp = !string.IsNullOrEmpty(mono3X2X.AsString());
             }
             else 
                 version = "1.x";
 
-            projects.Add(new Project(name, path, icon, version, cSharp));
+            projects.Add(new Project(name, path, lastEdit, icon, version, cSharp));
         }
         return projects;
+    }
+
+    public static List<Project> MatchAvailableVersions(List<Project> projects, List<EngineVersion> versions)
+    {
+        List<Project> projectsUpdated = [];
+        foreach (var p in projects)
+        {
+            var projectEngineVersion = new EngineVersion(p.Version, "", "", p.CSharp);
+            var versionsMatched = versions.Where(v => MatchVersionForProject(projectEngineVersion, v));
+            p.AvailableVersions = versionsMatched.ToList() ?? [];
+
+            if (versionsMatched.Any())
+            {
+                //TODO - Algorithm to search for best godot version
+                var versionsSorted = GodotVersionType.SortBestToWorst(versionsMatched.Select(v => v.Type));
+                var v = versionsMatched.First(v => v.Type == versionsSorted.First());
+                p.OptimalLaunchVersion = new EngineVersion(v.Version, v.Path, v.Type, v.Mono, v.CustomIcon);
+            }
+            if (p.DefaultLaunchVersion is not null && !File.Exists(p.DefaultLaunchVersion.Path))
+                p.DefaultLaunchVersion = null;
+
+            projectsUpdated.Add(p);
+        }
+        return projectsUpdated;
+    }
+
+    private static bool MatchVersionForProject(
+        EngineVersion projectEngineVersion,
+        EngineVersion engineVersionTested)
+    {
+        var projectVersion = new Version(projectEngineVersion.Version.Replace("X", "0"));
+        var versionTested = new Version(engineVersionTested.Version);
+
+        bool versionOk;
+        if (projectVersion.Major >= 4)
+        {
+            versionOk = projectVersion.Major == versionTested.Major &&
+                projectVersion.Minor == versionTested.Minor;
+        }
+        else
+            versionOk = projectVersion.Major == versionTested.Major;
+
+        if (!versionOk) return false;
+        else if (projectEngineVersion.Mono == true) return engineVersionTested.Mono == true;
+        return true;
     }
 
     private static HashSet<string> ScanFiles(List<FileSystemPath> paths, string extension)

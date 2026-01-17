@@ -52,37 +52,53 @@ public partial class GenericBinding : Control
         if (ResourcesBindings is null || ResourcesBindings.Count == 0) return;
         foreach (var res in ResourcesBindings)
         {
-            if (res is ExpressionBinding exprBinding)
-            {
-                SetRegexPropertyValue(exprBinding);
-            }
-            else if (res is PropertyBinding propBinding)
+            if (res is PropertyBinding propBinding)
             {
                 object propValue = _binding.GetPropertyValue(propBinding.BindingName);
                 SetNodePropertyValue(res.PropertyPath, propValue);
+            }
+            if (res is ExpressionBinding exprBinding)
+            {
+                SetExpressionPropertyValue(exprBinding);
+            }
+            else if (res is MultiExpressionBinding multiExprBinding)
+            {
+                SetMultiExpressionPropertyValue(multiExprBinding);
             }
         }
     }
 
     private void BindPropertyValue(ResourceBinding resourceBinding)
     {
-        if (resourceBinding is ExpressionBinding exprBinding)
-        {
-            SetRegexPropertyValue(exprBinding);
-            BindingTools.ExtractBindingValues(exprBinding.Expression)
-                .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) =>
-                {
-                    SetRegexPropertyValue(exprBinding);
-                }));
-        }
-        else if (resourceBinding is PropertyBinding propBinding)
+        if (resourceBinding is PropertyBinding propBinding)
         {
             object propValue = _binding.GetPropertyValue(propBinding.BindingName);
             SetNodePropertyValue(propBinding.PropertyPath, propValue);
             _binding.RegisterPropertyChangedEvent(propBinding.BindingName, (v) =>
             {
-                SetNodePropertyValue(propBinding.PropertyPath, v); 
+                SetNodePropertyValue(propBinding.PropertyPath, v);
             });
+        }
+        else if (resourceBinding is ExpressionBinding exprBinding)
+        {
+            SetExpressionPropertyValue(exprBinding);
+            var properties = RoslynTools.ExtractExpressionProperties(exprBinding.Expression);
+            foreach (var prop in properties)
+            {
+                _binding.RegisterPropertyChangedEvent(prop, (v) =>
+                {
+                    SetExpressionPropertyValue(exprBinding);
+                });
+            }
+        }
+        else if (resourceBinding is MultiExpressionBinding multiExprBinding)
+        {
+            SetMultiExpressionPropertyValue(multiExprBinding);
+            BindingTools.ExtractBindingValues(multiExprBinding.Expression)
+                .ForEach(n => _binding.RegisterPropertyChangedEvent(n, (v) =>
+                {
+                    SetMultiExpressionPropertyValue(multiExprBinding);
+                }));
         }
     }
 
@@ -109,10 +125,16 @@ public partial class GenericBinding : Control
         }
     }
 
-    private void SetRegexPropertyValue(ExpressionBinding exprBinding)
+    private void SetExpressionPropertyValue(ExpressionBinding exprBinding)
     {
-        var propValue = BindingTools.BindReplacedMatchingValues(exprBinding.Expression, _binding);
+        object propValue = BindingTools.ReplaceTernaryExpression(exprBinding.Expression, _binding);
         this.Set(exprBinding.PropertyPath, VariantTools.FromCSharpObject(propValue));
+    }
+
+    private void SetMultiExpressionPropertyValue(MultiExpressionBinding multiExprBinding)
+    {
+        object propValue = BindingTools.BindReplacedMatchingValues(multiExprBinding.Expression, _binding);
+        this.Set(multiExprBinding.PropertyPath, VariantTools.FromCSharpObject(propValue));
     }
 
     private void AttachSignals()

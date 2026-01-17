@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://vwf3ok6ugiyt"]
+[gd_scene load_steps=11 format=3 uid="uid://vwf3ok6ugiyt"]
 
 [ext_resource type="Script" uid="uid://dxsaq3lc8j5qn" path="res://scripts/scenes/settings_view/SettingsView.cs" id="1_k8ihc"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="1_ttcwv"]
@@ -12,6 +12,12 @@ font_size = 24
 [sub_resource type="Resource" id="Resource_0h3rk"]
 script = ExtResource("3_e4qki")
 BindingName = "CloseLauncherWhenStartingGodot"
+PropertyPath = &"button_pressed"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_ncq3x"]
+script = ExtResource("3_e4qki")
+BindingName = "CloseLauncherWhenStartingProject"
 PropertyPath = &"button_pressed"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
@@ -73,11 +79,17 @@ label_settings = SubResource("LabelSettings_x586d")
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckCloseLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+[node name="CheckCloseLaunchGodot" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "!closelaunch"
 script = ExtResource("2_tnvtb")
 ResourcesBindings = Array[Object]([SubResource("Resource_0h3rk")])
+
+[node name="CheckCloseLaunchProject" type="CheckBox" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "!closelaunchp"
+script = ExtResource("2_tnvtb")
+ResourcesBindings = Array[Object]([SubResource("Resource_ncq3x")])
 
 [node name="CheckScanLaunch" type="CheckBox" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

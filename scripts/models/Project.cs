@@ -1,3 +1,4 @@
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ public class Project
     [JsonPropertyName("path")]
     public string Path { get; set; }
 
+    [JsonPropertyName("lastEdit")]
+    public DateTime? LastEdit { get; set; }
+
     [JsonPropertyName("iconPath")]
     public string IconPath { get; set; }
 
@@ -31,16 +35,26 @@ public class Project
     public EngineVersion DefaultLaunchVersion { get; set; }
 
     [JsonIgnore]
-    public string VersionMono => Version + (CSharp ? " Mono" : "");
+    public EngineVersion OptimalLaunchVersion { get; set; }
+
+    [JsonIgnore]
+    public List<EngineVersion> AvailableVersions { get; set; } = [];
+
+    [JsonIgnore]
+    public EngineVersion LaunchVersion => DefaultLaunchVersion ?? OptimalLaunchVersion;
+
+    [JsonIgnore]
+    public bool CanEdit => OptimalLaunchVersion != null;
 
     public Project()
     {
     }
 
-    public Project(string name, string path, string iconPath, string version, bool cSharp)
+    public Project(string name, string path, DateTime? lastEdit, string iconPath, string version, bool cSharp)
     {
         Name = name;
         Path = path;
+        LastEdit = lastEdit;
         IconPath = iconPath;
         Version = version;
         CSharp = cSharp;

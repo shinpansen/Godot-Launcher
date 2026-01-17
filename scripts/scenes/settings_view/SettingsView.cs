@@ -28,7 +28,8 @@ public partial class SettingsView : DataSourceBinding<Settings>
     private void OnButtonScanEnginesDown()
     {
         //Todo - thread
-        VersionsView?.Refresh();
+        VersionsConfig versionsConfig = VersionsView?.Refresh();
+        ProjectsView?.RefreshProjectsVersions(versionsConfig.Versions);
     }
 
     private void OnButtonScanProjectsDown()
@@ -63,27 +64,25 @@ public partial class SettingsView : DataSourceBinding<Settings>
 
     private void DeleteInstallDirectory(Node node)
     {
-        if (node is ItemBinding<FileSystemPath> item)
+        if (node is not ItemBinding<FileSystemPath> item) return;
+
+        if (BindingContext.CustomInstallsDirectories.Contains(item.BindingContext))
         {
-            if (BindingContext.CustomInstallsDirectories.Contains(item.BindingContext))
-            {
-                var paths = BindingContext.CustomInstallsDirectories;
-                paths.Remove(item.BindingContext);
-                SetPropertyValue(s => s.CustomInstallsDirectories, paths);
-            }
+            var paths = BindingContext.CustomInstallsDirectories;
+            paths.Remove(item.BindingContext);
+            SetPropertyValue(s => s.CustomInstallsDirectories, paths);
         }
     }
 
     private void DeleteProjectDirectory(Node node)
     {
-        if (node is ItemBinding<FileSystemPath> item)
+        if (node is not ItemBinding<FileSystemPath> item) return;
+
+        if (BindingContext.ProjectsDirectories.Contains(item.BindingContext))
         {
-            if (BindingContext.ProjectsDirectories.Contains(item.BindingContext))
-            {
-                var paths = BindingContext.ProjectsDirectories;
-                paths.Remove(item.BindingContext);
-                SetPropertyValue(s => s.ProjectsDirectories, paths);
-            }
+            var paths = BindingContext.ProjectsDirectories;
+            paths.Remove(item.BindingContext);
+            SetPropertyValue(s => s.ProjectsDirectories, paths);
         }
     }
 }

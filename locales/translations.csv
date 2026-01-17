@@ -2,6 +2,7 @@ key,en,fr
 !launch,Launch,Lancer
 !version,Version,Version
 !name,Name,Nom
+!filename,File Name,Nom Fichier
 !sortby,Sort By,Trier par
 !versions,Versions,Versions
 !projects,Projects,Projets
@@ -17,6 +18,7 @@ key,en,fr
 !scanlaunch,Always scan when application starts,Toujours scanner au démarrage de l'application
 !scannow,Scan Now,Scanner
 !closelaunch,Close App When Launching Godot Version,Fermer l'application au lancement d'une version de Godot
+!closelaunchp,Close App When Opening A Project,Fermer l'application à l'ouverture d'un projet
 !theme,Theme,Thème
 !editicon,Edit Icon,Modifier l'icône
 !background,Show Background,Afficher l’arrière-plan
@@ -25,3 +27,12 @@ key,en,fr
 !save,Save,Enregistrer
 !cancel,Cancel,Annuler
 !reset,Reset,Restaurer
+!edit,Edit,Editer
+!editp,Edit Project,Editer le projet
+!projectsettings,Project Launch Settings,Options de lancement du projet
+!args,Launch arguments,Arguments de lancement
+!launchversion,Launch Engine,Moteur de lancement
+!required,Required,Requise
+!unknown,Unknown,Inconnu
+!lastedit,Last Edit,Dernière Modif
+!search,Search,Rechercher

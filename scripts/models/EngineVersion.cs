@@ -1,4 +1,3 @@
-using GodotLauncher.Scripts.Binding;
 using GodotLauncher.Scripts.Tools;
 using System;
 using System.Collections.Generic;
@@ -6,8 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using static Godot.BaseButton;
 
 namespace GodotLauncher.Scripts.Models;
 
@@ -62,7 +59,7 @@ public class EngineVersion
         {
             string typeFull = fileSplit[1];
             string[] typeSplit = typeFull.Split('_');
-            
+
             if (string.IsNullOrEmpty(Type))
                 Type = StringTools.FirstLetterUpper(typeSplit[0]);
 
@@ -70,5 +67,7 @@ public class EngineVersion
                 Mono = typeSplit[1].ToLower() == "mono";
         }
         Mono ??= false;
+
+        if (string.IsNullOrEmpty(Type)) Type = "???";
     }
 }

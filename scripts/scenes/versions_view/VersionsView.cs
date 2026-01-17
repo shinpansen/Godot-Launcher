@@ -1,34 +1,40 @@
 using Godot;
+using GodotLauncher.Scripts.Binding;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Scenes;
-using GodotLauncher.Scripts.Binding;
+using GodotLauncher.Scripts.Scenes.Components;
 using GodotLauncher.Scripts.UserData;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using static Godot.VisualShaderNode;
 
 namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
 public partial class VersionsView : DataSourceBinding<VersionsConfig>
 {
     private Node _versionsHFlowContainer => GetNode("%VersionsHFlowContainer");
-    private Button _buttonSortByVersion => GetNode<Button>("%ButtonSortByVersion");
-    private Button _buttonSortByName => GetNode<Button>("%ButtonSortByName");
+    private ButtonSort _buttonSortByVersion => GetNode<ButtonSort>("%ButtonSortByVersion");
+    private ButtonSort _buttonSortByFileName => GetNode<ButtonSort>("%ButtonSortByFileName");
     private Texture2D _sortAscTexture = GD.Load<Texture2D>("res://assets/icons/sort-asc.svg");
     private Texture2D _sortDescTexture = GD.Load<Texture2D>("res://assets/icons/sort-desc.svg");
 
     public override void _Ready()
     {
-        UpdateSortButtonStateUI();
-        UpdateVersionsItemsOrderUI();
+        _buttonSortByVersion.ButtonPressed = BindingContext.SortType == Enums.EngineSortType.Version;
+        _buttonSortByVersion.SortOrder = BindingContext.SortOrder;
+        _buttonSortByFileName.ButtonPressed = BindingContext.SortType == Enums.EngineSortType.FileName;
+        _buttonSortByFileName.SortOrder = BindingContext.SortOrder;
+
+        RefreshVersionsItemsOrder();
     }
 
-    public int Refresh()
+    public VersionsConfig Refresh()
     {
         VersionsConfig config = LoadVersionConfig(true);
         SetPropertyValue(vc => vc.Versions, config.Versions);
-        UpdateVersionsItemsOrderUI();
-        return config.Versions.Count;
+        RefreshVersionsItemsOrder();
+        return config;
     }
 
     protected override VersionsConfig LoadDataSource()
@@ -37,13 +43,8 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
         return LoadVersionConfig(settings.ScanWhenLauncherStart);
     }
 
-    private void OnButtonSortByNameDown() => SortContext(Enums.EngineSortType.Name);
-
-    private void OnButtonSortByVersionDown() => SortContext(Enums.EngineSortType.Version);
-
     private VersionsConfig LoadVersionConfig(bool forceScan)
     {
-        Settings settings = UserDataLoader.LoadUserSettings();
         VersionsConfig config = UserDataLoader.LoadUserVersions();
         if (forceScan)
         {
@@ -53,68 +54,40 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
         return config;
     }
 
-    private void UpdateSortButtonStateUI()
+    private void SortChanged(Node node)
     {
-        _buttonSortByName.Icon = null;
-        _buttonSortByVersion.Icon = null;
+        if (node is not ButtonSort bs) return;
 
-        switch (BindingContext.SortType)
-        {
-            case Enums.EngineSortType.Name:
-                _buttonSortByName.ButtonPressed = true;
-                UpdateButtonIcon(_buttonSortByName);
-                break;
-            case Enums.EngineSortType.Version:
-            default:
-                _buttonSortByVersion.ButtonPressed = true;
-                UpdateButtonIcon(_buttonSortByVersion);
-                break;
-        }
+        BindingContext.SortType = (Enums.EngineSortType)bs.ButtonIndex;
+        BindingContext.SortOrder = bs.SortOrder;
+        RefreshVersionsItemsOrder();
+        SaveDataSource();
     }
 
-    private void UpdateButtonIcon(Button button)
-    {
-        switch (BindingContext.SortOrder)
-        {
-            case Enums.SortOrder.Asc:
-                button.Icon = _sortAscTexture;
-                break;
-            case Enums.SortOrder.Desc:
-                button.Icon = _sortDescTexture;
-                break;
-        }
-    }
-
-    private void UpdateVersionsItemsOrderUI()
+    private void RefreshVersionsItemsOrder()
     {
         IEnumerable<VersionItemView> children = _versionsHFlowContainer.GetChildren().OfType<VersionItemView>();
 
-        if (BindingContext.SortType == Enums.EngineSortType.Version && BindingContext.SortOrder == Enums.SortOrder.Asc)
-            children = children.OrderBy(c => c.BindingContext.Version);
-        else if (BindingContext.SortType == Enums.EngineSortType.Version && BindingContext.SortOrder == Enums.SortOrder.Desc)
-            children = children.OrderByDescending(c => c.BindingContext.Version);
-        else if (BindingContext.SortType == Enums.EngineSortType.Name && BindingContext.SortOrder == Enums.SortOrder.Asc)
-            children = children.OrderBy(c => c.BindingContext.FileName);
-        else if (BindingContext.SortType == Enums.EngineSortType.Name && BindingContext.SortOrder == Enums.SortOrder.Desc)
-            children = children.OrderByDescending(c => c.BindingContext.FileName);
+        if (BindingContext.SortType == Enums.EngineSortType.Version)
+        {
+            var asc = BindingContext.SortOrder == Enums.SortOrder.Asc;
+            children = (asc
+                    ? children.OrderBy(c => c.BindingContext.Version)
+                    : children.OrderByDescending(c => c.BindingContext.Version))
+                .ThenByDescending(c => GodotVersionType.Parse(c.BindingContext.Type).Kind)
+                .ThenByDescending(c => GodotVersionType.Parse(c.BindingContext.Type).Number)
+                .ThenBy(c => c.BindingContext.Mono == true ? 2 : 1);
+        }
+        else if (BindingContext.SortType == Enums.EngineSortType.FileName)
+        {
+            var asc = BindingContext.SortOrder == Enums.SortOrder.Asc;
+            children = (asc
+                    ? children.OrderBy(c => c.BindingContext.FileName)
+                    : children.OrderByDescending(c => c.BindingContext.FileName))
+                .ThenBy(c => c.BindingContext.Mono == true ? 2 : 1);
+        }
 
         for (int i = 0; i < children.Count(); i++)
             _versionsHFlowContainer.MoveChild(children.ElementAt(i), i);
-    }
-
-    private void SortContext(Enums.EngineSortType sortType)
-    {
-        if (sortType == BindingContext.SortType)
-        {
-            BindingContext.SortOrder = 
-                BindingContext.SortOrder == Enums.SortOrder.Asc ?
-                Enums.SortOrder.Desc : 
-                Enums.SortOrder.Asc;
-        }
-        BindingContext.SortType = sortType;
-
-        UpdateSortButtonStateUI();
-        UpdateVersionsItemsOrderUI();
-        SaveDataSource();
     }
 }

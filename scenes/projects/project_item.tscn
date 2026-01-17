@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://cmqq4hhbcd5ul"]
+[gd_scene load_steps=25 format=3 uid="uid://cmqq4hhbcd5ul"]
 
-[ext_resource type="Script" uid="uid://beg75atsbfi4l" path="res://scripts/scenes/projects_view/ProjectItem.cs" id="1_cmbsl"]
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="1_gvlhy"]
+[ext_resource type="Script" uid="uid://cjhx5ceebvoky" path="res://scripts/scenes/projects_view/ProjectItemView.cs" id="1_t64r6"]
 [ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_q286n"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_cmbsl"]
-[ext_resource type="Script" uid="uid://h50fa3emqr3x" path="res://scripts/binding/ExpressionBinding.cs" id="5_oeljp"]
+[ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="5_ev8mq"]
+[ext_resource type="Script" uid="uid://c6kgsdtxdk385" path="res://scripts/binding/ExpressionBinding.cs" id="6_ev8mq"]
+[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="7_k34h6"]
+[ext_resource type="PackedScene" uid="uid://cbvdgfv5cmmnj" path="res://scenes/projects/launch_project_settings.tscn" id="8_t64r6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_q286n"]
 font_size = 24
@@ -19,27 +22,76 @@ metadata/_custom_type_script = "uid://bah30u8bgkskc"
 font_size = 14
 font_color = Color(0.7666196, 0.76661956, 0.76661956, 1)
 
-[sub_resource type="Resource" id="Resource_oeljp"]
+[sub_resource type="Resource" id="Resource_t64r6"]
 script = ExtResource("3_cmbsl")
 BindingName = "Path"
 PropertyPath = &"text"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
-[sub_resource type="LabelSettings" id="LabelSettings_oeljp"]
-font_size = 18
-font_color = Color(0.7919991, 0.79199916, 0.7919991, 1)
-outline_size = 1
+[sub_resource type="Resource" id="Resource_p4xh5"]
+script = ExtResource("6_ev8mq")
+Expression = "LastEdit ?? \"\""
+PropertyPath = &"text"
+metadata/_custom_type_script = "uid://c6kgsdtxdk385"
+
+[sub_resource type="Resource" id="Resource_pnfux"]
+script = ExtResource("3_cmbsl")
+BindingName = "CanEdit"
+PropertyPath = &"visible"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="LabelSettings" id="LabelSettings_k34h6"]
 
 [sub_resource type="Resource" id="Resource_ev8mq"]
-script = ExtResource("5_oeljp")
-Expression = "{Version} {CSharp ? \"Mono\" : \"\"}"
+script = ExtResource("6_ev8mq")
+Expression = " Version + (CSharp ? \" Mono\" : \"\")"
 PropertyPath = &"text"
-metadata/_custom_type_script = "uid://h50fa3emqr3x"
+metadata/_custom_type_script = "uid://c6kgsdtxdk385"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t64r6"]
+shader = ExtResource("7_k34h6")
+shader_parameter/background = false
+shader_parameter/gray_scale = true
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_t64r6"]
+font_size = 14
+font_color = Color(0.83033526, 0.83033514, 0.83033514, 1)
+
+[sub_resource type="Resource" id="Resource_ficql"]
+script = ExtResource("3_cmbsl")
+BindingName = "LaunchVersion.Type"
+PropertyPath = &"text"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_k34h6"]
+script = ExtResource("3_cmbsl")
+BindingName = "CanEdit"
+PropertyPath = &"visible"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_iyjoj"]
+script = ExtResource("6_ev8mq")
+Expression = "!CanEdit"
+PropertyPath = &"visible"
+metadata/_custom_type_script = "uid://c6kgsdtxdk385"
+
+[sub_resource type="LabelSettings" id="LabelSettings_p4xh5"]
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Resource" id="Resource_csmpr"]
+script = ExtResource("6_ev8mq")
+Expression = " Version + (CSharp ? \" Mono\" : \"\")"
+PropertyPath = &"text"
+metadata/_custom_type_script = "uid://c6kgsdtxdk385"
+
+[sub_resource type="LabelSettings" id="LabelSettings_csmpr"]
+font_color = Color(1, 0, 0, 1)
 
 [node name="ProjectItem" type="PanelContainer"]
 offset_right = 986.0
 offset_bottom = 108.0
-script = ExtResource("1_cmbsl")
+script = ExtResource("1_t64r6")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -79,11 +131,97 @@ text = "Path"
 label_settings = SubResource("LabelSettings_cmbsl")
 clip_text = true
 script = ExtResource("2_q286n")
-ResourcesBindings = Array[Object]([SubResource("Resource_oeljp")])
+ResourcesBindings = Array[Object]([SubResource("Resource_t64r6")])
 
-[node name="LabelProjectVersion" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="LabelProjectLastEdit" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "LastEdit"
+label_settings = SubResource("LabelSettings_cmbsl")
+clip_text = true
+script = ExtResource("2_q286n")
+ResourcesBindings = Array[Object]([SubResource("Resource_p4xh5")])
+SignalsBindings = Array[ExtResource("5_ev8mq")]([])
+
+[node name="VBoxContainerVersion" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_q286n")
+ResourcesBindings = Array[Object]([SubResource("Resource_pnfux")])
+
+[node name="LabelProjectVersion" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainerVersion"]
 layout_mode = 2
 text = "Version"
-label_settings = SubResource("LabelSettings_oeljp")
+label_settings = SubResource("LabelSettings_k34h6")
+horizontal_alignment = 2
 script = ExtResource("2_q286n")
 ResourcesBindings = Array[Object]([SubResource("Resource_ev8mq")])
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainerVersion"]
+layout_mode = 2
+alignment = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer"]
+material = SubResource("ShaderMaterial_t64r6")
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("1_gvlhy")
+expand_mode = 1
+
+[node name="LabelType" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+text = "Type"
+label_settings = SubResource("LabelSettings_t64r6")
+horizontal_alignment = 2
+script = ExtResource("2_q286n")
+ResourcesBindings = Array[Object]([SubResource("Resource_ficql")])
+SignalsBindings = Array[ExtResource("5_ev8mq")]([])
+
+[node name="ButtonEdit" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+tooltip_text = "!editp"
+text = "!edit"
+script = ExtResource("2_q286n")
+ResourcesBindings = Array[Object]([SubResource("Resource_k34h6")])
+
+[node name="HBoxContainerVersionRequired" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_q286n")
+ResourcesBindings = Array[Object]([SubResource("Resource_iyjoj")])
+
+[node name="LabelVersionRequired" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainerVersionRequired"]
+layout_mode = 2
+text = "Version"
+label_settings = SubResource("LabelSettings_p4xh5")
+horizontal_alignment = 2
+script = ExtResource("2_q286n")
+ResourcesBindings = Array[Object]([SubResource("Resource_csmpr")])
+
+[node name="LabelRequired" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainerVersionRequired"]
+layout_mode = 2
+text = "!required"
+label_settings = SubResource("LabelSettings_csmpr")
+
+[node name="WindowEdit" type="Window" parent="."]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "!projectsettings"
+initial_position = 1
+size = Vector2i(420, 240)
+visible = false
+exclusive = true
+minimize_disabled = true
+maximize_disabled = true
+min_size = Vector2i(380, 200)
+
+[node name="LaunchProjectSettings" parent="WindowEdit" instance=ExtResource("8_t64r6")]
+unique_name_in_owner = true
+
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer/LabelType" to="." method="OnLabelTypeGuiInput"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/ButtonEdit" to="." method="OnButtonEditDown"]
+[connection signal="close_requested" from="WindowEdit" to="." method="HideWindowEdit"]
+[connection signal="Cancel" from="WindowEdit/LaunchProjectSettings" to="." method="HideWindowEdit"]
+[connection signal="Save" from="WindowEdit/LaunchProjectSettings" to="." method="SaveLaunchSettings"]

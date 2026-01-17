@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Enums;
 
-public enum EngineSortType
+public enum ProjectSortType
 {
-    Version = 0,
-    FileName = 1,
+    LastEdit = 0,
+    ProjetctName = 1,
 }

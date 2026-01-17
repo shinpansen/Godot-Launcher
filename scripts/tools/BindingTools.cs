@@ -38,7 +38,7 @@ public static class BindingTools
             (match) =>
             {
                 if (IsTernaryExpression(match))
-                    return ReplaceTernaryExpression(match, binding);
+                    return ReplaceTernaryExpression(match, binding).ToString();
                 else if (binding.HasProperty(match))
                     return binding.GetPropertyValue<string>(match);
                 else
@@ -54,7 +54,7 @@ public static class BindingTools
         //return match.Success;
     }
 
-    public static string ReplaceTernaryExpression(string expression, IControlBinding binding)
+    public static object ReplaceTernaryExpression(string expression, IControlBinding binding)
     {
         var properties = RoslynTools.ExtractExpressionProperties(expression);
         Dictionary<string, object> values = [];
@@ -62,7 +62,7 @@ public static class BindingTools
         expression = RoslynTools.RewriteExpression(expression, values);
 
         var result = RoslynTools.EvaluateExpression(expression);
-        return result.ToString();
+        return result;
     }
 
     /*public static string ReplaceTernaryExpression(string expression, IControlBinding binding)

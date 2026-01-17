@@ -23,6 +23,13 @@ class ValueSubstitutionRewriter : CSharpSyntaxRewriter
         if (!_values.TryGetValue(node.Identifier.Text, out var value))
             return base.VisitIdentifierName(node);
 
+        if (value is null)
+        {
+            return SyntaxFactory.LiteralExpression(
+                SyntaxKind.NullLiteralExpression
+            );
+        }
+
         return value switch
         {
             bool b => SyntaxFactory.LiteralExpression(
@@ -32,6 +39,10 @@ class ValueSubstitutionRewriter : CSharpSyntaxRewriter
                 SyntaxKind.NumericLiteralExpression,
                 SyntaxFactory.Literal(i)),
 
+            float d => SyntaxFactory.LiteralExpression(
+                SyntaxKind.NumericLiteralExpression,
+                SyntaxFactory.Literal(d)),
+
             double d => SyntaxFactory.LiteralExpression(
                 SyntaxKind.NumericLiteralExpression,
                 SyntaxFactory.Literal(d)),
@@ -39,6 +50,10 @@ class ValueSubstitutionRewriter : CSharpSyntaxRewriter
             string s => SyntaxFactory.LiteralExpression(
                 SyntaxKind.StringLiteralExpression,
                 SyntaxFactory.Literal(s)),
+
+            DateTime d => SyntaxFactory.LiteralExpression(
+                SyntaxKind.StringLiteralExpression,
+                SyntaxFactory.Literal(d.ToString())),
 
             _ => throw new NotSupportedException(
                 $"Unsupported literal type: {value.GetType()}")

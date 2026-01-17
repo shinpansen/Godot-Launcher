@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Enums;
 
-public enum EngineSortType
+public enum GodotVersionKind
 {
-    Version = 0,
-    FileName = 1,
+    Unknown = -1,
+    Dev = 0,
+    Beta = 1,
+    Rc = 2,
+    Stable = 3,
 }

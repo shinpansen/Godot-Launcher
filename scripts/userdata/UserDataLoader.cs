@@ -29,12 +29,35 @@ public static class UserDataLoader
             var engineName = new System.IO.FileInfo(engine.FileName).Name;
             var matchedEngine = config.Versions.FirstOrDefault(
                 e => new System.IO.FileInfo(e.FileName).Name == engineName &&
-                e.Version == engine.Version);
-            if (matchedEngine is null) enginesUpdated.Add(engine);
-            else enginesUpdated.Add(matchedEngine);
+                e.Version == e.Version);
+
+            if (matchedEngine is not null)
+                engine.CustomIcon = matchedEngine.CustomIcon;
+            enginesUpdated.Add(engine);
         }
 
         config.Versions = enginesUpdated;
+        return config;
+    }
+
+    public static ProjectsConfig MergeUserProjectsConfig(ProjectsConfig config, List<Models.Project> projectsScanned)
+    {
+        List<Models.Project> projectsUpdated = [];
+        foreach (var project in projectsScanned)
+        {
+            var matchedProject = config.Projects.FirstOrDefault(
+                p => p.Name == project.Name && 
+                p.Version == project.Version);
+
+            if (matchedProject is not null)
+            {
+                project.LaunchArguments = matchedProject.LaunchArguments;
+                project.DefaultLaunchVersion = matchedProject.DefaultLaunchVersion;
+            }
+            projectsUpdated.Add(project);
+        }
+
+        config.Projects = projectsUpdated;
         return config;
     }
 

@@ -1,11 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://vfh53vfthquh"]
+[gd_scene load_steps=9 format=3 uid="uid://vfh53vfthquh"]
 
 [ext_resource type="Script" uid="uid://ch7cmi8kx017h" path="res://scripts/scenes/projects_view/ProjectsView.cs" id="1_54ill"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="2_7bwcs"]
+[ext_resource type="ButtonGroup" uid="uid://b8x8s7dui74na" path="res://assets/groups/sort_engines_group.tres" id="2_uruiv"]
+[ext_resource type="Script" uid="uid://rhlo5lnaoj33" path="res://scripts/scenes/components/ButtonSort.cs" id="3_13vqt"]
 [ext_resource type="PackedScene" uid="uid://cmqq4hhbcd5ul" path="res://scenes/projects/project_item.tscn" id="3_qwe1h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sjaho"]
 font_size = 24
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uruiv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13vqt"]
 
 [node name="ProjectsView" type="Control"]
 layout_mode = 3
@@ -38,18 +44,75 @@ theme_override_constants/margin_bottom = 32
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="LabelTitle" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LabelTitle" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "!projects"
 label_settings = SubResource("LabelSettings_sjaho")
 
+[node name="FillHSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_uruiv")
+
+[node name="TextEditSearch" type="TextEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+placeholder_text = "!search"
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_13vqt")
+
+[node name="LabelSortBy" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "!sortby"
+
+[node name="VSeparator" type="VSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonSortByLastEdit" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = ExtResource("2_uruiv")
+text = "!lastedit"
+icon_alignment = 2
+script = ExtResource("3_13vqt")
+metadata/_custom_type_script = "uid://rhlo5lnaoj33"
+
+[node name="ButtonSortByName" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = ExtResource("2_uruiv")
+text = "!name"
+icon_alignment = 2
+script = ExtResource("3_13vqt")
+ButtonIndex = 1
+metadata/_custom_type_script = "uid://rhlo5lnaoj33"
+
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainerProjects" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="ProjectsVBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 script = ExtResource("2_7bwcs")
 BindingListPropertyName = "Projects"
 ItemScene = ExtResource("3_qwe1h")
+
+[connection signal="text_changed" from="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/TextEditSearch" to="." method="TextEditSearchChanged"]
+[connection signal="SortChanged" from="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByLastEdit" to="." method="SortChanged"]
+[connection signal="SortChanged" from="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByName" to="." method="SortChanged"]

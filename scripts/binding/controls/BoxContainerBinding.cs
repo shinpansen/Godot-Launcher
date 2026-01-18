@@ -17,6 +17,9 @@ public partial class BoxContainerBinding : Container
     [Export]
     public PackedScene ItemScene { get; set; }
 
+    [Export]
+    public uint BottomMargin { get; set; } = 0;
+
     private IControlBinding _binding;
 
     public override void _Ready()
@@ -43,6 +46,14 @@ public partial class BoxContainerBinding : Container
                     controlItem.Init(model, dataSource);
 
                 AddChild(instance);
+            }
+
+            if(BottomMargin > 0)
+            {
+                HSeparator hSeparator = new HSeparator();
+                hSeparator.AddThemeStyleboxOverride("separator", new StyleBoxEmpty());
+                hSeparator.AddThemeConstantOverride("separation", (int)BottomMargin);
+                AddChild(hSeparator);
             }
         }
     }

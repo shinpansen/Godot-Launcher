@@ -24,6 +24,10 @@ public static class UserDataScanner
         
         foreach (string file in files)
         {
+            string fileFullName = new FileInfo(file).FullName;
+            if (settings.ExcludedFiles.Any(f => new FileInfo(f.FullName).FullName == fileFullName))
+                continue;
+
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(file);
             if (string.IsNullOrEmpty(info.ProductName) || 
                 !info.ProductName.ToLower().Equals(GodotEngineName)) continue;
@@ -84,14 +88,13 @@ public static class UserDataScanner
         foreach (var p in projects)
         {
             var projectEngineVersion = new EngineVersion(p.Version, "", "", p.CSharp);
-            var versionsMatched = versions.Where(v => MatchVersionForProject(projectEngineVersion, v));
-            p.AvailableVersions = versionsMatched.ToList() ?? [];
+            var versionsMatched = versions.Where(v => MatchVersionForProject(projectEngineVersion, v)).ToList();
+            versionsMatched = SortTools.SortVersionsBestToWorst(versionsMatched);
+            p.AvailableVersions = versionsMatched ?? [];
 
             if (versionsMatched.Any())
             {
-                //TODO - Algorithm to search for best godot version
-                var versionsSorted = GodotVersionType.SortBestToWorst(versionsMatched.Select(v => v.Type));
-                var v = versionsMatched.First(v => v.Type == versionsSorted.First());
+                var v = versionsMatched.First();
                 p.OptimalLaunchVersion = new EngineVersion(v.Version, v.Path, v.Type, v.Mono, v.CustomIcon);
             }
             if (p.DefaultLaunchVersion is not null && !File.Exists(p.DefaultLaunchVersion.Path))

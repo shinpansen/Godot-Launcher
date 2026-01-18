@@ -41,24 +41,17 @@ public partial class LaunchProjectSettings : Node
         int selectedIndex = 0;
 
         //Auto version = optimal
-        string label = FormatVersionLabel(optimalVersion);
+        string label = optimalVersion.FormatedName;
         _optionsVersions.AddItem($"Auto | {label}");
 
         for (int i = 0; i < availableVersions.Count; i++)
         {
-            label = FormatVersionLabel(availableVersions[i]);
-            if (currentVersion is not null && label == FormatVersionLabel(currentVersion)) 
+            label = availableVersions[i].FormatedName;
+            if (currentVersion is not null && label == currentVersion.FormatedName) 
                 selectedIndex = i + 1;
             _optionsVersions.AddItem(label, i + 1);
         }
         _optionsVersions.Select(selectedIndex);
-    }
-
-    private string FormatVersionLabel(EngineVersion version)
-    {
-        string label = $"{version.Version} {version.Type}";
-        label += version.Mono == true ? " (Mono)" : "";
-        return label;
     }
 
     private void OnButtonSaveDown()

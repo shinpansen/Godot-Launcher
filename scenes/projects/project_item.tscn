@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cmqq4hhbcd5ul"]
+[gd_scene load_steps=26 format=3 uid="uid://cmqq4hhbcd5ul"]
 
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="1_gvlhy"]
 [ext_resource type="Script" uid="uid://cjhx5ceebvoky" path="res://scripts/scenes/projects_view/ProjectItemView.cs" id="1_t64r6"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="5_ev8mq"]
 [ext_resource type="Script" uid="uid://c6kgsdtxdk385" path="res://scripts/binding/ExpressionBinding.cs" id="6_ev8mq"]
 [ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="7_k34h6"]
+[ext_resource type="Texture2D" uid="uid://idgpbgoq2akd" path="res://assets/icons/branch.svg" id="8_p4xh5"]
 [ext_resource type="PackedScene" uid="uid://cbvdgfv5cmmnj" path="res://scenes/projects/launch_project_settings.tscn" id="8_t64r6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_q286n"]
@@ -41,6 +42,7 @@ PropertyPath = &"visible"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="LabelSettings" id="LabelSettings_k34h6"]
+font_size = 20
 
 [sub_resource type="Resource" id="Resource_ev8mq"]
 script = ExtResource("6_ev8mq")
@@ -60,7 +62,7 @@ font_color = Color(0.83033526, 0.83033514, 0.83033514, 1)
 
 [sub_resource type="Resource" id="Resource_ficql"]
 script = ExtResource("3_cmbsl")
-BindingName = "LaunchVersion.Type"
+BindingName = "LaunchVersion.FormatedName"
 PropertyPath = &"text"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
@@ -108,7 +110,8 @@ theme_override_constants/separation = 16
 
 [node name="ProjectIcon" type="TextureRect" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(92, 92)
+clip_contents = true
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
 texture = ExtResource("1_gvlhy")
 expand_mode = 2
@@ -135,6 +138,7 @@ ResourcesBindings = Array[Object]([SubResource("Resource_t64r6")])
 
 [node name="LabelProjectLastEdit" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "LastEdit"
 label_settings = SubResource("LabelSettings_cmbsl")
 clip_text = true
@@ -158,20 +162,21 @@ ResourcesBindings = Array[Object]([SubResource("Resource_ev8mq")])
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainerVersion"]
 layout_mode = 2
+tooltip_text = "!editproj"
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 8
 alignment = 2
 
 [node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer"]
 material = SubResource("ShaderMaterial_t64r6")
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
-texture = ExtResource("1_gvlhy")
+texture = ExtResource("8_p4xh5")
 expand_mode = 1
 
 [node name="LabelType" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 1
-mouse_default_cursor_shape = 2
 text = "Type"
 label_settings = SubResource("LabelSettings_t64r6")
 horizontal_alignment = 2
@@ -220,7 +225,7 @@ min_size = Vector2i(380, 200)
 [node name="LaunchProjectSettings" parent="WindowEdit" instance=ExtResource("8_t64r6")]
 unique_name_in_owner = true
 
-[connection signal="gui_input" from="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer/LabelType" to="." method="OnLabelTypeGuiInput"]
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer" to="." method="OnLabelTypeGuiInput"]
 [connection signal="button_down" from="MarginContainer/HBoxContainer/ButtonEdit" to="." method="OnButtonEditDown"]
 [connection signal="close_requested" from="WindowEdit" to="." method="HideWindowEdit"]
 [connection signal="Cancel" from="WindowEdit/LaunchProjectSettings" to="." method="HideWindowEdit"]

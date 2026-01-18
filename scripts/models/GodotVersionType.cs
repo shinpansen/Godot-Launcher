@@ -47,13 +47,4 @@ public readonly struct GodotVersionType
 
         return new GodotVersionType(kind, number);
     }
-
-    public static IEnumerable<string> SortBestToWorst(IEnumerable<string> versions)
-    {
-        return versions
-            .Select(v => (Raw: v, Parsed: Parse(v)))
-            .OrderByDescending(v => v.Parsed.Kind)
-            .ThenByDescending(v => v.Parsed.Number ?? int.MinValue)
-            .Select(v => v.Raw);
-    }
 }

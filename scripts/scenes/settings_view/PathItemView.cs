@@ -12,19 +12,6 @@ namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
 public partial class PathItemView : ItemBinding<FileSystemPath>
 {
-    private FileDialog _fileDialogChangePath => GetNode<FileDialog>("%FileDialogChangePath");
-
-    private void OnButtonEditDown()
-    {
-        _fileDialogChangePath.RootSubfolder = BindingContext.FullName;
-        _fileDialogChangePath.Show();
-    }
-
-    private void OnDirSelected(string dirPath)
-    {
-        SetPropertyValue(s => s.FullName, dirPath);
-    }
-
     private void OnButtonDeleteDown()
     {
         var parent = GetParent<BoxContainerBinding>();
@@ -32,5 +19,10 @@ public partial class PathItemView : ItemBinding<FileSystemPath>
             BoxContainerBinding.SignalName.DeleteItem,
             this
         );
+    }
+
+    private void OnDirSelected(string dirPath)
+    {
+        SetPropertyValue(s => s.FullName, dirPath);
     }
 }

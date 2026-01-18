@@ -10,49 +10,59 @@
 
 [node name="VersionsView" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_pg44v")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MainScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+follow_focus = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MainScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainScrollContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="TextEditSearch" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TextEditSearch" type="TextEdit" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 placeholder_text = "!search"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_84s4x")
 
-[node name="LabelSortBy" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LabelSortBy" type="Label" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "!sortby"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="ButtonSortByVersion" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ButtonSortByVersion" type="Button" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -64,7 +74,7 @@ icon_alignment = 2
 script = ExtResource("3_84s4x")
 metadata/_custom_type_script = "uid://rhlo5lnaoj33"
 
-[node name="ButtonSortByFileName" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ButtonSortByFileName" type="Button" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -77,21 +87,22 @@ script = ExtResource("3_84s4x")
 ButtonIndex = 1
 metadata/_custom_type_script = "uid://rhlo5lnaoj33"
 
-[node name="LabelCustomInstalls" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="LabelCustomInstalls" type="Label" parent="MainScrollContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 text = "Custom location"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+[node name="VersionsScrollContainer" type="ScrollContainer" parent="MainScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+follow_focus = true
 
-[node name="VersionsHFlowContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VersionsHFlowContainer" type="HFlowContainer" parent="MainScrollContainer/MarginContainer/VBoxContainer/VersionsScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -104,5 +115,6 @@ script = ExtResource("4_ngter")
 BindingListPropertyName = "Versions"
 ItemScene = ExtResource("5_84s4x")
 
-[connection signal="SortChanged" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByVersion" to="." method="SortChanged"]
-[connection signal="SortChanged" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByFileName" to="." method="SortChanged"]
+[connection signal="text_changed" from="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/TextEditSearch" to="." method="TextEditSearchChanged"]
+[connection signal="SortChanged" from="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByVersion" to="." method="SortChanged"]
+[connection signal="SortChanged" from="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByFileName" to="." method="SortChanged"]

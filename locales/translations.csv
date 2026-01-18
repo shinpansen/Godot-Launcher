@@ -9,7 +9,9 @@ key,en,fr
 !settings,Settings,Paramètres
 !projectsdir,Godot Projects Locations,Emplacements des projets Godot
 !customdir,Custom Godot installs locations,Emplacements personnalisés des installations de Godot
+!excludefiles,Excluded Files,Fichiers exclus
 !adddir,Add Directory,Ajouter emplacement
+!addfile,Add File,Ajouter fichier
 !choosedir,Choose a Directory,Choisir un emplacement
 !defaultdir,Default installs location,Emplacement par défaut
 !editdir,Change path,Modifier l'emplacement
@@ -30,6 +32,7 @@ key,en,fr
 !edit,Edit,Editer
 !editp,Edit Project,Editer le projet
 !projectsettings,Project Launch Settings,Options de lancement du projet
+!editproj,Edit Project Launch Settings,Modifier les options de lancement du projet
 !args,Launch arguments,Arguments de lancement
 !launchversion,Launch Engine,Moteur de lancement
 !required,Required,Requise

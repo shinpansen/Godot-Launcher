@@ -3,6 +3,7 @@ using GodotLauncher.Scripts.Binding;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Scenes;
 using GodotLauncher.Scripts.Scenes.Components;
+using GodotLauncher.Scripts.Scenes.ProjectsView;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace GodotLauncher.Scripts.Scenes.VersionsView;
 public partial class VersionsView : DataSourceBinding<VersionsConfig>
 {
     private Node _versionsHFlowContainer => GetNode("%VersionsHFlowContainer");
+    private TextEdit _textEditSearch => GetNode<TextEdit>("%TextEditSearch");
     private ButtonSort _buttonSortByVersion => GetNode<ButtonSort>("%ButtonSortByVersion");
     private ButtonSort _buttonSortByFileName => GetNode<ButtonSort>("%ButtonSortByFileName");
     private Texture2D _sortAscTexture = GD.Load<Texture2D>("res://assets/icons/sort-asc.svg");
@@ -54,6 +56,25 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
         return config;
     }
 
+    private void TextEditSearchChanged()
+    {
+        string text = _textEditSearch.Text;
+
+        IEnumerable<VersionItemView> children = _versionsHFlowContainer.GetChildren().OfType<VersionItemView>();
+        foreach (var p in children)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                p.Visible = true;
+                continue;
+            }
+
+            p.Visible = p.BindingContext.Version.Contains(text, StringComparison.CurrentCultureIgnoreCase) ||
+                p.BindingContext.Type.Contains(text, StringComparison.CurrentCultureIgnoreCase) ||
+                p.BindingContext.FileName.Contains(text, StringComparison.CurrentCultureIgnoreCase);
+        }
+    }
+
     private void SortChanged(Node node)
     {
         if (node is not ButtonSort bs) return;
@@ -75,7 +96,7 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
                     ? children.OrderBy(c => c.BindingContext.Version)
                     : children.OrderByDescending(c => c.BindingContext.Version))
                 .ThenByDescending(c => GodotVersionType.Parse(c.BindingContext.Type).Kind)
-                .ThenByDescending(c => GodotVersionType.Parse(c.BindingContext.Type).Number)
+                .ThenByDescending(c => GodotVersionType.Parse(c.BindingContext.Type).Number ?? int.MinValue)
                 .ThenBy(c => c.BindingContext.Mono == true ? 2 : 1);
         }
         else if (BindingContext.SortType == Enums.EngineSortType.FileName)

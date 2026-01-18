@@ -22,8 +22,15 @@ public partial class SettingsView : DataSourceBinding<Settings>
 
     protected override Settings LoadDataSource() => UserDataLoader.LoadUserSettings();
 
+    private ScrollContainer _scrollContainer => GetNode<ScrollContainer>("%ScrollContainer");
     private FileDialog _fileDialogCustomPaths => GetNode<FileDialog>("%FileDialogCustomPaths");
     private FileDialog _fileDialogProjects => GetNode<FileDialog>("%FileDialogProjects");
+    private FileDialog _fileDialogExcludedFiles => GetNode<FileDialog>("%FileDialogExcludedFiles");
+
+    public override void _Ready()
+    {
+        _scrollContainer.ClipContents = true;
+    }
 
     private void OnButtonScanEnginesDown()
     {
@@ -48,18 +55,30 @@ public partial class SettingsView : DataSourceBinding<Settings>
         _fileDialogProjects.Show();
     }
 
+    private void OpenDirSelectionForExcludedFiles()
+    {
+        _fileDialogExcludedFiles.Show();
+    }
+
     private void OnInstallDirSelected(string dirPath)
     {
-        var paths = BindingContext.CustomInstallsDirectories;
-        paths.Add(new FileSystemPath(dirPath));
-        SetPropertyValue(s => s.CustomInstallsDirectories, paths);
+        BindingContext.CustomInstallsDirectories.Add(new FileSystemPath(dirPath));
+        SetPropertyValue(s => s.CustomInstallsDirectories, BindingContext.CustomInstallsDirectories);
+    }
+
+    private void OnExcludedFilesFileSelected(Godot.Collections.Array<string> paths)
+    {
+        foreach (string filePath in paths)
+        {
+            BindingContext.ExcludedFiles.Add(new FileSystemPath(filePath));
+            SetPropertyValue(s => s.ExcludedFiles, BindingContext.ExcludedFiles);
+        }
     }
 
     private void OnProjectDirSelected(string dirPath)
     {
-        var paths = BindingContext.ProjectsDirectories;
-        paths.Add(new FileSystemPath(dirPath));
-        SetPropertyValue(s => s.ProjectsDirectories, paths);
+        BindingContext.ProjectsDirectories.Add(new FileSystemPath(dirPath));
+        SetPropertyValue(s => s.ProjectsDirectories, BindingContext.ProjectsDirectories);
     }
 
     private void DeleteInstallDirectory(Node node)
@@ -71,6 +90,18 @@ public partial class SettingsView : DataSourceBinding<Settings>
             var paths = BindingContext.CustomInstallsDirectories;
             paths.Remove(item.BindingContext);
             SetPropertyValue(s => s.CustomInstallsDirectories, paths);
+        }
+    }
+
+    private void DeleteExcludedFile(Node node)
+    {
+        if (node is not ItemBinding<FileSystemPath> item) return;
+
+        if (BindingContext.ExcludedFiles.Contains(item.BindingContext))
+        {
+            var paths = BindingContext.ExcludedFiles;
+            paths.Remove(item.BindingContext);
+            SetPropertyValue(s => s.ExcludedFiles, paths);
         }
     }
 

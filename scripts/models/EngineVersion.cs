@@ -31,6 +31,9 @@ public class EngineVersion
     [JsonPropertyName("customIcon")]
     public CustomIcon CustomIcon { get; set; }
 
+    [JsonIgnore]
+    public string FormatedName => $"{Version} {Type ?? ""}".TrimEnd() + (Mono == true ? " (Mono)" : "");
+
     public EngineVersion()
     {
     }

@@ -46,6 +46,10 @@ public class Project
     [JsonIgnore]
     public bool CanEdit => OptimalLaunchVersion != null;
 
+    [JsonIgnore]
+    public string VersionCompatible => Version + (CSharp ? " Mono" : "") +
+        (!System.Environment.Is64BitOperatingSystem ? " (x86)" : "");
+
     public Project()
     {
     }

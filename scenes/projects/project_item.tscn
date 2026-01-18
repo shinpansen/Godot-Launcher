@@ -82,10 +82,10 @@ metadata/_custom_type_script = "uid://c6kgsdtxdk385"
 font_color = Color(1, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_csmpr"]
-script = ExtResource("6_ev8mq")
-Expression = " Version + (CSharp ? \" Mono\" : \"\")"
+script = ExtResource("3_cmbsl")
+BindingName = "VersionCompatible"
 PropertyPath = &"text"
-metadata/_custom_type_script = "uid://c6kgsdtxdk385"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="LabelSettings" id="LabelSettings_csmpr"]
 font_color = Color(1, 0, 0, 1)

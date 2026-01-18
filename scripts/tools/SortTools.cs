@@ -15,6 +15,7 @@ public static class SortTools
         return versions.OrderByDescending(c => c.Version)
             .ThenByDescending(c => GodotVersionType.Parse(c.Type).Kind)
             .ThenByDescending(c => GodotVersionType.Parse(c.Type).Number ?? int.MinValue)
+            .ThenByDescending(c => c.ExeBitness)
             .ToList();
     }
 }

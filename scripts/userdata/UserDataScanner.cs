@@ -89,7 +89,13 @@ public static class UserDataScanner
         {
             var projectEngineVersion = new EngineVersion(p.Version, "", "", p.CSharp);
             var versionsMatched = versions.Where(v => MatchVersionForProject(projectEngineVersion, v)).ToList();
-            versionsMatched = SortTools.SortVersionsBestToWorst(versionsMatched);
+
+            if (!System.Environment.Is64BitOperatingSystem)
+                versionsMatched.RemoveAll(v => v.ExeBitness == Enums.ExeBitness.x64);
+
+            if(versionsMatched.Any()) 
+                versionsMatched = SortTools.SortVersionsBestToWorst(versionsMatched);
+
             p.AvailableVersions = versionsMatched ?? [];
 
             if (versionsMatched.Any())
@@ -97,6 +103,7 @@ public static class UserDataScanner
                 var v = versionsMatched.First();
                 p.OptimalLaunchVersion = new EngineVersion(v.Version, v.Path, v.Type, v.Mono, v.CustomIcon);
             }
+
             if (p.DefaultLaunchVersion is not null && !File.Exists(p.DefaultLaunchVersion.Path))
                 p.DefaultLaunchVersion = null;
 

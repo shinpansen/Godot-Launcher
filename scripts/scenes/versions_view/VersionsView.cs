@@ -97,7 +97,8 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
                     : children.OrderByDescending(c => c.BindingContext.Version))
                 .ThenByDescending(c => GodotVersionType.Parse(c.BindingContext.Type).Kind)
                 .ThenByDescending(c => GodotVersionType.Parse(c.BindingContext.Type).Number ?? int.MinValue)
-                .ThenBy(c => c.BindingContext.Mono == true ? 2 : 1);
+                .ThenBy(c => c.BindingContext.Mono == true ? 2 : 1)
+                .ThenByDescending(c => c.BindingContext.ExeBitness);
         }
         else if (BindingContext.SortType == Enums.EngineSortType.FileName)
         {

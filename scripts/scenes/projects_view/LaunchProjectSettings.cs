@@ -42,7 +42,7 @@ public partial class LaunchProjectSettings : Node
 
         //Auto version = optimal
         string label = optimalVersion.FormatedName;
-        _optionsVersions.AddItem($"Auto | {label}");
+        _optionsVersions.AddItem($"Auto: {label}");
 
         for (int i = 0; i < availableVersions.Count; i++)
         {

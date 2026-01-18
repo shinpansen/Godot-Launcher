@@ -19,7 +19,12 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
 
     private void OnButtonLaunchDown()
     {
-        //SetPropertyValue(e => e.Version, "666");
+        if(!System.IO.File.Exists(BindingContext.Path))
+        {
+            ErrorTools.ShowError($"{TranslationServer.Translate("!exenotfound")} {BindingContext.Path}");
+            return;
+        }
+
         SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
         Settings settings = UserDataLoader.LoadUserSettings();
         if (settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
@@ -28,6 +33,11 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
     private void OnButtonFolderDown()
     {
         string directoryPath = System.IO.Path.GetDirectoryName(BindingContext.Path);
+        if (!System.IO.Directory.Exists(directoryPath))
+        {
+            ErrorTools.ShowError($"{TranslationServer.Translate("!dirnotfound")} {directoryPath}");
+            return;
+        }
         SystemTools.OpenFileExplorer(directoryPath);
     }
 

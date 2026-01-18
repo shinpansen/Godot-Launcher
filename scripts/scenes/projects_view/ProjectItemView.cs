@@ -4,6 +4,7 @@ using GodotLauncher.Scripts.Binding.Controls;
 using GodotLauncher.Scripts.Extensions;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Scenes.VersionsView;
+using GodotLauncher.Scripts.Tools;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Diagnostics;
@@ -25,14 +26,19 @@ public partial class ProjectItemView : ItemBinding<Project>
     {
         if (BindingContext.LaunchVersion is null)
         {
-            GD.PrintErr("Can't edit project. No godot version available");
+            ErrorTools.ShowError(TranslationServer.Translate("!canteditp"));
+            return;
+        }
+        else if (!System.IO.File.Exists(BindingContext.LaunchVersion.Path))
+        {
+            ErrorTools.ShowError($"{TranslationServer.Translate("!exenotfound")} {BindingContext.LaunchVersion.Path}");
             return;
         }
 
         LaunchGodotEditor(
-            BindingContext.LaunchVersion.Path,
-            BindingContext.Path,
-            BindingContext.LaunchArguments ?? "");
+                BindingContext.LaunchVersion.Path,
+                BindingContext.Path,
+                BindingContext.LaunchArguments ?? "");
 
         Settings settings = UserDataLoader.LoadUserSettings();
         if (settings.CloseLauncherWhenStartingProject) GetTree().Quit();

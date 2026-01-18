@@ -39,3 +39,7 @@ key,en,fr
 !unknown,Unknown,Inconnu
 !lastedit,Last Edit,Dernière Modif
 !search,Search,Rechercher
+!error,Error,Erreur
+!exenotfound,Can't find Godot engine executable at:,Impossible de trouver l'exécutable Godot au chemin : 
+!dirnotfound,Can't find directory at:,Impossible de trouver le répertoire au chemin :
+!canteditp,Can't edit project. No godot version available,Impossible d'éditer le projet. Aucune version de Godot disponible

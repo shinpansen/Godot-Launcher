@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Godot;
 using GodotLauncher.Scripts.Scenes.VersionsView;
+using GodotLauncher.Scripts.Enums;
 
 namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
@@ -30,6 +31,53 @@ public partial class SettingsView : DataSourceBinding<Settings>
     public override void _Ready()
     {
         _scrollContainer.ClipContents = true;
+        OptionButtonLanguagesItemSelected((long)BindingContext.Language);
+    }
+
+    public void AddExcludedFile(string path)
+    {
+        OnExcludedFilesFileSelected(new Godot.Collections.Array<string>() { path });
+    }
+
+    private void OptionButtonLanguagesItemSelected(long id)
+    {
+        Language language = (Language)id;
+        switch (language)
+        {
+            case Language.Default:
+                string culture = System.Globalization.CultureInfo.InstalledUICulture.Name;
+                TranslationServer.SetLocale(culture.Split('-').First());
+                break;
+            case Language.English:
+                TranslationServer.SetLocale("en");
+                break;
+            case Language.French:
+                TranslationServer.SetLocale("fr");
+                break;
+            case Language.German:
+                TranslationServer.SetLocale("de");
+                break;
+            case Language.Spanish:
+                TranslationServer.SetLocale("es");
+                break;
+            case Language.Italian:
+                TranslationServer.SetLocale("it");
+                break;
+            case Language.Portugese:
+                TranslationServer.SetLocale("pt");
+                break;
+            case Language.Russian:
+                TranslationServer.SetLocale("ru");
+                break;
+            case Language.Japanese:
+                TranslationServer.SetLocale("ja");
+                break;
+            case Language.Chinese:
+                TranslationServer.SetLocale("zh");
+                break;
+            default:
+                break;
+        }
     }
 
     private void OnButtonScanEnginesDown()

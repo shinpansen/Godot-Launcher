@@ -12,6 +12,9 @@ namespace GodotLauncher.Scripts.Models;
 
 public class Settings
 {
+    [JsonPropertyName("language")]
+    public Language Language { get; set; }
+    
     [JsonPropertyName("customInstallsDirectories")]
     public List<FileSystemPath> CustomInstallsDirectories { get; set; } = [];
 
@@ -35,6 +38,16 @@ public class Settings
 
     [JsonPropertyName("appTheme")]
     public AppTheme AppTheme { get; set; }
+
+    [JsonIgnore]
+    public long LanguageId
+    {
+        get => (long)Language;
+        set
+        {
+            Language = (Language)value;
+        }
+    }
 
     public Settings()
     {

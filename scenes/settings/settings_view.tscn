@@ -1,13 +1,26 @@
-[gd_scene load_steps=12 format=3 uid="uid://vwf3ok6ugiyt"]
+[gd_scene load_steps=15 format=3 uid="uid://vwf3ok6ugiyt"]
 
 [ext_resource type="Script" uid="uid://dxsaq3lc8j5qn" path="res://scripts/scenes/settings_view/SettingsView.cs" id="1_k8ihc"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="1_ttcwv"]
 [ext_resource type="PackedScene" uid="uid://bn7erxe4rg46k" path="res://scenes/settings/path_item.tscn" id="2_k8ihc"]
 [ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_tnvtb"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_e4qki"]
+[ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="4_lydhb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_x586d"]
 font_size = 24
+
+[sub_resource type="Resource" id="Resource_i0yjx"]
+script = ExtResource("3_e4qki")
+BindingName = "LanguageId"
+PropertyPath = &"selected"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
+
+[sub_resource type="Resource" id="Resource_q3ixf"]
+script = ExtResource("4_lydhb")
+SignalPath = "item_selected"
+PropertyPath = &"selected"
+HasArgs = true
 
 [sub_resource type="Resource" id="Resource_0h3rk"]
 script = ExtResource("3_e4qki")
@@ -103,6 +116,43 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
+[node name="LanguageHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/LanguageHBoxContainer"]
+layout_mode = 2
+text = "!language"
+
+[node name="OptionButtonLanguages" type="OptionButton" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/LanguageHBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+selected = 0
+item_count = 10
+popup/item_0/text = "!default"
+popup/item_0/id = 0
+popup/item_1/text = "English"
+popup/item_1/id = 1
+popup/item_2/text = "Français"
+popup/item_2/id = 2
+popup/item_3/text = "Deutsch"
+popup/item_3/id = 3
+popup/item_4/text = "Español"
+popup/item_4/id = 4
+popup/item_5/text = "Italiano"
+popup/item_5/id = 5
+popup/item_6/text = "Português"
+popup/item_6/id = 6
+popup/item_7/text = "Русский"
+popup/item_7/id = 7
+popup/item_8/text = "日本語"
+popup/item_8/id = 8
+popup/item_9/text = "中文"
+popup/item_9/id = 9
+script = ExtResource("2_tnvtb")
+ResourcesBindings = Array[Object]([SubResource("Resource_i0yjx")])
+SignalsBindings = Array[ExtResource("4_lydhb")]([SubResource("Resource_q3ixf")])
+
 [node name="CheckCloseLaunchGodot" type="CheckBox" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "!closelaunch"
@@ -197,6 +247,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_0h3rk")
 [connection signal="dir_selected" from="FileDialogCustomPaths" to="." method="OnInstallDirSelected"]
 [connection signal="dir_selected" from="FileDialogProjects" to="." method="OnProjectDirSelected"]
 [connection signal="files_selected" from="FileDialogExcludedFiles" to="." method="OnExcludedFilesFileSelected"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/LanguageHBoxContainer/OptionButtonLanguages" to="." method="OptionButtonLanguagesItemSelected"]
 [connection signal="DeleteItem" from="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainerCustomInstalls" to="." method="DeleteInstallDirectory"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainerCustomInstalls/ButtonAddPath" to="." method="OpenDirSelectionForCustomPaths"]
 [connection signal="DeleteItem" from="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainerExcludedFiles" to="." method="DeleteExcludedFile"]

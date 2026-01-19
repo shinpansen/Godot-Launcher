@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://cmqq4hhbcd5ul"]
+[gd_scene load_steps=27 format=3 uid="uid://cmqq4hhbcd5ul"]
 
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="1_gvlhy"]
 [ext_resource type="Script" uid="uid://cjhx5ceebvoky" path="res://scripts/scenes/projects_view/ProjectItemView.cs" id="1_t64r6"]
 [ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_q286n"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_cmbsl"]
+[ext_resource type="PackedScene" uid="uid://dcyunpbpmnmkf" path="res://scenes/components/button_folder.tscn" id="5_csmpr"]
 [ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="5_ev8mq"]
 [ext_resource type="Script" uid="uid://c6kgsdtxdk385" path="res://scripts/binding/ExpressionBinding.cs" id="6_ev8mq"]
 [ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="7_k34h6"]
@@ -128,8 +129,16 @@ label_settings = SubResource("LabelSettings_q286n")
 script = ExtResource("2_q286n")
 ResourcesBindings = Array[Object]([SubResource("Resource_cmbsl")])
 
-[node name="LabelProjectPath" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="ButtonFolder" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_csmpr")]
+layout_mode = 2
+PathPropertyName = "Path"
+
+[node name="LabelProjectPath" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Path"
 label_settings = SubResource("LabelSettings_cmbsl")
 clip_text = true

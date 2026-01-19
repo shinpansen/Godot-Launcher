@@ -15,10 +15,20 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
 {
     private TextureRect _icon => GetNode<TextureRect>("%Icon");
     private Window _windowEdit => GetNode<Window>("%WindowEdit");
-    private IconCustomization _iconCustomization =>  GetNode<IconCustomization>("%IconCustomization");
+    private IconCustomization _iconCustomization => GetNode<IconCustomization>("%IconCustomization");
+    private MenuButton _menuButton => GetNode<MenuButton>("%MenuButton");
+    private VersionsView _versionsView;
+
+
+    public override void _Ready()
+    {
+        _menuButton.GetPopup().IdPressed += OnMenuButtonIdPressed;
+        if (DataSource is VersionsView v) _versionsView = v;
+    }
 
     private void OnButtonLaunchDown()
     {
+        
         if(!System.IO.File.Exists(BindingContext.Path))
         {
             ErrorTools.ShowError($"{TranslationServer.Translate("!exenotfound")} {BindingContext.Path}");
@@ -30,21 +40,19 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
         if (settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
     }
 
-    private void OnButtonFolderDown()
+    private void OnMenuButtonIdPressed(long id)
     {
-        string directoryPath = System.IO.Path.GetDirectoryName(BindingContext.Path);
-        if (!System.IO.Directory.Exists(directoryPath))
+        switch(id)
         {
-            ErrorTools.ShowError($"{TranslationServer.Translate("!dirnotfound")} {directoryPath}");
-            return;
+            case 0:
+                Visible = false;
+                _versionsView?.SettingsView?.AddExcludedFile(BindingContext.Path);
+                break;
+            case 1:
+                _windowEdit.Show();
+                _iconCustomization.UpdateSettings(BindingContext.CustomIcon);
+                break;
         }
-        SystemTools.OpenFileExplorer(directoryPath);
-    }
-
-    private void OnButtonEditDown()
-    {
-        _windowEdit.Show();
-        _iconCustomization.UpdateSettings(BindingContext.CustomIcon);
     }
 
     private void HideWindowEdit()

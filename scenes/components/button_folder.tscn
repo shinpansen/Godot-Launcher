@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcyunpbpmnmkf"]
+
+[ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="1_5g7bh"]
+[ext_resource type="Script" uid="uid://baxb7ocoso1qn" path="res://scripts/scenes/components/ButtonFolder.cs" id="2_o6aja"]
+
+[node name="ButtonFolder" type="Button"]
+custom_minimum_size = Vector2(22, 22)
+offset_right = 8.0
+offset_bottom = 8.0
+tooltip_text = "!opendir"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+icon = ExtResource("1_5g7bh")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("2_o6aja")
+
+[connection signal="button_down" from="." to="." method="OnButtonOpenFolderDown"]

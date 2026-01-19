@@ -23,6 +23,7 @@ key,en,fr
 !closelaunchp,Close App When Opening A Project,Fermer l'application à l'ouverture d'un projet
 !theme,Theme,Thème
 !editicon,Edit Icon,Modifier l'icône
+!exclude,Exclude,Exclure
 !background,Show Background,Afficher l’arrière-plan
 !grayscale,Gray Scale,Noir et blanc
 !color,Color,Couleur
@@ -43,3 +44,6 @@ key,en,fr
 !exenotfound,Can't find Godot engine executable at:,Impossible de trouver l'exécutable Godot au chemin : 
 !dirnotfound,Can't find directory at:,Impossible de trouver le répertoire au chemin :
 !canteditp,Can't edit project. No godot version available,Impossible d'éditer le projet. Aucune version de Godot disponible
+!opendir,Open Directory,Ouvrir le répertoire
+!language,Language,Langue
+!default,Default,Par défaut

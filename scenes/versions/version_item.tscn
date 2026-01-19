@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cpvwa6g4lpnvv"]
+[gd_scene load_steps=28 format=3 uid="uid://cpvwa6g4lpnvv"]
 
 [ext_resource type="Script" uid="uid://lwns8w4vi1l4" path="res://scripts/scenes/versions_view/VersionItemView.cs" id="1_pxeku"]
 [ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_qpqg1"]
@@ -7,9 +7,11 @@
 [ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="5_0wlhf"]
 [ext_resource type="Script" uid="uid://h50fa3emqr3x" path="res://scripts/binding/MultiExpressionBinding.cs" id="5_ok0gk"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="5_thtxi"]
-[ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="6_dg3h0"]
 [ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="7_c2xhb"]
+[ext_resource type="PackedScene" uid="uid://dcyunpbpmnmkf" path="res://scenes/components/button_folder.tscn" id="8_id7im"]
 [ext_resource type="PackedScene" uid="uid://4i7icrxsmsje" path="res://scenes/versions/icon_customization.tscn" id="8_oxp31"]
+[ext_resource type="Texture2D" uid="uid://p7rbslegpqvp" path="res://assets/icons/three-dots.svg" id="11_8e7uy"]
+[ext_resource type="Texture2D" uid="uid://dv0hfkp2ajfux" path="res://assets/icons/hide.svg" id="12_0wlhf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pxeku"]
 bg_color = Color(1, 1, 1, 1)
@@ -98,6 +100,21 @@ offset_right = 236.0
 offset_bottom = 318.0
 script = ExtResource("1_pxeku")
 
+[node name="WindowEdit" type="Window" parent="."]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "!editicon"
+initial_position = 1
+size = Vector2i(380, 200)
+visible = false
+exclusive = true
+minimize_disabled = true
+maximize_disabled = true
+min_size = Vector2i(380, 200)
+
+[node name="IconCustomization" parent="WindowEdit" instance=ExtResource("8_oxp31")]
+unique_name_in_owner = true
+
 [node name="MonoIcon" type="Panel" parent="."]
 z_index = 100
 layout_mode = 0
@@ -179,11 +196,19 @@ horizontal_alignment = 1
 script = ExtResource("4_qv2eg")
 ResourcesBindings = Array[Object]([SubResource("Resource_aknwd")])
 
-[node name="LabelFileName" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PathHBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonFolder" parent="PanelContainer/MarginContainer/VBoxContainer/PathHBoxContainer" instance=ExtResource("8_id7im")]
+layout_mode = 2
+PathPropertyName = "Path"
+DirectoryPath = false
+
+[node name="LabelFileName" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PathHBoxContainer"]
 layout_mode = 2
 tooltip_text = "FileName"
 mouse_filter = 1
-text = "Godot_v4.4.1-stable_mo..."
+text = "Godot_v4.4.1-stable..."
 label_settings = SubResource("LabelSettings_3cyeq")
 script = ExtResource("4_qv2eg")
 ResourcesBindings = Array[Object]([SubResource("Resource_id7im"), SubResource("Resource_8e7uy")])
@@ -196,50 +221,29 @@ layout_mode = 2
 alignment = 1
 
 [node name="ButtonLaunch" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
+size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 text = "!launch"
 
-[node name="ButtonFolder" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
+[node name="MenuButton" type="MenuButton" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-tooltip_text = "Open folder"
+mouse_filter = 1
 mouse_default_cursor_shape = 2
-text = "
-"
-icon = ExtResource("6_dg3h0")
+icon = ExtResource("11_8e7uy")
 icon_alignment = 1
 expand_icon = true
+item_count = 2
+popup/item_0/text = "!exclude"
+popup/item_0/icon = ExtResource("12_0wlhf")
+popup/item_0/id = 0
+popup/item_1/text = "!editicon"
+popup/item_1/icon = ExtResource("7_c2xhb")
+popup/item_1/id = 1
 
-[node name="ButtonEdit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "
-"
-icon = ExtResource("7_c2xhb")
-icon_alignment = 1
-expand_icon = true
-
-[node name="WindowEdit" type="Window" parent="."]
-unique_name_in_owner = true
-oversampling_override = 1.0
-title = "!editicon"
-initial_position = 1
-size = Vector2i(380, 200)
-visible = false
-exclusive = true
-minimize_disabled = true
-maximize_disabled = true
-min_size = Vector2i(380, 200)
-
-[node name="IconCustomization" parent="WindowEdit" instance=ExtResource("8_oxp31")]
-unique_name_in_owner = true
-
-[connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonLaunch" to="." method="OnButtonLaunchDown"]
-[connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonFolder" to="." method="OnButtonFolderDown"]
-[connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonEdit" to="." method="OnButtonEditDown"]
 [connection signal="close_requested" from="WindowEdit" to="." method="HideWindowEdit"]
 [connection signal="Cancel" from="WindowEdit/IconCustomization" to="." method="HideWindowEdit"]
 [connection signal="Save" from="WindowEdit/IconCustomization" to="." method="SaveCustomIcon"]
+[connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonLaunch" to="." method="OnButtonLaunchDown"]

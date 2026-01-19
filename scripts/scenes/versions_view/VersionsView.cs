@@ -14,6 +14,9 @@ namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
 public partial class VersionsView : DataSourceBinding<VersionsConfig>
 {
+    [Export]
+    public SettingsView.SettingsView SettingsView { get; set; }
+
     private Node _versionsHFlowContainer => GetNode("%VersionsHFlowContainer");
     private TextEdit _textEditSearch => GetNode<TextEdit>("%TextEditSearch");
     private ButtonSort _buttonSortByVersion => GetNode<ButtonSort>("%ButtonSortByVersion");

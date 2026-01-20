@@ -1,0 +1,56 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://cffngnf7n8kt3"]
+
+[ext_resource type="Texture2D" uid="uid://dbl3yvvj03xfy" path="res://assets/textures/button-primary.png" id="1_m5ax1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_30fw4"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xbnij"]
+load_path = "res://.godot/imported/button-primary.png-bc1152d8ae985f9d3df51ca7e70f37a9.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ckjsd"]
+texture = SubResource("CompressedTexture2D_xbnij")
+texture_margin_left = 12.0
+texture_margin_top = 8.0
+texture_margin_right = 12.0
+texture_margin_bottom = 8.0
+expand_margin_left = 12.0
+expand_margin_top = 6.0
+expand_margin_right = 12.0
+expand_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+modulate_color = Color(0.796243, 0.796243, 0.796243, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tv5yy"]
+texture = ExtResource("1_m5ax1")
+texture_margin_left = 12.0
+texture_margin_top = 8.0
+texture_margin_right = 12.0
+texture_margin_bottom = 8.0
+expand_margin_left = 12.0
+expand_margin_top = 6.0
+expand_margin_right = 12.0
+expand_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7ec6w"]
+load_path = "res://.godot/imported/button-primary.png-bc1152d8ae985f9d3df51ca7e70f37a9.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aew8p"]
+texture = SubResource("CompressedTexture2D_7ec6w")
+texture_margin_left = 12.0
+texture_margin_top = 8.0
+texture_margin_right = 12.0
+texture_margin_bottom = 8.0
+expand_margin_left = 12.0
+expand_margin_top = 6.0
+expand_margin_right = 12.0
+expand_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+modulate_color = Color(0.47788018, 0.47788018, 0.47788, 1)
+
+[resource]
+Button/font_sizes/font_size = 20
+Button/styles/focus = SubResource("StyleBoxEmpty_30fw4")
+Button/styles/hover = SubResource("StyleBoxTexture_ckjsd")
+Button/styles/normal = SubResource("StyleBoxTexture_tv5yy")
+Button/styles/pressed = SubResource("StyleBoxTexture_aew8p")

@@ -1,17 +1,20 @@
-[gd_scene load_steps=28 format=3 uid="uid://cpvwa6g4lpnvv"]
+[gd_scene load_steps=33 format=3 uid="uid://cpvwa6g4lpnvv"]
 
 [ext_resource type="Script" uid="uid://lwns8w4vi1l4" path="res://scripts/scenes/versions_view/VersionItemView.cs" id="1_pxeku"]
-[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="2_qpqg1"]
+[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot-icon.gdshader" id="2_qpqg1"]
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="3_r1fuo"]
 [ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="4_qv2eg"]
 [ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="5_0wlhf"]
 [ext_resource type="Script" uid="uid://h50fa3emqr3x" path="res://scripts/binding/MultiExpressionBinding.cs" id="5_ok0gk"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="5_thtxi"]
+[ext_resource type="Theme" uid="uid://ceiwcnc3l2aqa" path="res://assets/themes/panel-card-theme.tres" id="6_rj0vq"]
 [ext_resource type="Texture2D" uid="uid://bm0efu1o85et5" path="res://assets/icons/edit.svg" id="7_c2xhb"]
 [ext_resource type="PackedScene" uid="uid://dcyunpbpmnmkf" path="res://scenes/components/button_folder.tscn" id="8_id7im"]
 [ext_resource type="PackedScene" uid="uid://4i7icrxsmsje" path="res://scenes/versions/icon_customization.tscn" id="8_oxp31"]
 [ext_resource type="Texture2D" uid="uid://p7rbslegpqvp" path="res://assets/icons/three-dots.svg" id="11_8e7uy"]
+[ext_resource type="Theme" uid="uid://cffngnf7n8kt3" path="res://assets/themes/button-primary-theme.tres" id="11_bn7am"]
 [ext_resource type="Texture2D" uid="uid://dv0hfkp2ajfux" path="res://assets/icons/hide.svg" id="12_0wlhf"]
+[ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="12_gg61t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pxeku"]
 bg_color = Color(1, 1, 1, 1)
@@ -92,6 +95,10 @@ BindingName = "FileName"
 PropertyPath = &"tooltip_text"
 metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rj0vq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pmd4p"]
+
 [node name="VersionItem" type="Control"]
 custom_minimum_size = Vector2(236, 366)
 layout_mode = 3
@@ -105,7 +112,7 @@ unique_name_in_owner = true
 oversampling_override = 1.0
 title = "!editicon"
 initial_position = 1
-size = Vector2i(380, 200)
+size = Vector2i(480, 300)
 visible = false
 exclusive = true
 minimize_disabled = true
@@ -119,9 +126,9 @@ unique_name_in_owner = true
 z_index = 100
 layout_mode = 0
 offset_left = 192.0
-offset_top = 198.0
+offset_top = 176.0
 offset_right = 248.0
-offset_bottom = 222.0
+offset_bottom = 200.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_pxeku")
 script = ExtResource("4_qv2eg")
 ResourcesBindings = Array[Object]([SubResource("Resource_0wlhf")])
@@ -139,9 +146,9 @@ vertical_alignment = 1
 z_index = 100
 layout_mode = 0
 offset_left = 16.0
-offset_top = 198.0
+offset_top = 176.0
 offset_right = 72.0
-offset_bottom = 222.0
+offset_bottom = 200.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_aknwd")
 
 [node name="Label" type="Label" parent="BitnessIcon"]
@@ -160,18 +167,26 @@ SignalsBindings = Array[ExtResource("5_0wlhf")]([])
 layout_mode = 0
 offset_right = 264.0
 offset_bottom = 346.0
+theme = ExtResource("6_rj0vq")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 8
+
+[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_nxlsj")
 layout_mode = 2
@@ -215,6 +230,8 @@ ResourcesBindings = Array[Object]([SubResource("Resource_id7im"), SubResource("R
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_rj0vq")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -224,14 +241,21 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+theme = ExtResource("11_bn7am")
 text = "!launch"
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_pmd4p")
 
 [node name="MenuButton" type="MenuButton" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(26, 26)
+custom_minimum_size = Vector2(46, 26)
 layout_mode = 2
 mouse_filter = 1
 mouse_default_cursor_shape = 2
+theme = ExtResource("12_gg61t")
 icon = ExtResource("11_8e7uy")
 icon_alignment = 1
 expand_icon = true

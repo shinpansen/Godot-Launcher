@@ -1,0 +1,20 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://ceiwcnc3l2aqa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_trkvc"]
+bg_color = Color(0, 0, 0, 0.29803923)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.107556246, 0.122661315, 0.2890199, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 16.0
+expand_margin_top = 8.0
+expand_margin_right = 16.0
+expand_margin_bottom = 8.0
+
+[resource]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_trkvc")

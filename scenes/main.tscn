@@ -1,11 +1,35 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtaan3vw2af7j"]
+[gd_scene load_steps=17 format=3 uid="uid://dtaan3vw2af7j"]
 
 [ext_resource type="Script" uid="uid://de0d6qifjfbqi" path="res://scripts/scenes/Main.cs" id="1_jyhfs"]
 [ext_resource type="ButtonGroup" uid="uid://bglyxvlwqd346" path="res://assets/groups/sidebar_group.tres" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://cnf6lma4s33we" path="res://scenes/versions/versions_view.tscn" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://c6eua6gd5165t" path="res://scenes/components/error.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://vfh53vfthquh" path="res://scenes/projects/projects_view.tscn" id="3_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://do0aspq61vp52" path="res://assets/textures/background.png" id="4_o6xl0"]
+[ext_resource type="Theme" uid="uid://b50j7hd8b57cy" path="res://assets/themes/button-tab-theme.tres" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://vwf3ok6ugiyt" path="res://scenes/settings/settings_view.tscn" id="5_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://crp2uw4s8sdmc" path="res://assets/icons/burger-menu.svg" id="6_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://cl4v4faaolq66" path="res://assets/icons/project.svg" id="7_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://bqgk6nxr24nd2" path="res://assets/icons/settings.svg" id="8_trceg"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_85g3d"]
+texture = ExtResource("4_o6xl0")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.7204674, 0.7204675, 0.7204674, 1)
+
+[sub_resource type="Theme" id="Theme_choun"]
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_85g3d")
+
+[sub_resource type="Theme" id="Theme_ya4ey"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_tipki"]
+color = Color(1, 1, 1, 0.13725491)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tipki"]
+texture = ExtResource("4_o6xl0")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -32,51 +56,65 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 256.0
 grow_vertical = 2
+theme = SubResource("Theme_choun")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SideBar"]
 layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme = SubResource("Theme_ya4ey")
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SideBar/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 12
 
 [node name="ButtonVersions" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme = ExtResource("4_tipki")
 toggle_mode = true
 button_pressed = true
 button_group = ExtResource("1_o5qli")
 text = "!versions"
+icon = ExtResource("6_ya4ey")
+expand_icon = true
 
 [node name="ButtonProjects" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme = ExtResource("4_tipki")
 toggle_mode = true
 button_group = ExtResource("1_o5qli")
 text = "!projects"
+icon = ExtResource("7_eb6dy")
+expand_icon = true
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxLine_tipki")
 
 [node name="ButtonSettings" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme = ExtResource("4_tipki")
 toggle_mode = true
 button_group = ExtResource("1_o5qli")
 text = "!settings"
+icon = ExtResource("8_trceg")
+expand_icon = true
 
 [node name="Content" type="TabContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 272.0
+offset_left = 256.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tipki")
 current_tab = 0
 tabs_visible = false
 

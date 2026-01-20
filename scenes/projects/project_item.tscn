@@ -1,15 +1,17 @@
-[gd_scene load_steps=27 format=3 uid="uid://cmqq4hhbcd5ul"]
+[gd_scene load_steps=29 format=3 uid="uid://cmqq4hhbcd5ul"]
 
 [ext_resource type="Texture2D" uid="uid://cp0e6qmf2fpod" path="res://icon.svg" id="1_gvlhy"]
+[ext_resource type="Theme" uid="uid://ceiwcnc3l2aqa" path="res://assets/themes/panel-card-theme.tres" id="1_pnfux"]
 [ext_resource type="Script" uid="uid://cjhx5ceebvoky" path="res://scripts/scenes/projects_view/ProjectItemView.cs" id="1_t64r6"]
 [ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_q286n"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_cmbsl"]
 [ext_resource type="PackedScene" uid="uid://dcyunpbpmnmkf" path="res://scenes/components/button_folder.tscn" id="5_csmpr"]
 [ext_resource type="Script" uid="uid://o87hoqro2w47" path="res://scripts/binding/SignalBinding.cs" id="5_ev8mq"]
 [ext_resource type="Script" uid="uid://c6kgsdtxdk385" path="res://scripts/binding/ExpressionBinding.cs" id="6_ev8mq"]
-[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot_icon.gdshader" id="7_k34h6"]
+[ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot-icon.gdshader" id="7_k34h6"]
 [ext_resource type="Texture2D" uid="uid://idgpbgoq2akd" path="res://assets/icons/branch.svg" id="8_p4xh5"]
 [ext_resource type="PackedScene" uid="uid://cbvdgfv5cmmnj" path="res://scenes/projects/launch_project_settings.tscn" id="8_t64r6"]
+[ext_resource type="Theme" uid="uid://cffngnf7n8kt3" path="res://assets/themes/button-primary-theme.tres" id="11_pnfux"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_q286n"]
 font_size = 24
@@ -94,13 +96,14 @@ font_color = Color(1, 0, 0, 1)
 [node name="ProjectItem" type="PanelContainer"]
 offset_right = 986.0
 offset_bottom = 108.0
+theme = ExtResource("1_pnfux")
 script = ExtResource("1_t64r6")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 8
+theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
+theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
@@ -155,13 +158,13 @@ script = ExtResource("2_q286n")
 ResourcesBindings = Array[Object]([SubResource("Resource_p4xh5")])
 SignalsBindings = Array[ExtResource("5_ev8mq")]([])
 
-[node name="VBoxContainerVersion" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="VersionVBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 alignment = 1
 script = ExtResource("2_q286n")
 ResourcesBindings = Array[Object]([SubResource("Resource_pnfux")])
 
-[node name="LabelProjectVersion" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainerVersion"]
+[node name="LabelProjectVersion" type="Label" parent="MarginContainer/HBoxContainer/VersionVBoxContainer"]
 layout_mode = 2
 text = "Version"
 label_settings = SubResource("LabelSettings_k34h6")
@@ -169,21 +172,21 @@ horizontal_alignment = 2
 script = ExtResource("2_q286n")
 ResourcesBindings = Array[Object]([SubResource("Resource_ev8mq")])
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainerVersion"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VersionVBoxContainer"]
 layout_mode = 2
 tooltip_text = "!editproj"
 mouse_default_cursor_shape = 2
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/VersionVBoxContainer/HBoxContainer"]
 material = SubResource("ShaderMaterial_t64r6")
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
 texture = ExtResource("8_p4xh5")
 expand_mode = 1
 
-[node name="LabelType" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer"]
+[node name="LabelType" type="Label" parent="MarginContainer/HBoxContainer/VersionVBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Type"
@@ -193,10 +196,19 @@ script = ExtResource("2_q286n")
 ResourcesBindings = Array[Object]([SubResource("Resource_ficql")])
 SignalsBindings = Array[ExtResource("5_ev8mq")]([])
 
-[node name="ButtonEdit" type="Button" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+[node name="ButtonEditVBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/ButtonEditVBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="ButtonEdit" type="Button" parent="MarginContainer/HBoxContainer/ButtonEditVBoxContainer/MarginContainer"]
 layout_mode = 2
 tooltip_text = "!editp"
+theme = ExtResource("11_pnfux")
 text = "!edit"
 script = ExtResource("2_q286n")
 ResourcesBindings = Array[Object]([SubResource("Resource_k34h6")])
@@ -224,7 +236,7 @@ unique_name_in_owner = true
 oversampling_override = 1.0
 title = "!projectsettings"
 initial_position = 1
-size = Vector2i(420, 240)
+size = Vector2i(480, 300)
 visible = false
 exclusive = true
 minimize_disabled = true
@@ -234,8 +246,8 @@ min_size = Vector2i(380, 200)
 [node name="LaunchProjectSettings" parent="WindowEdit" instance=ExtResource("8_t64r6")]
 unique_name_in_owner = true
 
-[connection signal="gui_input" from="MarginContainer/HBoxContainer/VBoxContainerVersion/HBoxContainer" to="." method="OnLabelTypeGuiInput"]
-[connection signal="button_down" from="MarginContainer/HBoxContainer/ButtonEdit" to="." method="OnButtonEditDown"]
+[connection signal="gui_input" from="MarginContainer/HBoxContainer/VersionVBoxContainer/HBoxContainer" to="." method="OnLabelTypeGuiInput"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/ButtonEditVBoxContainer/MarginContainer/ButtonEdit" to="." method="OnButtonEditDown"]
 [connection signal="close_requested" from="WindowEdit" to="." method="HideWindowEdit"]
 [connection signal="Cancel" from="WindowEdit/LaunchProjectSettings" to="." method="HideWindowEdit"]
 [connection signal="Save" from="WindowEdit/LaunchProjectSettings" to="." method="SaveLaunchSettings"]

@@ -1,17 +1,23 @@
-[gd_scene load_steps=9 format=3 uid="uid://vfh53vfthquh"]
+[gd_scene load_steps=13 format=3 uid="uid://vfh53vfthquh"]
 
 [ext_resource type="Script" uid="uid://ch7cmi8kx017h" path="res://scripts/scenes/projects_view/ProjectsView.cs" id="1_54ill"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="2_7bwcs"]
+[ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="2_13vqt"]
+[ext_resource type="Theme" uid="uid://c046rxs4mn51d" path="res://assets/themes/textedit-theme.tres" id="2_bcpgl"]
 [ext_resource type="ButtonGroup" uid="uid://b8x8s7dui74na" path="res://assets/groups/sort_engines_group.tres" id="2_uruiv"]
 [ext_resource type="Script" uid="uid://rhlo5lnaoj33" path="res://scripts/scenes/components/ButtonSort.cs" id="3_13vqt"]
 [ext_resource type="PackedScene" uid="uid://cmqq4hhbcd5ul" path="res://scenes/projects/project_item.tscn" id="3_qwe1h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sjaho"]
-font_size = 24
+font_size = 30
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uruiv"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13vqt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bcpgl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nmrs6"]
 
 [node name="ProjectsView" type="Control"]
 layout_mode = 3
@@ -41,7 +47,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
+theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainScrollContainer/MarginContainer"]
@@ -67,6 +73,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("2_bcpgl")
 placeholder_text = "!search"
 
 [node name="HSeparator" type="HSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -81,11 +88,16 @@ text = "!sortby"
 [node name="VSeparator" type="VSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
+[node name="Spacing" type="VSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bcpgl")
+
 [node name="ButtonSortByLastEdit" type="Button" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme = ExtResource("2_13vqt")
 toggle_mode = true
 button_group = ExtResource("2_uruiv")
 text = "!lastedit"
@@ -93,11 +105,17 @@ icon_alignment = 2
 script = ExtResource("3_13vqt")
 metadata/_custom_type_script = "uid://rhlo5lnaoj33"
 
+[node name="Spacing2" type="VSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bcpgl")
+
 [node name="ButtonSortByName" type="Button" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme = ExtResource("2_13vqt")
 toggle_mode = true
 button_group = ExtResource("2_uruiv")
 text = "!name"
@@ -106,8 +124,10 @@ script = ExtResource("3_13vqt")
 ButtonIndex = 1
 metadata/_custom_type_script = "uid://rhlo5lnaoj33"
 
-[node name="HSeparator" type="HSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Spacing3" type="VSeparator" parent="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 32
+theme_override_styles/separator = SubResource("StyleBoxEmpty_nmrs6")
 
 [node name="ProjectsScrollContainer" type="ScrollContainer" parent="MainScrollContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -115,13 +135,21 @@ layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 
-[node name="ProjectsVBoxContainer" type="VBoxContainer" parent="MainScrollContainer/MarginContainer/VBoxContainer/ProjectsScrollContainer"]
-unique_name_in_owner = true
-clip_contents = true
-custom_minimum_size = Vector2(80, 0)
+[node name="MarginContainer" type="MarginContainer" parent="MainScrollContainer/MarginContainer/VBoxContainer/ProjectsScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 0
+
+[node name="ProjectsVBoxContainer" type="VBoxContainer" parent="MainScrollContainer/MarginContainer/VBoxContainer/ProjectsScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 24
 script = ExtResource("2_7bwcs")
 BindingListPropertyName = "Projects"
 ItemScene = ExtResource("3_qwe1h")

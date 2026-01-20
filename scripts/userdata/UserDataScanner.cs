@@ -20,7 +20,7 @@ public static class UserDataScanner
     {
         var settings = UserDataLoader.LoadUserSettings();
         List<EngineVersion> engines = [];
-        HashSet<string> files = ScanFiles(settings.CustomInstallsDirectories, "exe");
+        HashSet<string> files = ScanFiles(settings.CustomInstallsDirectories, "exe", out string errors);
         
         foreach (string file in files)
         {
@@ -35,6 +35,9 @@ public static class UserDataScanner
             if(!engines.Any(e => new FileInfo(e.Path).FullName == new FileInfo(file).FullName))
                 engines.Add(new Models.EngineVersion(info.FileVersion, file));
         }
+
+        if(!string.IsNullOrEmpty(errors))
+            ErrorTools.ShowError(errors);
         return engines;
     }
 
@@ -42,7 +45,7 @@ public static class UserDataScanner
     {
         var settings = UserDataLoader.LoadUserSettings();
         List<Project> projects = [];
-        HashSet<string> files = ScanFiles(settings.ProjectsDirectories, "godot");
+        HashSet<string> files = ScanFiles(settings.ProjectsDirectories, "godot", out string errors);
 
         foreach (string file in files)
         {
@@ -79,6 +82,9 @@ public static class UserDataScanner
 
             projects.Add(new Project(name, path, lastEdit, icon, version, cSharp));
         }
+
+        if (!string.IsNullOrEmpty(errors))
+            ErrorTools.ShowError(errors);
         return projects;
     }
 
@@ -133,15 +139,24 @@ public static class UserDataScanner
         return true;
     }
 
-    private static HashSet<string> ScanFiles(List<FileSystemPath> paths, string extension)
+    private static HashSet<string> ScanFiles(List<FileSystemPath> paths, string extension, out string errors)
     {
         HashSet<string> files = [];
-        if(extension.StartsWith(".")) extension = extension.Substring(1);
+        errors = string.Empty;
+        if (extension.StartsWith(".")) extension = extension.Substring(1);
         foreach (var d in paths.Select(d => d.FullName))
         {
             if (!System.IO.Directory.Exists(d)) continue;
-            var scannedFiles = Directory.EnumerateFiles(d, $"*.{extension}", SearchOption.AllDirectories);
-            foreach (var f in scannedFiles) files.Add(f);
+            try
+            {
+                var scannedFiles = Directory.EnumerateFiles(d, $"*.{extension}", SearchOption.AllDirectories);
+                foreach (var f in scannedFiles) files.Add(f);
+            }
+            catch (Exception ex)
+            {
+                if (!string.IsNullOrEmpty(errors)) errors += System.Environment.NewLine;
+                errors += ($"Path '{d}' not scanned: {ex.Message}");
+            }
         }
         return files;
     }

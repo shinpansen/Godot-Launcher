@@ -15,7 +15,7 @@ public class EngineVersion
     public string FileName => System.IO.Path.GetFileName(Path);
 
     [JsonIgnore]
-    public string FileNameTrim => FileName?.Length > 22 ? FileName.Substring(0, 19) + "..." : FileName;
+    public string FileNameTrim => FileName?.Length > 26 ? FileName.Substring(0, 23) + "..." : FileName;
 
     [JsonPropertyName("version")]
     public string Version { get; set; }

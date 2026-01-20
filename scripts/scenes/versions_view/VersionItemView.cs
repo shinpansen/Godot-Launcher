@@ -45,12 +45,12 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
         switch(id)
         {
             case 0:
-                Visible = false;
-                _versionsView?.SettingsView?.AddExcludedFile(BindingContext.Path);
-                break;
-            case 1:
                 _windowEdit.Show();
                 _iconCustomization.UpdateSettings(BindingContext.CustomIcon);
+                break;
+            case 1:
+                Visible = false;
+                _versionsView?.SettingsView?.AddExcludedFile(BindingContext.Path);
                 break;
         }
     }

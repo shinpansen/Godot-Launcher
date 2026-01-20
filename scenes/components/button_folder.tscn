@@ -1,7 +1,53 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcyunpbpmnmkf"]
+[gd_scene load_steps=8 format=3 uid="uid://dcyunpbpmnmkf"]
 
 [ext_resource type="Texture2D" uid="uid://dpc4yhbjefcoy" path="res://assets/icons/folder.svg" id="1_5g7bh"]
 [ext_resource type="Script" uid="uid://baxb7ocoso1qn" path="res://scripts/scenes/components/ButtonFolder.cs" id="2_o6aja"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o6aja"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nnd4n"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6aja"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5o2k"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="Theme" id="Theme_s8pmu"]
+Button/colors/icon_hover_color = Color(1, 1, 1, 0.5019608)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 0.7411765)
+Button/styles/focus = SubResource("StyleBoxEmpty_o6aja")
+Button/styles/hover = SubResource("StyleBoxFlat_nnd4n")
+Button/styles/normal = SubResource("StyleBoxFlat_o6aja")
+Button/styles/pressed = SubResource("StyleBoxFlat_q5o2k")
 
 [node name="ButtonFolder" type="Button"]
 custom_minimum_size = Vector2(22, 22)
@@ -10,6 +56,7 @@ offset_bottom = 8.0
 tooltip_text = "!opendir"
 mouse_filter = 1
 mouse_default_cursor_shape = 2
+theme = SubResource("Theme_s8pmu")
 icon = ExtResource("1_5g7bh")
 icon_alignment = 1
 expand_icon = true

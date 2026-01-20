@@ -4,11 +4,13 @@ using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Scenes;
 using GodotLauncher.Scripts.Scenes.Components;
 using GodotLauncher.Scripts.Scenes.ProjectsView;
+using GodotLauncher.Scripts.Tools;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Godot.VisualShaderNode;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GodotLauncher.Scripts.Scenes.VersionsView;
 
@@ -24,6 +26,8 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
     private Texture2D _sortAscTexture = GD.Load<Texture2D>("res://assets/icons/sort-asc.svg");
     private Texture2D _sortDescTexture = GD.Load<Texture2D>("res://assets/icons/sort-desc.svg");
 
+    private List<EngineVersion> _versionsTemp;
+
     public override void _Ready()
     {
         _buttonSortByVersion.ButtonPressed = BindingContext.SortType == Enums.EngineSortType.Version;
@@ -34,26 +38,33 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
         RefreshVersionsItemsOrder();
     }
 
-    public VersionsConfig Refresh()
+    public VersionsConfig Refresh(out string errors)
     {
-        VersionsConfig config = LoadVersionConfig(true);
-        SetPropertyValue(vc => vc.Versions, config.Versions);
-        RefreshVersionsItemsOrder();
+        VersionsConfig config = LoadVersionConfig(true, out errors);
+        _versionsTemp = config.Versions;
+        //SetPropertyValue(vc => vc.Versions, config.Versions);
+        CallDeferred(nameof(UpdateVersionsWithTempProperty));
+        CallDeferred(nameof(RefreshVersionsItemsOrder));
         return config;
     }
 
     protected override VersionsConfig LoadDataSource()
     {
         Settings settings = UserDataLoader.LoadUserSettings();
-        return LoadVersionConfig(settings.ScanWhenLauncherStart);
+        var config = LoadVersionConfig(settings.ScanWhenLauncherStart, out string errors);
+
+        if (!string.IsNullOrEmpty(errors))
+            ErrorTools.ShowError(errors);
+        return config;
     }
 
-    private VersionsConfig LoadVersionConfig(bool forceScan)
+    private VersionsConfig LoadVersionConfig(bool forceScan, out string errors)
     {
+        errors = string.Empty;
         VersionsConfig config = UserDataLoader.LoadUserVersions();
         if (forceScan)
         {
-            var versionsScanned = UserDataScanner.ScanUserEngines();
+            var versionsScanned = UserDataScanner.ScanUserEngines(out errors);
             config = UserDataLoader.MergeUserVersionsConfig(config, versionsScanned);
         }
         return config;
@@ -86,6 +97,13 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
         BindingContext.SortOrder = bs.SortOrder;
         RefreshVersionsItemsOrder();
         SaveDataSource();
+    }
+
+    private void UpdateVersionsWithTempProperty()
+    {
+        SetPropertyValue(vc => vc.Versions, _versionsTemp);
+        _versionsTemp?.Clear();
+        _versionsTemp = null;
     }
 
     private void RefreshVersionsItemsOrder()

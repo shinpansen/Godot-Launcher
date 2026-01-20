@@ -40,7 +40,7 @@ public class EngineVersion
         ExeBitness == ExeBitness.x86 ? "x86" : (ExeBitness == ExeBitness.x64 ? "x64" : "???");
 
     [JsonIgnore]
-    public string FormatedName => $"{Version} {Type ?? ""}".TrimEnd() + 
+    public string FormatedName => $"{Version ?? ""} {Type ?? ""}".TrimEnd() + 
         (Mono == true ? " (Mono)" : "") +
         (ExeBitness == ExeBitness.x86 ? " | x86" : (ExeBitness == ExeBitness.x64 ? " | x64" : ""));
 

@@ -115,6 +115,7 @@ initial_position = 1
 size = Vector2i(480, 300)
 visible = false
 exclusive = true
+always_on_top = true
 minimize_disabled = true
 maximize_disabled = true
 min_size = Vector2i(380, 200)

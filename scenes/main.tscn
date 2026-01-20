@@ -46,6 +46,10 @@ title = "!error"
 initial_position = 1
 size = Vector2i(320, 192)
 visible = false
+exclusive = true
+always_on_top = true
+minimize_disabled = true
+maximize_disabled = true
 
 [node name="Error" parent="WindowError" instance=ExtResource("2_tefeu")]
 

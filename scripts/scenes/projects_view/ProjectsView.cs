@@ -3,6 +3,7 @@ using GodotLauncher.Scripts.Binding;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Scenes.Components;
 using GodotLauncher.Scripts.Scenes.VersionsView;
+using GodotLauncher.Scripts.Tools;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ public partial class ProjectsView : DataSourceBinding<ProjectsConfig>
     private ButtonSort _buttonSortByLastEdit => GetNode<ButtonSort>("%ButtonSortByLastEdit");
     private ButtonSort _buttonSortByName => GetNode<ButtonSort>("%ButtonSortByName");
 
+    private List<Project> _projectsTemp;
+
     public override void _Ready()
     {
         _buttonSortByLastEdit.ButtonPressed = BindingContext.SortType == Enums.ProjectSortType.LastEdit;
@@ -29,34 +32,38 @@ public partial class ProjectsView : DataSourceBinding<ProjectsConfig>
     protected override ProjectsConfig LoadDataSource()
     {
         Settings settings = UserDataLoader.LoadUserSettings();
-        return LoadProjectsConfig(settings.ScanWhenLauncherStart);
+        return LoadProjectsConfig(settings.ScanWhenLauncherStart, out _);
     }
 
-    public ProjectsConfig Refresh()
+    public ProjectsConfig Refresh(out string errors)
     {
-        ProjectsConfig config = LoadProjectsConfig(true);
-        SetPropertyValue(pc => pc.Projects, config.Projects);
+        ProjectsConfig config = LoadProjectsConfig(true, out errors);
+        _projectsTemp = config.Projects;
+        CallDeferred(nameof(RefreshProjectsWithTempProperty));
         return config;
     }
 
     public void RefreshProjectsVersions(List<EngineVersion> versions)
     {
-        ProjectsConfig config = LoadProjectsConfig(false);
+        ProjectsConfig config = LoadProjectsConfig(false, out string errors);
         config.Projects = UserDataScanner.MatchAvailableVersions(config.Projects, versions);
-        SetPropertyValue(pc => pc.Projects, config.Projects);
+        _projectsTemp = config.Projects;
+        CallDeferred(nameof(RefreshProjectsWithTempProperty));
     }
 
-    private ProjectsConfig LoadProjectsConfig(bool forceScan)
+    private ProjectsConfig LoadProjectsConfig(bool forceScan, out string errors)
     {
+        errors = string.Empty;
         ProjectsConfig config = UserDataLoader.LoadUserProjects();
         if (forceScan)
         {
-            var projectsScanned = UserDataScanner.ScanUserProjects();
+            var projectsScanned = UserDataScanner.ScanUserProjects(out errors);
             config = UserDataLoader.MergeUserProjectsConfig(config, projectsScanned);
         }
 
         VersionsConfig versionsConfig = UserDataLoader.LoadUserVersions();
         config.Projects = UserDataScanner.MatchAvailableVersions(config.Projects, versionsConfig.Versions);
+
         return config;
     }
 
@@ -85,6 +92,13 @@ public partial class ProjectsView : DataSourceBinding<ProjectsConfig>
         BindingContext.SortOrder = bs.SortOrder;
         RefreshProjectsItemsOrder();
         SaveDataSource();
+    }
+
+    private void RefreshProjectsWithTempProperty()
+    {
+        SetPropertyValue(pc => pc.Projects, _projectsTemp);
+        _projectsTemp?.Clear();
+        _projectsTemp = null;
     }
 
     private void RefreshProjectsItemsOrder()

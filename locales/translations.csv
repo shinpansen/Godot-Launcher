@@ -47,3 +47,5 @@ key,en,fr
 !opendir,Open Directory,Ouvrir le répertoire
 !language,Language,Langue
 !default,Default,Par défaut
+!godotfound,Godot Version(s) Found,Version(s) de Godot trouvé(es)
+!projectsfound,Project(s) Found,Projet(s) trouvé(s)

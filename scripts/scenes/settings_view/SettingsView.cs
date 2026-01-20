@@ -1,15 +1,19 @@
-using GodotLauncher.Scripts.Models;
+using Godot;
 using GodotLauncher.Scripts.Binding;
+using GodotLauncher.Scripts.Enums;
+using GodotLauncher.Scripts.Models;
+using GodotLauncher.Scripts.Scenes.VersionsView;
+using GodotLauncher.Scripts.Tools;
 using GodotLauncher.Scripts.UserData;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
-using Godot;
-using GodotLauncher.Scripts.Scenes.VersionsView;
-using GodotLauncher.Scripts.Enums;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GodotLauncher.Scripts.Scenes.SettingsView;
 
@@ -27,11 +31,35 @@ public partial class SettingsView : DataSourceBinding<Settings>
     private FileDialog _fileDialogCustomPaths => GetNode<FileDialog>("%FileDialogCustomPaths");
     private FileDialog _fileDialogProjects => GetNode<FileDialog>("%FileDialogProjects");
     private FileDialog _fileDialogExcludedFiles => GetNode<FileDialog>("%FileDialogExcludedFiles");
+    private Button _buttonScanEngines => GetNode<Button>("%ButtonScanEngines");
+    private TextureRect _loaderScanEngines => GetNode<TextureRect>("%LoaderScanEngines");
+    private Label _labelScanEngineResult => GetNode<Label>("%LabelScanEnginesResult");
+    private Button _buttonScanProjects => GetNode<Button>("%ButtonScanProjects");
+    private TextureRect _loaderScanProjects => GetNode<TextureRect>("%LoaderScanProjects");
+    private Label _labelScanProjectsResult => GetNode<Label>("%LabelScanProjectsResult");
+
+
+    private BackgroundWorker _scanEnginesWorker;
+    private BackgroundWorker _scanProjectsWorker;
 
     public override void _Ready()
     {
         _scrollContainer.ClipContents = true;
         OptionButtonLanguagesItemSelected((long)BindingContext.Language);
+
+        _scanEnginesWorker = new BackgroundWorker
+        {
+            WorkerSupportsCancellation = true
+        };
+        _scanEnginesWorker.DoWork += ScanEnginesWorkerDoWork;
+        _scanEnginesWorker.RunWorkerCompleted += ScanEnginesWorkerOnCompleted;
+
+        _scanProjectsWorker = new BackgroundWorker
+        {
+            WorkerSupportsCancellation = true
+        };
+        _scanProjectsWorker.DoWork += ScanProjectsWorkerDoWork;
+        _scanProjectsWorker.RunWorkerCompleted += ScanProjectsWorkerOnCompleted;
     }
 
     public void AddExcludedFile(string path)
@@ -42,55 +70,29 @@ public partial class SettingsView : DataSourceBinding<Settings>
     private void OptionButtonLanguagesItemSelected(long id)
     {
         Language language = (Language)id;
-        switch (language)
-        {
-            case Language.Default:
-                string culture = System.Globalization.CultureInfo.InstalledUICulture.Name;
-                TranslationServer.SetLocale(culture.Split('-').First());
-                break;
-            case Language.English:
-                TranslationServer.SetLocale("en");
-                break;
-            case Language.French:
-                TranslationServer.SetLocale("fr");
-                break;
-            case Language.German:
-                TranslationServer.SetLocale("de");
-                break;
-            case Language.Spanish:
-                TranslationServer.SetLocale("es");
-                break;
-            case Language.Italian:
-                TranslationServer.SetLocale("it");
-                break;
-            case Language.Portugese:
-                TranslationServer.SetLocale("pt");
-                break;
-            case Language.Russian:
-                TranslationServer.SetLocale("ru");
-                break;
-            case Language.Japanese:
-                TranslationServer.SetLocale("ja");
-                break;
-            case Language.Chinese:
-                TranslationServer.SetLocale("zh");
-                break;
-            default:
-                break;
-        }
+        LanguageTools.ChangeAppLanguage(language);
+        _labelScanEngineResult.Text = string.Empty;
+        _labelScanProjectsResult.Text = string.Empty;
     }
 
     private void OnButtonScanEnginesDown()
     {
-        //Todo - thread
-        VersionsConfig versionsConfig = VersionsView?.Refresh();
-        ProjectsView?.RefreshProjectsVersions(versionsConfig.Versions);
+        if (_scanEnginesWorker.IsBusy) return;
+
+        _buttonScanEngines.Disabled = true;
+        _loaderScanEngines.Visible = true;
+        _labelScanEngineResult.Text = string.Empty;
+        _scanEnginesWorker.RunWorkerAsync();
     }
 
     private void OnButtonScanProjectsDown()
     {
-        //Todo - thread
-        ProjectsView?.Refresh();
+        if (_scanProjectsWorker.IsBusy) return;
+
+        _buttonScanProjects.Disabled = true;
+        _loaderScanProjects.Visible = true;
+        _labelScanProjectsResult.Text = string.Empty;
+        _scanProjectsWorker.RunWorkerAsync();
     }
 
     private void OpenDirSelectionForCustomPaths()
@@ -163,5 +165,48 @@ public partial class SettingsView : DataSourceBinding<Settings>
             paths.Remove(item.BindingContext);
             SetPropertyValue(s => s.ProjectsDirectories, paths);
         }
+    }
+
+    private void ScanEnginesWorkerDoWork(object sender, DoWorkEventArgs e)
+    {
+        string errors = string.Empty;
+        VersionsConfig versionsConfig = VersionsView?.Refresh(out errors);
+        int count = versionsConfig.Versions.Count;
+        ProjectsView?.RefreshProjectsVersions(versionsConfig.Versions);
+        e.Result = new ScanResult(count, errors);
+    }
+
+    private void ScanEnginesWorkerOnCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+        if (e.Result is ScanResult result) 
+        {
+            if (!string.IsNullOrEmpty(result.Errors))
+                ErrorTools.ShowError(result.Errors);
+
+            _labelScanEngineResult.Text = $"{result.Count} {TranslationServer.Translate("!godotfound")}";
+        }
+        _loaderScanEngines.Visible = false;
+        _buttonScanEngines.Disabled = false;
+    }
+
+    private void ScanProjectsWorkerDoWork(object sender, DoWorkEventArgs e)
+    {
+        string errors = string.Empty;
+        ProjectsConfig projectsConfig = ProjectsView?.Refresh(out errors);
+        int count = projectsConfig.Projects.Count;
+        e.Result = new ScanResult(count, errors);
+    }
+
+    private void ScanProjectsWorkerOnCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+        if (e.Result is ScanResult result)
+        {
+            if (!string.IsNullOrEmpty(result.Errors))
+                ErrorTools.ShowError(result.Errors);
+
+            _labelScanProjectsResult.Text = $"{result.Count} {TranslationServer.Translate("!projectsfound")}";
+        }
+        _loaderScanProjects.Visible = false;
+        _buttonScanProjects.Disabled = false;
     }
 }

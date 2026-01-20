@@ -41,7 +41,7 @@ public class Project
     public List<EngineVersion> AvailableVersions { get; set; } = [];
 
     [JsonIgnore]
-    public EngineVersion LaunchVersion => DefaultLaunchVersion ?? OptimalLaunchVersion;
+    public EngineVersion LaunchVersion => DefaultLaunchVersion ?? (OptimalLaunchVersion ?? new());
 
     [JsonIgnore]
     public bool CanEdit => OptimalLaunchVersion != null;

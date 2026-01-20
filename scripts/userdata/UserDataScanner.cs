@@ -16,11 +16,11 @@ public static class UserDataScanner
 {
     public const string GodotEngineName = "godot engine";
 
-    public static List<EngineVersion> ScanUserEngines()
+    public static List<EngineVersion> ScanUserEngines(out string errors)
     {
         var settings = UserDataLoader.LoadUserSettings();
         List<EngineVersion> engines = [];
-        HashSet<string> files = ScanFiles(settings.CustomInstallsDirectories, "exe", out string errors);
+        HashSet<string> files = ScanFiles(settings.CustomInstallsDirectories, "exe", out errors);
         
         foreach (string file in files)
         {
@@ -35,17 +35,14 @@ public static class UserDataScanner
             if(!engines.Any(e => new FileInfo(e.Path).FullName == new FileInfo(file).FullName))
                 engines.Add(new Models.EngineVersion(info.FileVersion, file));
         }
-
-        if(!string.IsNullOrEmpty(errors))
-            ErrorTools.ShowError(errors);
         return engines;
     }
 
-    public static List<Project> ScanUserProjects()
+    public static List<Project> ScanUserProjects(out string errors)
     {
         var settings = UserDataLoader.LoadUserSettings();
         List<Project> projects = [];
-        HashSet<string> files = ScanFiles(settings.ProjectsDirectories, "godot", out string errors);
+        HashSet<string> files = ScanFiles(settings.ProjectsDirectories, "godot", out errors);
 
         foreach (string file in files)
         {
@@ -83,8 +80,6 @@ public static class UserDataScanner
             projects.Add(new Project(name, path, lastEdit, icon, version, cSharp));
         }
 
-        if (!string.IsNullOrEmpty(errors))
-            ErrorTools.ShowError(errors);
         return projects;
     }
 

@@ -79,9 +79,7 @@ public partial class SettingsView : DataSourceBinding<Settings>
     {
         if (_scanEnginesWorker.IsBusy) return;
 
-        _buttonScanEngines.Disabled = true;
-        _loaderScanEngines.Visible = true;
-        _labelScanEngineResult.Text = string.Empty;
+        StartScanUdateUI(_loaderScanEngines);
         _scanEnginesWorker.RunWorkerAsync();
     }
 
@@ -89,9 +87,7 @@ public partial class SettingsView : DataSourceBinding<Settings>
     {
         if (_scanProjectsWorker.IsBusy) return;
 
-        _buttonScanProjects.Disabled = true;
-        _loaderScanProjects.Visible = true;
-        _labelScanProjectsResult.Text = string.Empty;
+        StartScanUdateUI(_loaderScanProjects);
         _scanProjectsWorker.RunWorkerAsync();
     }
 
@@ -167,6 +163,27 @@ public partial class SettingsView : DataSourceBinding<Settings>
         }
     }
 
+    private void StartScanUdateUI(TextureRect loader)
+    {
+        loader.Visible = true;
+        _buttonScanEngines.Disabled = true;
+        _buttonScanProjects.Disabled = true;
+        _labelScanEngineResult.Text = string.Empty;
+        _labelScanProjectsResult.Text = string.Empty;
+        _buttonScanEngines.MouseDefaultCursorShape = CursorShape.Forbidden;
+        _buttonScanProjects.MouseDefaultCursorShape = CursorShape.Forbidden;
+    }
+
+    private void EndScanUpdateUI()
+    {
+        _loaderScanEngines.Visible = false;
+        _loaderScanProjects.Visible = false;
+        _buttonScanEngines.Disabled = false;
+        _buttonScanProjects.Disabled = false;
+        _buttonScanEngines.MouseDefaultCursorShape = CursorShape.PointingHand;
+        _buttonScanProjects.MouseDefaultCursorShape = CursorShape.PointingHand;
+    }
+
     private void ScanEnginesWorkerDoWork(object sender, DoWorkEventArgs e)
     {
         string errors = string.Empty;
@@ -185,8 +202,7 @@ public partial class SettingsView : DataSourceBinding<Settings>
 
             _labelScanEngineResult.Text = $"{result.Count} {TranslationServer.Translate("!godotfound")}";
         }
-        _loaderScanEngines.Visible = false;
-        _buttonScanEngines.Disabled = false;
+        EndScanUpdateUI();
     }
 
     private void ScanProjectsWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -206,7 +222,6 @@ public partial class SettingsView : DataSourceBinding<Settings>
 
             _labelScanProjectsResult.Text = $"{result.Count} {TranslationServer.Translate("!projectsfound")}";
         }
-        _loaderScanProjects.Visible = false;
-        _buttonScanProjects.Disabled = false;
+        EndScanUpdateUI();
     }
 }

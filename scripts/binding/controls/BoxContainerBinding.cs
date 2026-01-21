@@ -1,5 +1,6 @@
 using Godot;
 using GodotLauncher.Scripts.Binding.Interfaces;
+using GodotLauncher.Scripts.Extensions;
 using System;
 using System.Collections;
 using System.Linq;
@@ -34,7 +35,7 @@ public partial class BoxContainerBinding : Container
 
     private void UpdateItems(object items)
     {
-        GetChildren().ToList().ForEach(RemoveChild);
+        this.Clear();
 
         var dataSource = _binding is IDataSourceBinding d ? d : null;
         if (items is IEnumerable enumerable)

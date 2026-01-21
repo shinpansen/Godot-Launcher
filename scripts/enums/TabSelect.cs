@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Enums;
 
-public enum TabSelect
+public enum AppTheme
 {
-    Versions = 0,
-    Projects = 1,
-    Settings = 2
+    Default
 }

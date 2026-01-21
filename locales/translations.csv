@@ -6,6 +6,7 @@ key,en,fr
 !sortby,Sort By,Trier par
 !versions,Versions,Versions
 !projects,Projects,Projets
+!downloads,Downloads,Téléchargements
 !settings,Settings,Paramètres
 !projectsdir,Godot Projects Locations,Emplacements des projets Godot
 !customdir,Custom Godot installs locations,Emplacements personnalisés des installations de Godot
@@ -47,5 +48,6 @@ key,en,fr
 !opendir,Open Directory,Ouvrir le répertoire
 !language,Language,Langue
 !default,Default,Par défaut
+!defaulttab,Default Tab,Onglet par défaut
 !godotfound,Godot Version(s) Found,Version(s) de Godot trouvé(es)
 !projectsfound,Project(s) Found,Projet(s) trouvé(s)

@@ -36,6 +36,9 @@ public class Settings
     [JsonPropertyName("scanWhenLauncherStart")]
     public bool ScanWhenLauncherStart { get; set; }
 
+    [JsonPropertyName("tabSelect")]
+    public TabSelect TabSelect { get; set; }
+
     [JsonPropertyName("appTheme")]
     public AppTheme AppTheme { get; set; }
 
@@ -46,6 +49,16 @@ public class Settings
         set
         {
             Language = (Language)value;
+        }
+    }
+
+    [JsonIgnore]
+    public long TabSelectId
+    {
+        get => (long)TabSelect;
+        set
+        {
+            TabSelect = (TabSelect)value;
         }
     }
 

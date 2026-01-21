@@ -23,7 +23,6 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1600
 window/size/viewport_height=900
 window/subwindows/embed_subwindows=false
-window/per_pixel_transparency/allowed=true
 
 [dotnet]
 
@@ -36,4 +35,4 @@ locale/include_text_server_data=true
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.11372549, 0.14509805, 0.21176471, 1)
+environment/defaults/default_clear_color=Color(0.15925047, 0.18279284, 0.29252386, 1)

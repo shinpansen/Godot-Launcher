@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://vwf3ok6ugiyt"]
+[gd_scene load_steps=31 format=3 uid="uid://vwf3ok6ugiyt"]
 
 [ext_resource type="Script" uid="uid://dxsaq3lc8j5qn" path="res://scripts/scenes/settings_view/SettingsView.cs" id="1_k8ihc"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="1_ttcwv"]
@@ -33,6 +33,12 @@ PropertyPath = &"selected"
 HasArgs = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q3ixf"]
+
+[sub_resource type="Resource" id="Resource_gaksj"]
+script = ExtResource("3_e4qki")
+BindingName = "TabSelectId"
+PropertyPath = &"selected"
+metadata/_custom_type_script = "uid://bah30u8bgkskc"
 
 [sub_resource type="Resource" id="Resource_0h3rk"]
 script = ExtResource("3_e4qki")
@@ -217,6 +223,50 @@ ResourcesBindings = Array[Object]([SubResource("Resource_i0yjx")])
 SignalsBindings = Array[ExtResource("4_lydhb")]([SubResource("Resource_q3ixf")])
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GeneralPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+theme_override_styles/separator = SubResource("StyleBoxEmpty_q3ixf")
+
+[node name="DefaultTabHBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GeneralPanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MarginLeft" type="VSeparator" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GeneralPanelContainer/VBoxContainer/DefaultTabHBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lydhb")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GeneralPanelContainer/VBoxContainer/DefaultTabHBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "!defaulttab"
+label_settings = SubResource("LabelSettings_ncq3x")
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GeneralPanelContainer/VBoxContainer/DefaultTabHBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lydhb")
+
+[node name="OptionButtonLanguages" type="OptionButton" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GeneralPanelContainer/VBoxContainer/DefaultTabHBoxContainer2"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_o8kxp")
+selected = 0
+item_count = 3
+popup/item_0/text = "!versions"
+popup/item_0/id = 0
+popup/item_1/text = "!projects"
+popup/item_1/id = 1
+popup/item_2/text = "!settings"
+popup/item_2/id = 2
+script = ExtResource("2_tnvtb")
+ResourcesBindings = Array[Object]([SubResource("Resource_gaksj")])
+SignalsBindings = Array[ExtResource("4_lydhb")]([SubResource("Resource_q3ixf")])
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer/ScrollContainer/MarginContainer/VBoxContainer/GeneralPanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 theme_override_styles/separator = SubResource("StyleBoxEmpty_q3ixf")

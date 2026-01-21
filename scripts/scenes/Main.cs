@@ -3,6 +3,7 @@ using GodotLauncher.Scripts.Scenes.VersionsView;
 using GodotLauncher.Scripts.Scenes.SettingsView;
 using System;
 using GodotLauncher.Scripts.Tools;
+using GodotLauncher.Scripts.UserData;
 
 namespace GodotLauncher.Scripts.Scenes;
 
@@ -11,9 +12,20 @@ public partial class Main : Control
     private Window _windowError => GetNode<Window>("%WindowError");
     private TabContainer _sideBarTabContainer => GetNode<TabContainer>("%Content");
 
+    private Button[] _buttons;
+
     public override void _Ready()
     {
         ErrorTools.ErrorWindow = _windowError;
+
+        _buttons = new Button[]
+        {
+            GetNode<Button>("%ButtonVersions"),
+            GetNode<Button>("%ButtonProjects"),
+            GetNode<Button>("%ButtonSettings"),
+        };
+        Models.Settings settings = UserDataLoader.LoadUserSettings();
+        ChangeTab((int)settings.TabSelect);
     }
 
     private void CloseErrorWindow()
@@ -27,5 +39,9 @@ public partial class Main : Control
 
     private void OnButtonSettingsDown() => ChangeTab(2);
 
-    private void ChangeTab(int index) => _sideBarTabContainer.CurrentTab = index;
+    private void ChangeTab(int index)
+    {
+        _buttons[index].ButtonPressed = true;
+        _sideBarTabContainer.CurrentTab = index;
+    }
 }

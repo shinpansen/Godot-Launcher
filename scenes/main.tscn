@@ -54,6 +54,7 @@ maximize_disabled = true
 [node name="Error" parent="WindowError" instance=ExtResource("2_tefeu")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="SideBar" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 9
@@ -75,6 +76,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="ButtonVersions" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("4_tipki")
@@ -86,6 +88,7 @@ icon = ExtResource("6_ya4ey")
 expand_icon = true
 
 [node name="ButtonProjects" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("4_tipki")
@@ -101,6 +104,7 @@ theme_override_constants/separation = 0
 theme_override_styles/separator = SubResource("StyleBoxLine_tipki")
 
 [node name="ButtonSettings" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("4_tipki")

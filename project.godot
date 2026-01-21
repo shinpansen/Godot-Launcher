@@ -28,6 +28,14 @@ window/subwindows/embed_subwindows=false
 
 project/assembly_name="Godot Launcher"
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "pink",
+"res://scenes/": "yellow",
+"res://scripts/": "purple"
+}
+
 [internationalization]
 
 locale/translations=PackedStringArray("res://locales/translations.en.translation", "res://locales/translations.fr.translation")

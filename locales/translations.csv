@@ -4,10 +4,12 @@ key,en,fr
 !name,Name,Nom
 !filename,File Name,Nom Fichier
 !sortby,Sort By,Trier par
+!version,Version,Version
 !versions,Versions,Versions
 !projects,Projects,Projets
 !downloads,Downloads,Téléchargements
 !settings,Settings,Paramètres
+!installnew,Install Godot,Installer Godot
 !projectsdir,Godot Projects Locations,Emplacements des projets Godot
 !customdir,Custom Godot installs locations,Emplacements personnalisés des installations de Godot
 !excludefiles,Excluded Files,Fichiers exclus
@@ -20,6 +22,7 @@ key,en,fr
 !excludedir,Excluded files,Emplacements exclus
 !scanlaunch,Always scan when application starts,Toujours scanner au démarrage de l'application
 !scannow,Scan Now,Scanner
+!close,Close,Fermer
 !closelaunch,Close App When Launching Godot Version,Fermer l'application au lancement d'une version de Godot
 !closelaunchp,Close App When Opening A Project,Fermer l'application à l'ouverture d'un projet
 !theme,Theme,Thème

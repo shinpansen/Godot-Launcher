@@ -29,6 +29,11 @@ public partial class BoxContainerBinding : Container
         else return;
 
         _binding.RegisterPropertyChangedEvent(BindingListPropertyName, UpdateItems);
+        Refresh();
+    }
+
+    public void Refresh()
+    {
         var items = _binding.GetPropertyValue(BindingListPropertyName);
         UpdateItems(items);
     }

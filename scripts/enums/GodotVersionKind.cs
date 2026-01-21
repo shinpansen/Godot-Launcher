@@ -8,7 +8,8 @@ namespace GodotLauncher.Scripts.Enums;
 
 public enum GodotVersionKind
 {
-    Unknown = -1,
+    Unknown = -2,
+    Alpha = -1,
     Dev = 0,
     Beta = 1,
     Rc = 2,

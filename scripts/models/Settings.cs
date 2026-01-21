@@ -42,6 +42,12 @@ public class Settings
     [JsonPropertyName("appTheme")]
     public AppTheme AppTheme { get; set; }
 
+    [JsonPropertyName("versionUrl")]
+    public string VersionUrl { get; set; } = "https://godotengine.org/versions.json";
+
+    [JsonPropertyName("downloadUrl")]
+    public string DownloadUrl { get; set; } = "https://godotengine.org/download/archive/{0}/";
+
     [JsonIgnore]
     public long LanguageId
     {

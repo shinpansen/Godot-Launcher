@@ -29,12 +29,13 @@ public readonly struct GodotVersionType
         if (input == "stable")
             return new GodotVersionType(GodotVersionKind.Stable, null);
 
-        var match = Regex.Match(input, @"^(dev|beta|rc)(\d+)?$");
+        var match = Regex.Match(input, @"^(alpha|dev|beta|rc)(\d+)?$");
         if (!match.Success)
             return new GodotVersionType(GodotVersionKind.Unknown, null);
 
         var kind = match.Groups[1].Value switch
         {
+            "alpha" => GodotVersionKind.Alpha,
             "dev" => GodotVersionKind.Dev,
             "beta" => GodotVersionKind.Beta,
             "rc" => GodotVersionKind.Rc,

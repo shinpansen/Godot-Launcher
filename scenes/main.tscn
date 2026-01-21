@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dtaan3vw2af7j"]
+[gd_scene load_steps=22 format=3 uid="uid://dtaan3vw2af7j"]
 
 [ext_resource type="Script" uid="uid://de0d6qifjfbqi" path="res://scripts/scenes/Main.cs" id="1_jyhfs"]
 [ext_resource type="ButtonGroup" uid="uid://bglyxvlwqd346" path="res://assets/groups/sidebar_group.tres" id="1_o5qli"]
@@ -8,9 +8,24 @@
 [ext_resource type="Texture2D" uid="uid://do0aspq61vp52" path="res://assets/textures/background.png" id="4_o6xl0"]
 [ext_resource type="Theme" uid="uid://b50j7hd8b57cy" path="res://assets/themes/button-tab-theme.tres" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://vwf3ok6ugiyt" path="res://scenes/settings/settings_view.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c3ec1xm0uyctc" path="res://scenes/downloads/downloads_view.tscn" id="6_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://crp2uw4s8sdmc" path="res://assets/icons/burger-menu.svg" id="6_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://cl4v4faaolq66" path="res://assets/icons/project.svg" id="7_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://bqgk6nxr24nd2" path="res://assets/icons/settings.svg" id="8_trceg"]
+[ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="13_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://baip5qn0u2frv" path="res://assets/icons/plus.svg" id="13_trceg"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tipki"]
+texture = ExtResource("4_o6xl0")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ya4ey"]
+shadow_color = Color(0, 0, 0, 0.21568628)
+shadow_size = 15
+
+[sub_resource type="Theme" id="Theme_eb6dy"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ya4ey")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_85g3d"]
 texture = ExtResource("4_o6xl0")
@@ -21,15 +36,10 @@ modulate_color = Color(0.7204674, 0.7204675, 0.7204674, 1)
 [sub_resource type="Theme" id="Theme_choun"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_85g3d")
 
-[sub_resource type="Theme" id="Theme_ya4ey"]
-
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_tipki"]
 color = Color(1, 1, 1, 0.13725491)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tipki"]
-texture = ExtResource("4_o6xl0")
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eb6dy"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -38,6 +48,21 @@ script = ExtResource("1_jyhfs")
 
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
+
+[node name="WindowInstall" type="Window" parent="."]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "!installnew"
+initial_position = 1
+size = Vector2i(400, 450)
+visible = false
+exclusive = true
+always_on_top = true
+minimize_disabled = true
+maximize_disabled = true
+
+[node name="DownloadsView" parent="WindowInstall" instance=ExtResource("6_eb6dy")]
+unique_name_in_owner = true
 
 [node name="WindowError" type="Window" parent="."]
 unique_name_in_owner = true
@@ -56,6 +81,51 @@ maximize_disabled = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
+[node name="Content" type="TabContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tipki")
+current_tab = 0
+tabs_visible = false
+
+[node name="VersionsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("SettingsView") instance=ExtResource("2_sugp2")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingsView = NodePath("../SettingsView")
+ConfigFileName = "versions.json"
+metadata/_tab_index = 0
+
+[node name="ProjectsView" parent="CanvasLayer/Content" instance=ExtResource("3_jyhfs")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="SettingsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("VersionsView", "ProjectsView") instance=ExtResource("5_tbgi4")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+VersionsView = NodePath("../VersionsView")
+ProjectsView = NodePath("../ProjectsView")
+ConfigFileName = "settings.json"
+metadata/_tab_index = 2
+
+[node name="ShadowPanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 256.0
+grow_vertical = 2
+theme = SubResource("Theme_eb6dy")
+
+[node name="ShadowPanelContainer" type="PanelContainer" parent="CanvasLayer/ShadowPanelContainer"]
+layout_mode = 2
+theme = SubResource("Theme_eb6dy")
+
 [node name="SideBar" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -65,7 +135,6 @@ theme = SubResource("Theme_choun")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SideBar"]
 layout_mode = 2
-theme = SubResource("Theme_ya4ey")
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
@@ -114,42 +183,31 @@ text = "!settings"
 icon = ExtResource("8_trceg")
 expand_icon = true
 
-[node name="Content" type="TabContainer" parent="CanvasLayer"]
-unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 256.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_tipki")
-current_tab = 0
-tabs_visible = false
-
-[node name="VersionsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("SettingsView") instance=ExtResource("2_sugp2")]
-unique_name_in_owner = true
+[node name="Spacing" type="HSeparator" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
-SettingsView = NodePath("../SettingsView")
-ConfigFileName = "versions.json"
-metadata/_tab_index = 0
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_eb6dy")
 
-[node name="ProjectsView" parent="CanvasLayer/Content" instance=ExtResource("3_jyhfs")]
-unique_name_in_owner = true
-visible = false
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer"]
 layout_mode = 2
-metadata/_tab_index = 1
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
-[node name="SettingsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("VersionsView", "ProjectsView") instance=ExtResource("5_tbgi4")]
-unique_name_in_owner = true
-visible = false
+[node name="ButtonInstall" type="Button" parent="CanvasLayer/SideBar/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
-VersionsView = NodePath("../VersionsView")
-ProjectsView = NodePath("../ProjectsView")
-ConfigFileName = "settings.json"
-metadata/_tab_index = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("13_a8y0u")
+text = "!installnew"
+icon = ExtResource("13_trceg")
+expand_icon = true
 
+[connection signal="close_requested" from="WindowInstall" to="." method="HideInstallWindow"]
+[connection signal="Close" from="WindowInstall/DownloadsView" to="." method="HideInstallWindow"]
 [connection signal="close_requested" from="WindowError" to="." method="CloseErrorWindow"]
 [connection signal="Close" from="WindowError/Error" to="." method="CloseErrorWindow"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonVersions" to="." method="OnButtonVersionsDown"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonProjects" to="." method="OnButtonProjectsDown"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonSettings" to="." method="OnButtonSettingsDown"]
+[connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/MarginContainer/ButtonInstall" to="." method="OnButtonInstallDown"]

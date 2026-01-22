@@ -204,7 +204,7 @@ public partial class SettingsView : DataSourceBinding<Settings>
         if (e.Result is ScanResult result) 
         {
             if (!string.IsNullOrEmpty(result.Errors))
-                ErrorTools.ShowError(result.Errors);
+                DialogTools.ShowError(result.Errors);
 
             _labelScanEngineResult.Text = $"{result.Count} {TranslationServer.Translate("!godotfound")}";
         }
@@ -224,7 +224,7 @@ public partial class SettingsView : DataSourceBinding<Settings>
         if (e.Result is ScanResult result)
         {
             if (!string.IsNullOrEmpty(result.Errors))
-                ErrorTools.ShowError(result.Errors);
+                DialogTools.ShowError(result.Errors);
 
             _labelScanProjectsResult.Text = $"{result.Count} {TranslationServer.Translate("!projectsfound")}";
         }

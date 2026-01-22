@@ -26,12 +26,12 @@ public partial class ProjectItemView : ItemBinding<Project>
     {
         if (BindingContext.LaunchVersion is null)
         {
-            ErrorTools.ShowError(TranslationServer.Translate("!canteditp"));
+            DialogTools.ShowError(TranslationServer.Translate("!canteditp"));
             return;
         }
         else if (!System.IO.File.Exists(BindingContext.LaunchVersion.Path))
         {
-            ErrorTools.ShowError($"{TranslationServer.Translate("!exenotfound")} {BindingContext.LaunchVersion.Path}");
+            DialogTools.ShowError($"{TranslationServer.Translate("!exenotfound")} {BindingContext.LaunchVersion.Path}");
             return;
         }
 

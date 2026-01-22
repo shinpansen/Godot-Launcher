@@ -54,7 +54,7 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
         var config = LoadVersionConfig(settings.ScanWhenLauncherStart, out string errors);
 
         if (!string.IsNullOrEmpty(errors))
-            ErrorTools.ShowError(errors);
+            DialogTools.ShowError(errors);
         return config;
     }
 

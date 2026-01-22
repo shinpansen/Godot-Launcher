@@ -18,7 +18,7 @@ public partial class Main : Control
 
     public override void _Ready()
     {
-        ErrorTools.ErrorWindow = _windowError;
+        DialogTools.ErrorWindow = _windowError;
 
         _buttons = new Button[]
         {

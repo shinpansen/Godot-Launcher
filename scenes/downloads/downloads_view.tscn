@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3ec1xm0uyctc"]
+[gd_scene load_steps=13 format=3 uid="uid://c3ec1xm0uyctc"]
 
 [ext_resource type="Script" uid="uid://icv8sos7wu62" path="res://scripts/scenes/downloads_view/DownloadsView.cs" id="1_imcyp"]
 [ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="2_fhhep"]
@@ -6,12 +6,17 @@
 [ext_resource type="Theme" uid="uid://s5gxn16nk1nu" path="res://assets/themes/button-toggle-theme.tres" id="4_h8ieq"]
 [ext_resource type="Theme" uid="uid://bugvf400h77t3" path="res://assets/themes/toggle-theme.tres" id="5_h8ieq"]
 [ext_resource type="Theme" uid="uid://cffngnf7n8kt3" path="res://assets/themes/button-primary-theme.tres" id="6_ra6x6"]
+[ext_resource type="Texture2D" uid="uid://6plf0tvt1hb3" path="res://assets/icons/loading-spinner.svg" id="6_u3ron"]
+[ext_resource type="Script" uid="uid://3sx1v4jilh4m" path="res://scripts/scenes/components/Loader.cs" id="7_qaso1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_imcyp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h8ieq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_28eod"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_u3ron"]
+font_size = 20
 
 [node name="DownloadsView" type="Control"]
 layout_mode = 3
@@ -119,6 +124,32 @@ text = "x64 | 64bits"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_28eod")
+
+[node name="LoaderHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Loader" type="TextureRect" parent="MarginContainer/VBoxContainer/LoaderHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_u3ron")
+expand_mode = 2
+script = ExtResource("7_qaso1")
+Speed = 10.0
+PivotOffsetOverride = Vector2(14, 14)
+
+[node name="LabelProgress" type="Label" parent="MarginContainer/VBoxContainer/LoaderHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Progress..."
+label_settings = SubResource("LabelSettings_u3ron")
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_imcyp")
 
 [node name="DownloadHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

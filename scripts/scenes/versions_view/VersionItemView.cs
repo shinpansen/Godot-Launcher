@@ -31,7 +31,7 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
         
         if(!System.IO.File.Exists(BindingContext.Path))
         {
-            ErrorTools.ShowError($"{TranslationServer.Translate("!exenotfound")} {BindingContext.Path}");
+            DialogTools.ShowError($"{TranslationServer.Translate("!exenotfound")} {BindingContext.Path}");
             return;
         }
 

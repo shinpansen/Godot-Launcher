@@ -23,7 +23,7 @@ public partial class ButtonFolder : Button
         string directoryPath = IsDirectory(dir) ? dir : System.IO.Path.GetDirectoryName(dir);
         if (!System.IO.Directory.Exists(directoryPath))
         {
-            ErrorTools.ShowError($"{TranslationServer.Translate("!dirnotfound")} {directoryPath}");
+            DialogTools.ShowError($"{TranslationServer.Translate("!dirnotfound")} {directoryPath}");
             return;
         }
         SystemTools.OpenPath(directoryPath);

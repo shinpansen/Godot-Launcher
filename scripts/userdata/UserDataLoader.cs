@@ -45,7 +45,7 @@ public static class UserDataLoader
         List<Models.Project> projectsUpdated = [];
         foreach (var project in projectsScanned)
         {
-            var matchedProject = config.Projects.FirstOrDefault(
+            var matchedProject = config.Projects?.FirstOrDefault(
                 p => p.Name == project.Name && 
                 p.Version == project.Version);
 

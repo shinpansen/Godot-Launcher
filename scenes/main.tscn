@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://de0d6qifjfbqi" path="res://scripts/scenes/Main.cs" id="1_jyhfs"]
 [ext_resource type="ButtonGroup" uid="uid://bglyxvlwqd346" path="res://assets/groups/sidebar_group.tres" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://cnf6lma4s33we" path="res://scenes/versions/versions_view.tscn" id="2_sugp2"]
-[ext_resource type="PackedScene" uid="uid://c6eua6gd5165t" path="res://scenes/components/error.tscn" id="2_tefeu"]
+[ext_resource type="PackedScene" uid="uid://c6eua6gd5165t" path="res://scenes/components/dialog.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://vfh53vfthquh" path="res://scenes/projects/projects_view.tscn" id="3_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://do0aspq61vp52" path="res://assets/textures/background.png" id="4_o6xl0"]
 [ext_resource type="Theme" uid="uid://b50j7hd8b57cy" path="res://assets/themes/button-tab-theme.tres" id="4_tipki"]
@@ -65,7 +65,7 @@ unique_name_in_owner = true
 VersionsView = NodePath("../../CanvasLayer/Content/VersionsView")
 ProjectsView = NodePath("../../CanvasLayer/Content/ProjectsView")
 
-[node name="WindowError" type="Window" parent="."]
+[node name="WindowDialog" type="Window" parent="."]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "!error"
@@ -77,7 +77,7 @@ always_on_top = true
 minimize_disabled = true
 maximize_disabled = true
 
-[node name="Error" parent="WindowError" instance=ExtResource("2_tefeu")]
+[node name="Dialog" parent="WindowDialog" instance=ExtResource("2_tefeu")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -94,9 +94,10 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_tipki")
 current_tab = 0
 tabs_visible = false
 
-[node name="VersionsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("SettingsView") instance=ExtResource("2_sugp2")]
+[node name="VersionsView" parent="CanvasLayer/Content" node_paths=PackedStringArray("ProjectsView", "SettingsView") instance=ExtResource("2_sugp2")]
 unique_name_in_owner = true
 layout_mode = 2
+ProjectsView = NodePath("../ProjectsView")
 SettingsView = NodePath("../SettingsView")
 ConfigFileName = "versions.json"
 metadata/_tab_index = 0
@@ -205,8 +206,8 @@ icon = ExtResource("13_trceg")
 expand_icon = true
 
 [connection signal="close_requested" from="WindowInstall" to="." method="HideInstallWindow"]
-[connection signal="close_requested" from="WindowError" to="." method="CloseErrorWindow"]
-[connection signal="Close" from="WindowError/Error" to="." method="CloseErrorWindow"]
+[connection signal="close_requested" from="WindowDialog" to="." method="CloseErrorWindow"]
+[connection signal="Close" from="WindowDialog/Dialog" to="." method="CloseErrorWindow"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonVersions" to="." method="OnButtonVersionsDown"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonProjects" to="." method="OnButtonProjectsDown"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonSettings" to="." method="OnButtonSettingsDown"]

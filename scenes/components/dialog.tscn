@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6eua6gd5165t"]
+[gd_scene load_steps=7 format=3 uid="uid://c6eua6gd5165t"]
 
-[ext_resource type="Script" uid="uid://4011w0aygvqw" path="res://scripts/scenes/Error.cs" id="1_mv2uk"]
+[ext_resource type="Script" uid="uid://4011w0aygvqw" path="res://scripts/scenes/Dialog.cs" id="1_mv2uk"]
 [ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="2_cqcen"]
+[ext_resource type="Theme" uid="uid://cffngnf7n8kt3" path="res://assets/themes/button-primary-theme.tres" id="2_er6u2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dh6gm"]
 font_size = 14
@@ -10,7 +11,7 @@ font_size = 14
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mv2uk"]
 
-[node name="Error" type="Control"]
+[node name="Dialog" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,7 +37,7 @@ theme_override_constants/margin_bottom = 16
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="ErrorLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="TextLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(50, 20)
@@ -59,7 +60,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_mv2uk")
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ButtonValid" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_er6u2")
+text = "!yes"
+
+[node name="Spacing" type="VSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_mv2uk")
+
+[node name="ButtonOkNo" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_cqcen")
@@ -70,4 +84,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_mv2uk")
 
-[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/Button" to="." method="ButtonOkDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonValid" to="." method="ButtonValidDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/ButtonOkNo" to="." method="ButtonOkDown"]

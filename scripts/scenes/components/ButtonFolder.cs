@@ -19,14 +19,21 @@ public partial class ButtonFolder : Button
     {
         if (GetOwner() is not IControlBinding binding) return;
 
-        string dir = binding.GetPropertyValue(PathPropertyName).ToString();
-        string directoryPath = IsDirectory(dir) ? dir : System.IO.Path.GetDirectoryName(dir);
-        if (!System.IO.Directory.Exists(directoryPath))
+        try
         {
-            DialogTools.ShowError($"{TranslationServer.Translate("!dirnotfound")} {directoryPath}");
-            return;
+            string dir = binding.GetPropertyValue(PathPropertyName).ToString();
+            string directoryPath = IsDirectory(dir) ? dir : System.IO.Path.GetDirectoryName(dir);
+            if (!System.IO.Directory.Exists(directoryPath))
+            {
+                DialogTools.ShowError($"{TranslationServer.Translate("!dirnotfound")} {directoryPath}");
+                return;
+            }
+            SystemTools.OpenPath(directoryPath);
         }
-        SystemTools.OpenPath(directoryPath);
+        catch (Exception ex)
+        {
+            DialogTools.ShowError(ex.Message);
+        }
     }
 
     private bool IsDirectory(string path)

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace GodotLauncher.Scripts.Enums;
 
-public enum DialogMode
+public enum TabSelect
 {
-    Message = 0,
-    Question = 1,
+    Versions = 0,
+    Projects = 1,
+    Settings = 2
 }

@@ -87,6 +87,8 @@ public static class UserDataScanner
     public static List<Project> MatchAvailableVersions(List<Project> projects, List<EngineVersion> versions)
     {
         List<Project> projectsUpdated = [];
+        if (projects is null) return projectsUpdated;
+
         foreach (var p in projects)
         {
             var projectEngineVersion = new EngineVersion(p.Version, "", "", p.CSharp);
@@ -105,6 +107,8 @@ public static class UserDataScanner
                 var v = versionsMatched.First();
                 p.OptimalLaunchVersion = new EngineVersion(v.Version, v.Path, v.Type, v.Mono, v.CustomIcon);
             }
+            else
+                p.OptimalLaunchVersion = null;
 
             if (p.DefaultLaunchVersion is not null && !File.Exists(p.DefaultLaunchVersion.Path))
                 p.DefaultLaunchVersion = null;

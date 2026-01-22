@@ -154,3 +154,4 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_n1k5f")
 [connection signal="text_changed" from="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/TextEditSearch" to="." method="TextEditSearchChanged"]
 [connection signal="SortChanged" from="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByVersion" to="." method="SortChanged"]
 [connection signal="SortChanged" from="MainScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/ButtonSortByFileName" to="." method="SortChanged"]
+[connection signal="DeleteItem" from="MainScrollContainer/MarginContainer/VBoxContainer/VersionsScrollContainer/MarginContainer/VBoxContainer/VersionsHFlowContainer" to="." method="DeleteVersion"]

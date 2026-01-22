@@ -52,6 +52,30 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
                 Visible = false;
                 _versionsView?.SettingsView?.AddExcludedFile(BindingContext.Path);
                 break;
+            case 2:
+                string message = TranslationServer.Translate("!sureuninstall");
+                DialogTools.ShowQuestion(TranslationServer.Translate("!sure"),
+                    string.Format(message, BindingContext.FileName), () => UninstallVersion());
+                break;
+        }
+    }
+
+    private void UninstallVersion()
+    {
+        string path = System.IO.Path.GetDirectoryName(BindingContext.Path);
+        try
+        {
+            System.IO.Directory.Delete(path, true);
+
+            var parent = GetParent<BoxContainerBinding>();
+            parent?.EmitSignal(
+                BoxContainerBinding.SignalName.DeleteItem,
+                this
+            );
+        }
+        catch (Exception ex)
+        {
+            DialogTools.ShowError(ex.Message);
         }
     }
 

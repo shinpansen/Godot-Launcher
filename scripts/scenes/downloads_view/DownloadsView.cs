@@ -59,6 +59,7 @@ public partial class DownloadsView : Node
 
     public void Load()
     {
+        _loaderHBoxContainer.Visible = false;
         _config.AvailableReleases = GodotDownloader.DownloadReleasesInfo();
 
         int i = 0;
@@ -129,7 +130,7 @@ public partial class DownloadsView : Node
     private void DownloadWorkerDoWork(object sender, DoWorkEventArgs e)
     {
         //Download urls
-        CallDeferred(nameof(ChangeProgressText), "Fetching url...");
+        CallDeferred(nameof(ChangeProgressText), TranslationServer.Translate("!fetching"));
         string version = _request.Version;
         string type = _request.Type;
         List<DownloadUrl> urls;
@@ -139,7 +140,7 @@ public partial class DownloadsView : Node
         }
         catch (Exception ex)
         {
-            e.Result = new DownloadResult(false, $"Can't fetch download links for version {version}-{type} : {ex.Message}");
+            e.Result = new DownloadResult(false, TranslationServer.Translate("!cantfetch") + $" {version}-{type} : {ex.Message}");
             return;
         }
 
@@ -149,12 +150,12 @@ public partial class DownloadsView : Node
         string finalUrl = GodotDownloader.FilterUrls(urls, version, type, mono, version32bits);
         if (string.IsNullOrEmpty(finalUrl))
         {
-            e.Result = new DownloadResult(false, $"Can't find download url for those parameters");
+            e.Result = new DownloadResult(false, TranslationServer.Translate("!nourl"));
             return;
         }
 
         //Download
-        CallDeferred(nameof(ChangeProgressText), "Downloading...");
+        CallDeferred(nameof(ChangeProgressText), TranslationServer.Translate("!downloading"));
         string outputPath;
         try
         {
@@ -162,24 +163,26 @@ public partial class DownloadsView : Node
         }
         catch (Exception ex)
         {
-            e.Result = new DownloadResult(false, $"Error downloading Godot_v{version}-{type} archive: {ex.Message}");
+            string errMessage = TranslationServer.Translate("!errdownload");
+            e.Result = new DownloadResult(false, string.Format(errMessage, version, type, ex.Message));
             return;
         }
 
         //Extract
-        CallDeferred(nameof(ChangeProgressText), "Extracting...");
+        CallDeferred(nameof(ChangeProgressText), TranslationServer.Translate("!extracting"));
         try
         {
             GodotDownloader.ExtractZip(outputPath);
         }
         catch (Exception ex)
         {
-            e.Result = new DownloadResult(false, $"Error extracting archive at {outputPath}: {ex.Message}");
+            string errMessage = TranslationServer.Translate("!errextracting");
+            e.Result = new DownloadResult(false, string.Format(errMessage, outputPath, ex.Message));
             return;
         }
 
         //Scan
-        CallDeferred(nameof(ChangeProgressText), "Scanning...");
+        CallDeferred(nameof(ChangeProgressText), TranslationServer.Translate("!scanning"));
         try
         {
             string errors = string.Empty;
@@ -202,7 +205,11 @@ public partial class DownloadsView : Node
         if(e.Result is DownloadResult result)
         {
             if (result.Success)
-                DialogTools.ShowMessage("Download complete", "Download complete!");
+            {
+                DialogTools.ShowMessage(
+                    TranslationServer.Translate("!success"),
+                    TranslationServer.Translate("!dlcomplete"));
+            }
             else
                 DialogTools.ShowError(result.Errors);
         }

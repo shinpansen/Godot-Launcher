@@ -9,7 +9,7 @@ namespace GodotLauncher.Scripts.Scenes;
 
 public partial class Main : Control
 {
-    private Window _windowError => GetNode<Window>("%WindowError");
+    private Window _windowDialog => GetNode<Window>("%WindowDialog");
     private Window _windowInstall => GetNode<Window>("%WindowInstall");
     private DownloadsView.DownloadsView _downloadsView => GetNode<DownloadsView.DownloadsView>("%DownloadsView");
     private TabContainer _sideBarTabContainer => GetNode<TabContainer>("%Content");
@@ -18,7 +18,7 @@ public partial class Main : Control
 
     public override void _Ready()
     {
-        DialogTools.ErrorWindow = _windowError;
+        DialogTools.DialogWindow = _windowDialog;
 
         _buttons = new Button[]
         {
@@ -32,7 +32,7 @@ public partial class Main : Control
 
     private void CloseErrorWindow()
     {
-        _windowError.Hide();
+        _windowDialog.Hide();
     }
 
     private void OnButtonVersionsDown() => ChangeTab(0);

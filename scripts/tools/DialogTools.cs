@@ -12,25 +12,35 @@ namespace GodotLauncher.Scripts.Tools;
 
 public static class DialogTools
 {
-    public static Window ErrorWindow { get; set; }
+    public static Window DialogWindow { get; set; }
 
-    public static void ShowMessage(string title, string errorText)
+    public static void ShowMessage(string title, string message)
     {
-        ErrorWindow.Title = title;
-        if (ErrorWindow?.GetChild(0) is GodotLauncher.Scripts.Scenes.Error e)
+        DialogWindow.Title = title;
+        if (DialogWindow?.GetChild(0) is GodotLauncher.Scripts.Scenes.Dialog e)
         {
-            ErrorWindow.Show();
-            e.SetErrorText(errorText);
+            DialogWindow.Show();
+            e.InitDialog(message);
         }
     }
 
     public static void ShowError(string errorText)
     {
-        ErrorWindow.Title = TranslationServer.Translate("!error");
-        if (ErrorWindow?.GetChild(0) is GodotLauncher.Scripts.Scenes.Error e)
+        DialogWindow.Title = TranslationServer.Translate("!error");
+        if (DialogWindow?.GetChild(0) is GodotLauncher.Scripts.Scenes.Dialog e)
         {
-            ErrorWindow.Show();
-            e.SetErrorText(errorText);
+            DialogWindow.Show();
+            e.InitDialog(errorText);
+        }
+    }
+
+    public static void ShowQuestion(string title, string message, Action validCallBack)
+    {
+        DialogWindow.Title = title;
+        if (DialogWindow?.GetChild(0) is GodotLauncher.Scripts.Scenes.Dialog e)
+        {
+            DialogWindow.Show();
+            e.InitDialog(message, Enums.DialogMode.Question, validCallBack);
         }
     }
 }

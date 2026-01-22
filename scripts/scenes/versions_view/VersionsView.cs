@@ -17,6 +17,9 @@ namespace GodotLauncher.Scripts.Scenes.VersionsView;
 public partial class VersionsView : DataSourceBinding<VersionsConfig>
 {
     [Export]
+    public ProjectsView.ProjectsView ProjectsView { get; set; }
+
+    [Export]
     public SettingsView.SettingsView SettingsView { get; set; }
 
     private Node _versionsHFlowContainer => GetNode("%VersionsHFlowContainer");
@@ -132,5 +135,14 @@ public partial class VersionsView : DataSourceBinding<VersionsConfig>
 
         for (int i = 0; i < children.Count(); i++)
             _versionsHFlowContainer.MoveChild(children.ElementAt(i), i);
+    }
+
+    private void DeleteVersion(Node node)
+    {
+        VersionsConfig versionsConfig = Refresh(out string errors);
+        if(!string.IsNullOrEmpty(errors))
+            DialogTools.ShowError(errors);
+
+        ProjectsView?.RefreshProjectsVersions(versionsConfig.Versions);
     }
 }

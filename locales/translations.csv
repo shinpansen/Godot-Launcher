@@ -55,3 +55,18 @@ key,en,fr
 !defaulttab,Default Tab,Onglet par défaut
 !godotfound,Godot Version(s) Found,Version(s) de Godot trouvé(es)
 !projectsfound,Project(s) Found,Projet(s) trouvé(s)
+!fetching,Fetching url...,Recherche url...
+!cantfetch,Can't fetch download links for version,Impossible de trouver l'url de téléchargement pour la version
+!nourl,Can't find download url for those parameters,Impossible de trouver l'url de téléchargement pour ces paramètres
+!downloading,Downloading...,Téléchargement...
+!errdownload,Error downloading Godot_v{0}-{1} archive: {2},Erreur lors du téléchargement de l'archive Godot_v{0}-{1} : {2}
+!extracting,Extracting...,Extraction...
+!scanning,Scanning...,Scan en cours...
+!errextracting,Error extracting archive at {0}: {1},Erreur lors de l'extraction de l'archive au chemin {0}: {1}
+!success,Success,Succès
+!dlcomplete,Download complete !,Téléchargement terminé !
+!yes,Yes,Oui
+!no,No,Non
+!uninstall,Uninstall,Désinstaller
+!sure,Are You Sure?,Êtes-vous sûr ?
+!sureuninstall,Are You Sure your want to uninstall {0}?,Êtes-vous sûr de vouloir désinstaller {0} ?

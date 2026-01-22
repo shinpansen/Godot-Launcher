@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cpvwa6g4lpnvv"]
+[gd_scene load_steps=34 format=3 uid="uid://cpvwa6g4lpnvv"]
 
 [ext_resource type="Script" uid="uid://lwns8w4vi1l4" path="res://scripts/scenes/versions_view/VersionItemView.cs" id="1_pxeku"]
 [ext_resource type="Shader" uid="uid://bho63c56svbs0" path="res://assets/shaders/godot-icon.gdshader" id="2_qpqg1"]
@@ -15,6 +15,7 @@
 [ext_resource type="Theme" uid="uid://cffngnf7n8kt3" path="res://assets/themes/button-primary-theme.tres" id="11_bn7am"]
 [ext_resource type="Texture2D" uid="uid://dv0hfkp2ajfux" path="res://assets/icons/hide.svg" id="12_0wlhf"]
 [ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="12_gg61t"]
+[ext_resource type="Texture2D" uid="uid://dkcf2ta8ie6yr" path="res://assets/icons/delete.svg" id="16_bn7am"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pxeku"]
 bg_color = Color(1, 1, 1, 1)
@@ -218,7 +219,6 @@ layout_mode = 2
 [node name="ButtonFolder" parent="PanelContainer/MarginContainer/VBoxContainer/PathHBoxContainer" instance=ExtResource("8_id7im")]
 layout_mode = 2
 PathPropertyName = "Path"
-DirectoryPath = false
 
 [node name="LabelFileName" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PathHBoxContainer"]
 layout_mode = 2
@@ -260,13 +260,16 @@ theme = ExtResource("12_gg61t")
 icon = ExtResource("11_8e7uy")
 icon_alignment = 1
 expand_icon = true
-item_count = 2
+item_count = 3
 popup/item_0/text = "!editicon"
 popup/item_0/icon = ExtResource("7_c2xhb")
 popup/item_0/id = 0
 popup/item_1/text = "!exclude"
 popup/item_1/icon = ExtResource("12_0wlhf")
 popup/item_1/id = 1
+popup/item_2/text = "!uninstall"
+popup/item_2/icon = ExtResource("16_bn7am")
+popup/item_2/id = 2
 
 [connection signal="close_requested" from="WindowEdit" to="." method="HideWindowEdit"]
 [connection signal="Cancel" from="WindowEdit/IconCustomization" to="." method="HideWindowEdit"]

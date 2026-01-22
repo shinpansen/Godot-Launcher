@@ -35,7 +35,7 @@ public partial class VersionItemView : ItemBinding<EngineVersion>
             return;
         }
 
-        SystemTools.OpenFileExplorer(BindingContext.Path); //TODO handle linux and mac os
+        SystemTools.OpenPath(BindingContext.Path); 
         Settings settings = UserDataLoader.LoadUserSettings();
         if (settings.CloseLauncherWhenStartingGodot) GetTree().Quit();
     }

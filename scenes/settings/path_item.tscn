@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bn7erxe4rg46k"]
+[gd_scene load_steps=9 format=3 uid="uid://bn7erxe4rg46k"]
 
 [ext_resource type="Script" uid="uid://bpfit5n1x2t3b" path="res://scripts/scenes/settings_view/PathItemView.cs" id="1_0md1h"]
 [ext_resource type="Script" uid="uid://d4actki8c2syk" path="res://scripts/binding/controls/GenericBinding.cs" id="2_a0fhy"]
+[ext_resource type="PackedScene" uid="uid://dcyunpbpmnmkf" path="res://scenes/components/button_folder.tscn" id="2_trext"]
 [ext_resource type="Texture2D" uid="uid://dkcf2ta8ie6yr" path="res://assets/icons/delete.svg" id="3_5mggv"]
 [ext_resource type="Script" uid="uid://bah30u8bgkskc" path="res://scripts/binding/PropertyBinding.cs" id="3_trext"]
 [ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="4_a0fhy"]
@@ -34,6 +35,10 @@ theme_override_constants/margin_bottom = 8
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
+
+[node name="ButtonFolder" parent="MarginContainer/HBoxContainer" instance=ExtResource("2_trext")]
+layout_mode = 2
+PathPropertyName = "FullName"
 
 [node name="LabelFullName" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2

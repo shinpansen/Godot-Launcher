@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bnoer0yefc81x" path="res://scripts/scenes/versions_view/VersionsView.cs" id="1_pg44v"]
 [ext_resource type="ButtonGroup" uid="uid://b8x8s7dui74na" path="res://assets/groups/sort_engines_group.tres" id="2_77r2c"]
-[ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="2_g5xxy"]
 [ext_resource type="Theme" uid="uid://c046rxs4mn51d" path="res://assets/themes/textedit-theme.tres" id="2_n1k5f"]
 [ext_resource type="Script" uid="uid://rhlo5lnaoj33" path="res://scripts/scenes/components/ButtonSort.cs" id="3_84s4x"]
+[ext_resource type="Theme" uid="uid://s5gxn16nk1nu" path="res://assets/themes/button-toggle-theme.tres" id="3_n1k5f"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="4_ngter"]
 [ext_resource type="PackedScene" uid="uid://cpvwa6g4lpnvv" path="res://scenes/versions/version_item.tscn" id="5_84s4x"]
 
@@ -78,7 +78,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme = ExtResource("2_g5xxy")
+theme = ExtResource("3_n1k5f")
 toggle_mode = true
 button_group = ExtResource("2_77r2c")
 text = "!version"
@@ -96,7 +96,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme = ExtResource("2_g5xxy")
+theme = ExtResource("3_n1k5f")
 toggle_mode = true
 button_group = ExtResource("2_77r2c")
 text = "!filename"

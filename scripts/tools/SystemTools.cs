@@ -1,23 +1,27 @@
 using GodotLauncher.Scripts.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GodotLauncher.Scripts.Tools;
 
 public static class SystemTools
 {
-    public static void OpenFileExplorer(string path)
+    public static void OpenPath(string path)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            Process.Start(new ProcessStartInfo("explorer", $"\"{path}\"")
+            Process.Start(new ProcessStartInfo
             {
+                FileName = path,
                 UseShellExecute = true
             });
         }
@@ -69,5 +73,19 @@ public static class SystemTools
             0x8664 => ExeBitness.x64,  
             _ => ExeBitness.Unknown
         };
+    }
+
+    public static void CancelWorker(BackgroundWorker backgroundWorker, int timeout = 2000)
+    {
+        if (!backgroundWorker.IsBusy) return;
+
+        backgroundWorker.CancelAsync();
+
+        while (backgroundWorker.IsBusy)
+        {
+            if (timeout <= 0) return;
+            Thread.Sleep(10);
+            timeout -= 10;
+        }
     }
 }

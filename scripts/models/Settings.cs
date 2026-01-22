@@ -21,9 +21,6 @@ public class Settings
     [JsonPropertyName("projectsDirectories")]
     public List<FileSystemPath> ProjectsDirectories { get; set; } = [];
 
-    [JsonPropertyName("defaultInstallDirectory")]
-    public string DefaultInstallDirectory { get; set; } = ProjectSettings.GlobalizePath("user://");
-
     [JsonPropertyName("excludedFiles")]
     public List<FileSystemPath> ExcludedFiles { get; set; } = [];
 
@@ -70,10 +67,5 @@ public class Settings
 
     public Settings()
     {
-        //TODO : Handle linux and mac os
-        if (CustomInstallsDirectories.Count == 0)
-        {
-            CustomInstallsDirectories.Add(new FileSystemPath(@"C:\Program Files (x86)\Godot"));
-        }
     }
 }

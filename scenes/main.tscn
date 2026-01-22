@@ -54,15 +54,16 @@ unique_name_in_owner = true
 oversampling_override = 1.0
 title = "!installnew"
 initial_position = 1
-size = Vector2i(400, 450)
+size = Vector2i(500, 450)
 visible = false
 exclusive = true
-always_on_top = true
 minimize_disabled = true
 maximize_disabled = true
 
-[node name="DownloadsView" parent="WindowInstall" instance=ExtResource("6_eb6dy")]
+[node name="DownloadsView" parent="WindowInstall" node_paths=PackedStringArray("VersionsView", "ProjectsView") instance=ExtResource("6_eb6dy")]
 unique_name_in_owner = true
+VersionsView = NodePath("../../CanvasLayer/Content/VersionsView")
+ProjectsView = NodePath("../../CanvasLayer/Content/ProjectsView")
 
 [node name="WindowError" type="Window" parent="."]
 unique_name_in_owner = true
@@ -204,7 +205,6 @@ icon = ExtResource("13_trceg")
 expand_icon = true
 
 [connection signal="close_requested" from="WindowInstall" to="." method="HideInstallWindow"]
-[connection signal="Close" from="WindowInstall/DownloadsView" to="." method="HideInstallWindow"]
 [connection signal="close_requested" from="WindowError" to="." method="CloseErrorWindow"]
 [connection signal="Close" from="WindowError/Error" to="." method="CloseErrorWindow"]
 [connection signal="button_down" from="CanvasLayer/SideBar/MarginContainer/VBoxContainer/ButtonVersions" to="." method="OnButtonVersionsDown"]

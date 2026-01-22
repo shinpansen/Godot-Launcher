@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ch7cmi8kx017h" path="res://scripts/scenes/projects_view/ProjectsView.cs" id="1_54ill"]
 [ext_resource type="Script" uid="uid://syxf3tc1lqqm" path="res://scripts/binding/controls/BoxContainerBinding.cs" id="2_7bwcs"]
-[ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="2_13vqt"]
 [ext_resource type="Theme" uid="uid://c046rxs4mn51d" path="res://assets/themes/textedit-theme.tres" id="2_bcpgl"]
 [ext_resource type="ButtonGroup" uid="uid://b8x8s7dui74na" path="res://assets/groups/sort_engines_group.tres" id="2_uruiv"]
 [ext_resource type="Script" uid="uid://rhlo5lnaoj33" path="res://scripts/scenes/components/ButtonSort.cs" id="3_13vqt"]
+[ext_resource type="Theme" uid="uid://s5gxn16nk1nu" path="res://assets/themes/button-toggle-theme.tres" id="3_bcpgl"]
 [ext_resource type="PackedScene" uid="uid://cmqq4hhbcd5ul" path="res://scenes/projects/project_item.tscn" id="3_qwe1h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sjaho"]
@@ -97,7 +97,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme = ExtResource("2_13vqt")
+theme = ExtResource("3_bcpgl")
 toggle_mode = true
 button_group = ExtResource("2_uruiv")
 text = "!lastedit"
@@ -115,7 +115,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme = ExtResource("2_13vqt")
+theme = ExtResource("3_bcpgl")
 toggle_mode = true
 button_group = ExtResource("2_uruiv")
 text = "!name"

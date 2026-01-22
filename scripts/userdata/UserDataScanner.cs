@@ -19,6 +19,7 @@ public static class UserDataScanner
     public static List<EngineVersion> ScanUserEngines(out string errors)
     {
         var settings = UserDataLoader.LoadUserSettings();
+        settings.CustomInstallsDirectories.Add(new FileSystemPath(GodotDownloader.DownloadPath));
         List<EngineVersion> engines = [];
         HashSet<string> files = ScanFiles(settings.CustomInstallsDirectories, "exe", out errors);
         

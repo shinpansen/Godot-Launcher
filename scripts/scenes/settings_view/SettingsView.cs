@@ -62,6 +62,12 @@ public partial class SettingsView : DataSourceBinding<Settings>
         _scanProjectsWorker.RunWorkerCompleted += ScanProjectsWorkerOnCompleted;
     }
 
+    public override void _ExitTree()
+    {
+        SystemTools.CancelWorker(_scanEnginesWorker);
+        SystemTools.CancelWorker(_scanProjectsWorker);
+    }
+
     public void AddExcludedFile(string path)
     {
         OnExcludedFilesFileSelected(new Godot.Collections.Array<string>() { path });

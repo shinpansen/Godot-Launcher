@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3ec1xm0uyctc"]
+[gd_scene load_steps=10 format=3 uid="uid://c3ec1xm0uyctc"]
 
 [ext_resource type="Script" uid="uid://icv8sos7wu62" path="res://scripts/scenes/downloads_view/DownloadsView.cs" id="1_imcyp"]
 [ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="2_fhhep"]
+[ext_resource type="ButtonGroup" uid="uid://bnsge2et6h2vo" path="res://assets/groups/bitness_group.tres" id="4_28eod"]
+[ext_resource type="Theme" uid="uid://s5gxn16nk1nu" path="res://assets/themes/button-toggle-theme.tres" id="4_h8ieq"]
 [ext_resource type="Theme" uid="uid://bugvf400h77t3" path="res://assets/themes/toggle-theme.tres" id="5_h8ieq"]
+[ext_resource type="Theme" uid="uid://cffngnf7n8kt3" path="res://assets/themes/button-primary-theme.tres" id="6_ra6x6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_imcyp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h8ieq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_28eod"]
 
@@ -69,29 +74,63 @@ layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_imcyp")
 
-[node name="CheckButtonMono" type="CheckButton" parent="MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
+[node name="MonoBitnessHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="CheckButtonMono" type="CheckButton" parent="MarginContainer/VBoxContainer/MonoBitnessHBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme = ExtResource("5_h8ieq")
 text = "Mono"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/MonoBitnessHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_h8ieq")
+
+[node name="ButtonX86" type="Button" parent="MarginContainer/VBoxContainer/MonoBitnessHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_h8ieq")
+toggle_mode = true
+button_group = ExtResource("4_28eod")
+text = "x86 | 32bits"
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/MonoBitnessHBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_h8ieq")
+
+[node name="ButtonX64" type="Button" parent="MarginContainer/VBoxContainer/MonoBitnessHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_h8ieq")
+toggle_mode = true
+button_pressed = true
+button_group = ExtResource("4_28eod")
+text = "x64 | 64bits"
 
 [node name="Spacing" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_28eod")
 
-[node name="HBoxContainerButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="DownloadHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 2
 
-[node name="ButtonClose" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainerButtons"]
+[node name="ButtonDownload" type="Button" parent="MarginContainer/VBoxContainer/DownloadHBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-mouse_filter = 1
+size_flags_horizontal = 6
 mouse_default_cursor_shape = 2
-theme = ExtResource("2_fhhep")
-text = "!close"
+theme = ExtResource("6_ra6x6")
+text = "!download"
 
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/OptionsVersions" to="." method="OnOptionsVersionsItemSelected"]
-[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainerButtons/ButtonClose" to="." method="OnButtonCloseDown"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/DownloadHBoxContainer/ButtonDownload" to="." method="OnButtonDownloadDown"]

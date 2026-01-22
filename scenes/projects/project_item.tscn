@@ -208,6 +208,7 @@ theme_override_constants/margin_right = 16
 [node name="ButtonEdit" type="Button" parent="MarginContainer/HBoxContainer/ButtonEditVBoxContainer/MarginContainer"]
 layout_mode = 2
 tooltip_text = "!editp"
+mouse_default_cursor_shape = 2
 theme = ExtResource("11_pnfux")
 text = "!edit"
 script = ExtResource("2_q286n")

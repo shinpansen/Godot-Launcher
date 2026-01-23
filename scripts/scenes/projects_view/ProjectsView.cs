@@ -27,6 +27,8 @@ public partial class ProjectsView : DataSourceBinding<ProjectsConfig>
         _buttonSortByLastEdit.SortOrder = BindingContext.SortOrder;
         _buttonSortByName.ButtonPressed = BindingContext.SortType == Enums.ProjectSortType.ProjetctName;
         _buttonSortByName.SortOrder = BindingContext.SortOrder;
+
+        RefreshProjectsItemsOrder();
     }
 
     protected override ProjectsConfig LoadDataSource()

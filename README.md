@@ -11,7 +11,7 @@ It's cross platform and open source.
 You need Godot Engine 4.5.1 (Mono) to build this app.<br/>
 
 ### Download
-[Download Windows build](./bin/Godot Launcher_windows_x86_64.zip)
+<a href="./bin/Godot Launcher_windows_x86_64.zip">[Download Windows build]</a>
 
 ### Features
 

@@ -64,6 +64,8 @@ public partial class SettingsView : DataSourceBinding<Settings>
 
     public override void _ExitTree()
     {
+        SaveDataSource();
+
         SystemTools.CancelWorker(_scanEnginesWorker);
         SystemTools.CancelWorker(_scanProjectsWorker);
     }

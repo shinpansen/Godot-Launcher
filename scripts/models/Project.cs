@@ -16,6 +16,9 @@ public class Project
     [JsonPropertyName("path")]
     public string Path { get; set; }
 
+    [JsonPropertyName("godotFilePath")]
+    public string GodotFilePath { get; set; }
+
     [JsonPropertyName("lastEdit")]
     public DateTime? LastEdit { get; set; }
 
@@ -54,9 +57,16 @@ public class Project
     {
     }
 
-    public Project(string name, string path, DateTime? lastEdit, string iconPath, string version, bool cSharp)
+    public Project(string name, 
+        string godotFilePath, 
+        string path, 
+        DateTime? lastEdit, 
+        string iconPath, 
+        string version, 
+        bool cSharp)
     {
         Name = name;
+        GodotFilePath = godotFilePath;
         Path = path;
         LastEdit = lastEdit;
         IconPath = iconPath;

@@ -9,6 +9,7 @@ key,en,fr
 !projects,Projects,Projets
 !downloads,Downloads,Téléchargements
 !download,Download,Télécharger
+!canceldownload,Cancel Pending...,Annulation demandée...
 !settings,Settings,Paramètres
 !installnew,Install Godot,Installer Godot
 !projectsdir,Godot Projects Locations,Emplacements des projets Godot
@@ -65,6 +66,7 @@ key,en,fr
 !errextracting,Error extracting archive at {0}: {1},Erreur lors de l'extraction de l'archive au chemin {0}: {1}
 !success,Success,Succès
 !dlcomplete,Download complete !,Téléchargement terminé !
+!dlcancelled,Download Aborted,Téléchargement annulé
 !yes,Yes,Oui
 !no,No,Non
 !uninstall,Uninstall,Désinstaller

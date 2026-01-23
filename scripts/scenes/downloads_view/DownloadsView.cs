@@ -25,6 +25,7 @@ public partial class DownloadsView : Node
     [Export]
     public ProjectsView.ProjectsView ProjectsView { get; set; }
 
+    private Button _buttonDownload => GetNode<Button>("%ButtonDownload");
     private Button _buttonX86 => GetNode<Button>("%ButtonX86");
     private Button _buttonX64 => GetNode<Button>("%ButtonX64");
     private OptionButton _optionsVersions => GetNode< OptionButton>("%OptionsVersions");
@@ -32,6 +33,9 @@ public partial class DownloadsView : Node
     private CheckButton _checkButtonMono => GetNode<CheckButton>("%CheckButtonMono");
     private HBoxContainer _loaderHBoxContainer => GetNode<HBoxContainer>("%LoaderHBoxContainer");
     private Label _labelProgress => GetNode<Label>("%LabelProgress");
+
+    private Theme _primaryButtonTheme = GD.Load<Theme>("res://assets/themes/button-primary-theme.tres");
+    private Theme _secondaryButtonTheme = GD.Load<Theme>("res://assets/themes/button-secondary-theme.tres");
 
     private DownloadConfig _config = new();
     private DownloadRequest _request;
@@ -59,7 +63,7 @@ public partial class DownloadsView : Node
 
     public void Load()
     {
-        _loaderHBoxContainer.Visible = false;
+        _loaderHBoxContainer.Visible = _downloadWorker.IsBusy;
         _config.AvailableReleases = GodotDownloader.DownloadReleasesInfo();
 
         int i = 0;
@@ -98,12 +102,20 @@ public partial class DownloadsView : Node
 
     private void OnButtonDownloadDown()
     {
-        if (_downloadWorker.IsBusy) return;
-
-        _loaderHBoxContainer.Visible = true;
-        _labelProgress.Text = string.Empty;
-        _request = new DownloadRequest(GetSelectedVersion(), GetSelectedType(), GetMono(), Get32Bits());
-        _downloadWorker.RunWorkerAsync();
+        if (_downloadWorker.IsBusy)
+        {
+            ChangeProgressText(TranslationServer.Translate("!canceldownload"));
+            _downloadWorker.CancelAsync();
+        }
+        else
+        {
+            _buttonDownload.Theme = _secondaryButtonTheme;
+            _buttonDownload.Text = TranslationServer.Translate("!cancel");
+            _loaderHBoxContainer.Visible = true;
+            _labelProgress.Text = string.Empty;
+            _request = new DownloadRequest(GetSelectedVersion(), GetSelectedType(), GetMono(), Get32Bits());
+            _downloadWorker.RunWorkerAsync();
+        }
     }
 
     private string GetSelectedVersion()
@@ -143,6 +155,7 @@ public partial class DownloadsView : Node
             e.Result = new DownloadResult(false, TranslationServer.Translate("!cantfetch") + $" {version}-{type} : {ex.Message}");
             return;
         }
+        if (CheckForCancellation(e)) return;
 
         //Match url
         bool mono = _request.Moono;
@@ -153,6 +166,7 @@ public partial class DownloadsView : Node
             e.Result = new DownloadResult(false, TranslationServer.Translate("!nourl"));
             return;
         }
+        if (CheckForCancellation(e)) return;
 
         //Download
         CallDeferred(nameof(ChangeProgressText), TranslationServer.Translate("!downloading"));
@@ -167,8 +181,20 @@ public partial class DownloadsView : Node
             e.Result = new DownloadResult(false, string.Format(errMessage, version, type, ex.Message));
             return;
         }
+        if (CheckForCancellation(e))
+        {
+            try
+            {
+                System.IO.File.Delete(outputPath);
+            }
+            catch (Exception)
+            {
+            }
+            return;
+        }
 
         //Extract
+        string outputDirectory = System.IO.Path.GetDirectoryName(outputPath);
         CallDeferred(nameof(ChangeProgressText), TranslationServer.Translate("!extracting"));
         try
         {
@@ -178,6 +204,17 @@ public partial class DownloadsView : Node
         {
             string errMessage = TranslationServer.Translate("!errextracting");
             e.Result = new DownloadResult(false, string.Format(errMessage, outputPath, ex.Message));
+            return;
+        }
+        if (CheckForCancellation(e))
+        {
+            try
+            {
+                System.IO.Directory.Delete(outputDirectory, true);
+            }
+            catch (Exception)
+            {
+            }
             return;
         }
 
@@ -199,10 +236,22 @@ public partial class DownloadsView : Node
         e.Result = new DownloadResult(true);
     }
 
+    private bool CheckForCancellation(DoWorkEventArgs e)
+    {
+        if(_downloadWorker.CancellationPending)
+        {
+            e.Result = new DownloadResult(false, TranslationServer.Translate("!dlcancelled"));
+            return true;
+        }
+        return false;
+    }
+
     private void DownloadWorkerOnCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
         _loaderHBoxContainer.Visible = false;
-        if(e.Result is DownloadResult result)
+        _buttonDownload.Theme = _primaryButtonTheme;
+        _buttonDownload.Text = TranslationServer.Translate("!download");
+        if (e.Result is DownloadResult result)
         {
             if (result.Success)
             {

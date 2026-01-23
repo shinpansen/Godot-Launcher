@@ -78,13 +78,15 @@ public static class UserDataScanner
             else 
                 version = "1.x";
 
-            projects.Add(new Project(name, path, lastEdit, icon, version, cSharp));
+            projects.Add(new Project(name, file, path, lastEdit, icon, version, cSharp));
         }
 
         return projects;
     }
 
-    public static List<Project> MatchAvailableVersions(List<Project> projects, List<EngineVersion> versions)
+    public static List<Project> MatchAvailableVersionsAndUpdateLastEdit(
+        List<Project> projects, 
+        List<EngineVersion> versions)
     {
         List<Project> projectsUpdated = [];
         if (projects is null) return projectsUpdated;
@@ -112,6 +114,9 @@ public static class UserDataScanner
 
             if (p.DefaultLaunchVersion is not null && !File.Exists(p.DefaultLaunchVersion.Path))
                 p.DefaultLaunchVersion = null;
+
+            if (System.IO.File.Exists(p.GodotFilePath))
+                p.LastEdit = new FileInfo(p.GodotFilePath).LastWriteTime;
 
             projectsUpdated.Add(p);
         }

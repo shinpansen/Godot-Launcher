@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c3ec1xm0uyctc"]
+[gd_scene load_steps=15 format=3 uid="uid://c3ec1xm0uyctc"]
 
 [ext_resource type="Script" uid="uid://icv8sos7wu62" path="res://scripts/scenes/downloads_view/DownloadsView.cs" id="1_imcyp"]
 [ext_resource type="Theme" uid="uid://d27iun3l834yr" path="res://assets/themes/button-secondary-theme.tres" id="2_fhhep"]
@@ -17,6 +17,10 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_u3ron"]
 font_size = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qaso1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4na3q"]
 
 [node name="DownloadsView" type="Control"]
 layout_mode = 3
@@ -154,14 +158,24 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_imcyp")
 [node name="DownloadHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="LeftSpacing" type="VSeparator" parent="MarginContainer/VBoxContainer/DownloadHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qaso1")
+
 [node name="ButtonDownload" type="Button" parent="MarginContainer/VBoxContainer/DownloadHBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 4
 mouse_default_cursor_shape = 2
 theme = ExtResource("6_ra6x6")
 text = "!download"
+
+[node name="RightSpacing" type="VSeparator" parent="MarginContainer/VBoxContainer/DownloadHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_4na3q")
 
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/OptionsVersions" to="." method="OnOptionsVersionsItemSelected"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/DownloadHBoxContainer/ButtonDownload" to="." method="OnButtonDownloadDown"]

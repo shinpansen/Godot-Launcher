@@ -8,6 +8,7 @@ using GodotLauncher.Scripts.UserData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace GodotLauncher.Scripts.Scenes.ProjectsView;
@@ -29,6 +30,7 @@ public partial class ProjectsView : DataSourceBinding<ProjectsConfig>
         _buttonSortByName.SortOrder = BindingContext.SortOrder;
 
         RefreshProjectsItemsOrder();
+        SaveDataSource();
     }
 
     protected override ProjectsConfig LoadDataSource()
@@ -42,15 +44,17 @@ public partial class ProjectsView : DataSourceBinding<ProjectsConfig>
         ProjectsConfig config = LoadProjectsConfig(true, out errors);
         _projectsTemp = config.Projects;
         CallDeferred(nameof(RefreshProjectsWithTempProperty));
+        CallDeferred(nameof(RefreshProjectsItemsOrder));
         return config;
     }
 
     public void RefreshProjectsVersions(List<EngineVersion> versions)
     {
         ProjectsConfig config = LoadProjectsConfig(false, out string errors);
-        config.Projects = UserDataScanner.MatchAvailableVersions(config.Projects, versions);
+        config.Projects = UserDataScanner.MatchAvailableVersionsAndUpdateLastEdit(config.Projects, versions);
         _projectsTemp = config.Projects;
         CallDeferred(nameof(RefreshProjectsWithTempProperty));
+        CallDeferred(nameof(RefreshProjectsItemsOrder));
     }
 
     private ProjectsConfig LoadProjectsConfig(bool forceScan, out string errors)
@@ -64,7 +68,8 @@ public partial class ProjectsView : DataSourceBinding<ProjectsConfig>
         }
 
         VersionsConfig versionsConfig = UserDataLoader.LoadUserVersions();
-        config.Projects = UserDataScanner.MatchAvailableVersions(config.Projects, versionsConfig.Versions);
+        config.Projects = UserDataScanner.MatchAvailableVersionsAndUpdateLastEdit(
+            config.Projects, versionsConfig.Versions);
 
         return config;
     }

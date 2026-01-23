@@ -49,8 +49,13 @@ public partial class Main : Control
 
     private void OnButtonInstallDown()
     {
-        _windowInstall.Show();
-        _downloadsView.Load();
+        if (!_windowInstall.Visible)
+        {
+            _windowInstall.Show();
+            _downloadsView.Load();
+        }
+        else
+            _windowDialog.GrabFocus();
     }
 
     private void HideInstallWindow()

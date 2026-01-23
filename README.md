@@ -4,5 +4,15 @@
   Godot Launcher
 </h1>
 
-Godot Launcher, is app made to facilitate managing Godot Engine versions and projects.
+Godot Launcher, is app made to facilitate managing Godot Engine versions and projects.<br/>
 It's cross platform and open source.
+
+### Building
+You need Godot Engine 4.5.1 (Mono) to build this app.<br/>
+
+### Download
+There is currently a Windows version available by clicking <a href="bin/Godot Launcher_windows_x86_64.zip">here</a>.<br/>
+(located in the bin /directory)
+
+### Features
+

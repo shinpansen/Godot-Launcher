@@ -3,3 +3,6 @@
   <br>
   Godot Launcher
 </h1>
+
+Godot Launcher, is app made to facilitate managing Godot Engine versions and projects.
+It's cross platform and open source.

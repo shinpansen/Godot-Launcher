@@ -1,4 +1,5 @@
 using Godot;
+using GodotLauncher.Scripts.Enums;
 using GodotLauncher.Scripts.Models;
 using GodotLauncher.Scripts.Scenes.ProjectsView;
 using GodotLauncher.Scripts.Tools;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +23,7 @@ public static class UserDataScanner
         var settings = UserDataLoader.LoadUserSettings();
         settings.CustomInstallsDirectories.Add(new FileSystemPath(GodotDownloader.DownloadPath));
         List<EngineVersion> engines = [];
-        HashSet<string> files = ScanFiles(settings.CustomInstallsDirectories, "exe", out errors);
+        HashSet<string> files = ScanFiles(settings.CustomInstallsDirectories, FileType.Exec, out errors);
         
         foreach (string file in files)
         {
@@ -43,7 +45,7 @@ public static class UserDataScanner
     {
         var settings = UserDataLoader.LoadUserSettings();
         List<Project> projects = [];
-        HashSet<string> files = ScanFiles(settings.ProjectsDirectories, "godot", out errors);
+        HashSet<string> files = ScanFiles(settings.ProjectsDirectories, FileType.Godot, out errors);
 
         foreach (string file in files)
         {
@@ -144,17 +146,17 @@ public static class UserDataScanner
         return true;
     }
 
-    private static HashSet<string> ScanFiles(List<FileSystemPath> paths, string extension, out string errors)
+    private static HashSet<string> ScanFiles(List<FileSystemPath> paths, FileType fileType, out string errors)
     {
-        HashSet<string> files = [];
         errors = string.Empty;
-        if (extension.StartsWith(".")) extension = extension.Substring(1);
+
+        HashSet<string> files = [];
         foreach (var d in paths.Select(d => d.FullName))
         {
             if (!System.IO.Directory.Exists(d)) continue;
             try
             {
-                var scannedFiles = Directory.EnumerateFiles(d, $"*.{extension}", SearchOption.AllDirectories);
+                IEnumerable<string> scannedFiles = EnumerateFiles(d, fileType);
                 foreach (var f in scannedFiles) files.Add(f);
             }
             catch (Exception ex)
@@ -164,5 +166,41 @@ public static class UserDataScanner
             }
         }
         return files;
+    }
+
+    private static IEnumerable<string> EnumerateFiles(string dir, FileType fileType)
+    {
+        switch (fileType)
+        {
+            case FileType.Exec:
+                bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+                if(isWindows)
+                    return Directory.EnumerateFiles(dir, $"*.exe", SearchOption.AllDirectories);
+                else
+                    return EnumerateUnixExecutables(dir);
+            case FileType.Godot:
+                return Directory.EnumerateFiles(dir, $"*.godot", SearchOption.AllDirectories);
+        }
+        throw new Exception("Invalid fileType");
+    }
+
+    private static IEnumerable<string> EnumerateUnixExecutables(string dir)
+    {
+        return Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories)
+            .Where(file =>
+            {
+                try
+                {
+                    var mode = System.IO.File.GetUnixFileMode(file);
+                    return mode.HasFlag(UnixFileMode.UserExecute)
+                        || mode.HasFlag(UnixFileMode.GroupExecute)
+                        || mode.HasFlag(UnixFileMode.OtherExecute);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        );
     }
 }
